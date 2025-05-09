@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: gestion-vacaciones
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: TFM
+
+server:
+  port: 8080
