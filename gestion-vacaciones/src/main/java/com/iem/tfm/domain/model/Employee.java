@@ -29,7 +29,7 @@ public class Employee {
 	private final List<Department> departments;
 	private final EmployeeRoleEnum role;
 	
-	// Sonar se queja por que tiene más de 7 parámetros, utilizaremos el patrón Builder
+	// Utilizaremos el patrón Builder debido a la cantidad de parámetros.
 	public Employee(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
@@ -43,6 +43,24 @@ public class Employee {
 		this.role = builder.role;
 	}
 	
+	/**
+	 * Clase interna para implementar el patrón <strong>Builder</strong> para construir instancias de {@link Employee}.
+	 * 
+	 * Ejemplo de uso: 
+	 * <pre>{@code
+	 * Employee empleado = new Employee.Builder()
+	 * 		.id(786736EL)
+	 * 		.name("Iñigo")
+	 * 		.surname("Sanz Delgado")
+	 * 		.dni("87265283T")
+	 * 		.age(32)
+	 * 		.email(inigosanz@iem.com)
+	 * 		.startDate(new Date())
+	 * 		.departments(departamento)
+	 * 		.role(EmployeeRoleEnum.RRHH)
+	 * 		.build();
+	 * }</pre>
+	 */
 	public static class Builder {
 		private Long id;
         private String name;
@@ -109,7 +127,8 @@ public class Employee {
         	return new Employee(this);
         }
 	}
-
+	
+	// Getters
 	public Long getId() {
 		return id;
 	}
