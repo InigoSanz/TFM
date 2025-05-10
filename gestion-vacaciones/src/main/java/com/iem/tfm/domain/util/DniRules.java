@@ -8,7 +8,7 @@ package com.iem.tfm.domain.util;
  * - Contener una letra al final.
  * 
  * @author Inigo
- * @version 1.0
+ * @version 1.0.1
  */
 public class DniRules {
 	

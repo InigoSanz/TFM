@@ -17,7 +17,7 @@ import com.iem.tfm.domain.util.EmployeeRoleEnum;
  * el diseño y mantener el dominio libre de dependencias.
  * 
  * @author Inigo
- * @version 1.0
+ * @version 1.1
  */
 public class Employee {
 	

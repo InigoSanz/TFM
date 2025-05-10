@@ -13,7 +13,7 @@ import com.iem.tfm.domain.util.UserRoleEnum;
  * Referencia el id del empleade de quien es el usuario de la app.
  * 
  * @author Inigo
- * @version 1.0
+ * @version 1.1
  */
 public class User {
 	

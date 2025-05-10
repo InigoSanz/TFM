@@ -4,6 +4,9 @@ package com.iem.tfm.domain.exception;
  * Clase de excepciones del dominio para los empleados.
  * 
  * Se usa para implementar restricciones específicas para la entidad {@link com.iem.tfm.domain.model.Employee}.
+ * 
+ * @author Inigo
+ * @version 1.0
  */
 public class EmployeeDomainException extends RuntimeException {
 

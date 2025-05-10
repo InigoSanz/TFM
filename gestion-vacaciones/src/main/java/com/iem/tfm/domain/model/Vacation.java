@@ -11,7 +11,7 @@ import com.iem.tfm.domain.exception.VacationDomainException;
  * empleado al que pertenecen.
  * 
  * @author Inigo
- * @version 1.0
+ * @version 1.1
  */
 public class Vacation {
 	

@@ -1,5 +1,7 @@
 package com.iem.tfm.domain.model;
 
+import com.iem.tfm.domain.exception.DepartmentDomainException;
+
 /**
  * Modelo de dominio para los departamentos.
  * 
@@ -8,7 +10,7 @@ package com.iem.tfm.domain.model;
  * Se utiliza para asociar empleados a uno o más departamentos.
  * 
  * @author Inigo
- * @version 1.0
+ * @version 1.1
  */
 public class Department {
 	
@@ -16,6 +18,11 @@ public class Department {
 	private String name;
 	
 	public Department(Long id, String name) {
+		
+		if (name == null) {
+			throw new DepartmentDomainException("El nombre del departamento no puede ser nulo.");
+		}
+		
 		this.id = id;
 		this.name = name;
 	}
