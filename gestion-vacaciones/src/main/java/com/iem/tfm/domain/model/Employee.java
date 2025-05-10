@@ -3,6 +3,9 @@ package com.iem.tfm.domain.model;
 import java.util.Date;
 import java.util.List;
 
+import com.iem.tfm.domain.exception.EmployeeDomainException;
+import com.iem.tfm.domain.util.DniRules;
+import com.iem.tfm.domain.util.EmailRules;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
 /**
@@ -124,6 +127,39 @@ public class Employee {
         }
         
         public Employee build() {
+        	
+        	if (name == null) {
+        		throw new EmployeeDomainException("El nombre del empleado no puede ser nulo.");
+        	}
+        	
+        	if (surname == null) {
+        		throw new EmployeeDomainException("Los apellidos del empleado no pueden ser nulos.");
+        	}
+        	
+        	if (!DniRules.isValidEmployeeDni(dni)) {
+        		throw new EmployeeDomainException("El DNI debe tener 8 dígitos y una letra al final (mayúscula o minúscula).");
+        	}
+        		
+        	if (age < 16 || age > 65) { // Reglamento ordinario de España, hay excepciones
+        		throw new EmployeeDomainException("Edad inválida para trabajar.");
+        	}
+        	
+        	if (!EmailRules.isValidEmployeeEmail(email)) {
+        		throw new EmployeeDomainException("Formato de correo electrónico no válido.");
+        	}
+        	
+        	if (startDate == null) {
+        		throw new EmployeeDomainException("La fecha de inicio del empleado no puede ser nula.");
+        	}
+        	
+        	if (departments == null || departments.isEmpty()) { // Utilizamos isEmpty() ya que es una lista y puede estar vacía
+        		throw new EmployeeDomainException("El empleado debe pertenecer a un departamento.");
+        	}
+        	
+        	if (role == null) {
+        		throw new EmployeeDomainException("El empleado debe tener un rol asignado en la empresa.");
+        	}
+        	
         	return new Employee(this);
         }
 	}

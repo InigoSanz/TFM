@@ -14,7 +14,8 @@ package com.iem.tfm.domain.util;
 public class PasswordRules {
 	
 	private PasswordRules() {
-		// Clase de reserva por si necesitamos utilizarla dentro de la clase.
+		// Constructor reserva por si necesitamos utilizarla dentro de la clase.
+		// Previene que se pueda instanciar la clase.
 	}
 	
 	public static boolean isPasswordValid(String password) {
