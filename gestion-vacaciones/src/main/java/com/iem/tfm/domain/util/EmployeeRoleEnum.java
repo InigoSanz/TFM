@@ -8,5 +8,5 @@ package com.iem.tfm.domain.util;
  * @version 1.0
  */
 public enum EmployeeRoleEnum {
-	NORMAL, ENCARGADO, RRHH, ADMINISTRADOR
+	NORMAL, ENCARGADO, RRHH
 }
