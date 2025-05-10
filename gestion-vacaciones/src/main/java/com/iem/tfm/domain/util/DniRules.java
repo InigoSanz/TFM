@@ -25,7 +25,7 @@ public class DniRules {
 		
 		boolean isDniFormatCorrect = false;
 		
-		if (dni.matches("\\d{8}[A-Z]")) {
+		if (dni.matches("\\d{8}[A-Za-z]")) {
 			isDniFormatCorrect = true;
 		}
 		
