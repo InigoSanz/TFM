@@ -8,11 +8,11 @@ package com.iem.tfm.domain.exception;
  * @author Inigo
  * @version 1.0
  */
-public class VacationException extends RuntimeException {
+public class VacationDomainException extends RuntimeException {
 	
 	private static final long serialVersionUID = 3792815060210298581L;
 
-	public VacationException(String message) {
+	public VacationDomainException(String message) {
 		super(message);
 	}
 }

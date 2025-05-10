@@ -1,5 +1,7 @@
 package com.iem.tfm.domain.model;
 
+import com.iem.tfm.domain.exception.UserDomainException;
+import com.iem.tfm.domain.util.PasswordRules;
 import com.iem.tfm.domain.util.UserRoleEnum;
 
 /**
@@ -23,6 +25,19 @@ public class User {
 	private Long employeeId; // La primera opción fue referenciar un Employee, pero con el id debería ser suficiente.
 	
 	public User(Long id, String username, String password, UserRoleEnum role, boolean userActive, Long employeeId) {
+		
+		if (username == null) {
+			throw new UserDomainException("El nombre de usuario no puede ser nulo.");
+		}
+		
+		if (!PasswordRules.isPasswordValid(password)) {
+			throw new UserDomainException("La contraseña debe tener mínimo 8 caracteres, una letra mayúscula y un número.");
+		}
+		
+		if (role == null) {
+			throw new UserDomainException("Debe tener un rol para usar la aplicación.");
+		}
+		
 		this.id = id;
 		this.username = username;
 		this.password = password;

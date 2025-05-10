@@ -2,7 +2,7 @@ package com.iem.tfm.domain.model;
 
 import java.util.Date;
 
-import com.iem.tfm.domain.exception.VacationException;
+import com.iem.tfm.domain.exception.VacationDomainException;
 
 /**
  * Modelo de dominio para las vacaciones.
@@ -23,15 +23,15 @@ public class Vacation {
 	public Vacation(Long id, Date startDate, Date endDate, Employee employee) {
 		
 		if (employee == null) {
-			throw new VacationException("Las vacaciones tienen que estar asociadas a un empleado.");
+			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
 		}
 		
 		if (startDate == null || endDate == null) {
-			throw new VacationException("Las fechas para las vacaciones no pueden ser nulas.");
+			throw new VacationDomainException("Las fechas para las vacaciones no pueden ser nulas.");
 		}
 		
 		if (startDate.after(endDate)) {
-			throw new VacationException("El inicio de las vacaciones no puede ser posterior a la de fin.");
+			throw new VacationDomainException("El inicio de las vacaciones no puede ser posterior a la de fin.");
 		}
 		
 		this.id = id;
