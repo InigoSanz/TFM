@@ -22,9 +22,9 @@ public class User {
 	private String password;
 	private UserRoleEnum role;
 	private boolean userActive;
-	private Long employeeId; // La primera opción fue referenciar un Employee, pero con el id debería ser suficiente.
+	private String employeeId; // La primera opción fue referenciar un Employee, pero con el id debería ser suficiente.
 	
-	public User(String id, String username, String password, UserRoleEnum role, boolean userActive, Long employeeId) {
+	public User(String id, String username, String password, UserRoleEnum role, boolean userActive, String employeeId) {
 		
 		if (username == null) {
 			throw new UserDomainException("El nombre de usuario no puede ser nulo.");
@@ -66,7 +66,7 @@ public class User {
 		return userActive;
 	}
 	
-	public Long getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 }

@@ -53,9 +53,10 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				.age(command.getAge())
 				.email(command.getEmail())
 				.startDate(command.getStartDate())
-				.departments(List.of(new Department("liuywbf289735t923c7n", "Departamento ficticio"))) // Departamento ficticio para comprobar el registro
+				// Departamento ficticio para comprobar el registro
+				.departments(List.of(new Department("liuywbf289735t923c7n", "Departamento ficticio"))) // TODO: cargar los departamentos reales por ID
 				.role(roleEnum)
-				.build();
+				.build();// TODO: cargar los departamentos reales por ID
 		
 		// Lo guardamos y obtenemos el id, es lo que devuelve el OutputPort
 		String employeeId = employeeRepositoryOutput.save(employee);

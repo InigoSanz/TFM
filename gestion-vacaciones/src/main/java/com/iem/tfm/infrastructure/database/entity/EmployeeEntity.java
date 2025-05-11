@@ -37,6 +37,6 @@ public class EmployeeEntity {
 	private String email;
 	private Date startDate;
 	private Date endDate;
-	private List<Long> departmentIds; // En el dominio tenemos los departamentos, en Mongo con los IDs es suficiente
+	private List<String> departmentIds; // TODO: este campo se llenará con los IDs desde Employee.getDepartments()
 	private EmployeeRoleEnum role;	
 }

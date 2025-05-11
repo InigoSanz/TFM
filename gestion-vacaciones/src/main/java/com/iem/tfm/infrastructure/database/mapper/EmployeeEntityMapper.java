@@ -18,4 +18,6 @@ import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 public interface EmployeeEntityMapper {
 	
 	public EmployeeEntity toEntity(Employee employee);
+	
+	// TODO: mapear List<Department> a List<String> (ids) para guardar en Mongo
 }
