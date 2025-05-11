@@ -10,7 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
+ * DTO de entrada para la creación de empleados.
  * 
+ * Se transformará a un {@code EmployeeRegisterCommand} por un mapper.
+ * 
+ * @author Inigo
+ * @version 1.0
  */
 @Data
 @Builder
