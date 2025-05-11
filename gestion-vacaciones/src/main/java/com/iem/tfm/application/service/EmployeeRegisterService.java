@@ -1,6 +1,6 @@
 package com.iem.tfm.application.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
+import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
@@ -52,7 +53,7 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				.age(command.getAge())
 				.email(command.getEmail())
 				.startDate(command.getStartDate())
-				.departments(new ArrayList<>()) // Lista vacía hasta tener los departamentos
+				.departments(List.of(new Department("liuywbf289735t923c7n", "Departamento ficticio"))) // Departamento ficticio para comprobar el registro
 				.role(roleEnum)
 				.build();
 		
