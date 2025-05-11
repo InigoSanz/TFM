@@ -33,7 +33,7 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	EmployeeRepositoryOutputPort employeeRepositoryOutput;
 	
 	@Override
-	public void employeeRegister(EmployeeRegisterCommand command) {
+	public Long employeeRegister(EmployeeRegisterCommand command) {
 		log.info("-> Inicio registro de empleado <-");
 		
 		// Comprobamos que el empleado ya esta en nuestro sistema
@@ -56,9 +56,11 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				.role(roleEnum)
 				.build();
 		
-		// Lo guardamos
-		employeeRepositoryOutput.save(employee);
+		// Lo guardamos y obtenemos el id, es lo que devuelve el OutputPort
+		Long employeeId = employeeRepositoryOutput.save(employee);
 		
 		log.info("-> Empleado registrado exitosamente <-");
+		
+		return employeeId;
 	}
 }
