@@ -3,8 +3,6 @@ package com.iem.tfm.infrastructure.apirest.dto.request;
 import java.util.Date;
 import java.util.List;
 
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,5 +27,5 @@ public class EmployeeRequestDto {
 	private Date startDate;
 	private Date endDate;
 	private List<Long> departmentIds;
-	private EmployeeRoleEnum role;	
+	private String role;	// Aquí me acuerdo que es mejor trabajar con String, lo cambiamos y en el mapper lo mapearemos al Enum
 }
