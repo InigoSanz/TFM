@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
+import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * Clase de Servicio para implementar el caso de uso de registro de empleados.
  * 
  * Recibe los datos encapsulados de {@link EmployeeRegisterCommand}, construye la entidad {@code Employee} 
- * utilizando el patrón builder para que luego el puerto de salida lo persista {@link EmployeeRepositoryOutputPort}.
+ * utilizando el patrón Builder para que luego el puerto de salida lo persista {@link EmployeeRepositoryOutputPort}.
  * 
  * De momento creamos un arraylist vacio para que compile, ya que no tenemos los departamentos.
  * 
@@ -35,8 +36,10 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	public void employeeRegister(EmployeeRegisterCommand command) {
 		log.info("-> Inicio registro de empleado <-");
 		
-		// Aquí habría que validar que el empleado ya esta dado de alta o que existe
-		
+		// Comprobamos que el empleado ya esta en nuestro sistema
+		if (employeeRepositoryOutput.existsByDni(command.getDni())) {
+			throw new EmployeeDomainException("Ya existe un empleado con el DNI introducido.");
+		}
 		
 		// Necesitamos obtener el valor del Enum, ya que en el command tenemos un String		 
 		EmployeeRoleEnum roleEnum = EmployeeRoleEnum.valueOf(command.getRole().toUpperCase());
