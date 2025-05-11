@@ -14,10 +14,10 @@ import com.iem.tfm.domain.exception.DepartmentDomainException;
  */
 public class Department {
 	
-	private Long id;
+	private String id;
 	private String name;
 	
-	public Department(Long id, String name) {
+	public Department(String id, String name) {
 		
 		if (name == null) {
 			throw new DepartmentDomainException("El nombre del departamento no puede ser nulo.");
@@ -27,7 +27,7 @@ public class Department {
 		this.name = name;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 

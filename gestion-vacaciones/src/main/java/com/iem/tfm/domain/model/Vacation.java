@@ -15,12 +15,12 @@ import com.iem.tfm.domain.exception.VacationDomainException;
  */
 public class Vacation {
 	
-	private Long id;
+	private String id;
 	private Date startDate;
 	private Date endDate;
 	private Employee employee;
 	
-	public Vacation(Long id, Date startDate, Date endDate, Employee employee) {
+	public Vacation(String id, Date startDate, Date endDate, Employee employee) {
 		
 		if (employee == null) {
 			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
@@ -40,7 +40,7 @@ public class Vacation {
 		this.employee = employee;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 

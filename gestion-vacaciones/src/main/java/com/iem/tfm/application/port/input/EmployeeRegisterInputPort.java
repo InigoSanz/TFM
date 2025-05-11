@@ -12,5 +12,5 @@ import com.iem.tfm.application.command.EmployeeRegisterCommand;
  */
 public interface EmployeeRegisterInputPort {
 	
-	public Long employeeRegister(EmployeeRegisterCommand command);
+	public String employeeRegister(EmployeeRegisterCommand command);
 }

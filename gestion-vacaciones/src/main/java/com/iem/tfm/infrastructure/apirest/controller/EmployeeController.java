@@ -41,7 +41,7 @@ public class EmployeeController {
 		// Mapeamos el DTO a Command para que lo utilice la capa de aplicación
 		EmployeeRegisterCommand registerCommand = employeeDtoMapper.fromDtoToCommand(employeeDto);
 		// Lo persistimos
-		Long id = employeeRegisterInputPort.employeeRegister(registerCommand);
+		String id = employeeRegisterInputPort.employeeRegister(registerCommand);
 		
 		log.debug("-> Empleado registrado exitosamente <-");
 		
@@ -54,7 +54,7 @@ public class EmployeeController {
 	 * @param id
 	 * @return uri
 	 */
-	public static URI crearUri(Long id) {
+	public static URI crearUri(String id) {
 		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
 }

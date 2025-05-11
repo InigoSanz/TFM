@@ -29,7 +29,7 @@ import lombok.extern.jackson.Jacksonized;
 public class EmployeeEntity {
 	
 	@Id
-	private Long id;
+	private String id;
 	private String name;
 	private String surname;
 	private String dni;

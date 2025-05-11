@@ -21,7 +21,7 @@ import com.iem.tfm.domain.util.EmployeeRoleEnum;
  */
 public class Employee {
 	
-	private final Long id;
+	private final String id;
 	private final String name;
 	private final String surname;
 	private final String dni;
@@ -65,7 +65,7 @@ public class Employee {
 	 * }</pre>
 	 */
 	public static class Builder {
-		private Long id;
+		private String id;
         private String name;
         private String surname;
         private String dni;
@@ -76,7 +76,7 @@ public class Employee {
         private List<Department> departments;
         private EmployeeRoleEnum role;
         
-        public Builder id(Long id) {
+        public Builder id(String id) {
         	this.id = id;
         	return this;
         }
@@ -165,7 +165,7 @@ public class Employee {
 	}
 	
 	// Getters
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 

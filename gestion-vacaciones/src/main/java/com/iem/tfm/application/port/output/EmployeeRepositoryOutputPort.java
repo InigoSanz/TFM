@@ -14,7 +14,7 @@ import com.iem.tfm.domain.model.Employee;
  */
 public interface EmployeeRepositoryOutputPort {
 	
-	public Long save(Employee employee);
+	public String save(Employee employee);
 	
 	public boolean existsByDni(String dni);
 }

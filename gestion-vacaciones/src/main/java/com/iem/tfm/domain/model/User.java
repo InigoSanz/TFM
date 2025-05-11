@@ -17,14 +17,14 @@ import com.iem.tfm.domain.util.UserRoleEnum;
  */
 public class User {
 	
-	private Long id;
+	private String id;
 	private String username;
 	private String password;
 	private UserRoleEnum role;
 	private boolean userActive;
 	private Long employeeId; // La primera opción fue referenciar un Employee, pero con el id debería ser suficiente.
 	
-	public User(Long id, String username, String password, UserRoleEnum role, boolean userActive, Long employeeId) {
+	public User(String id, String username, String password, UserRoleEnum role, boolean userActive, Long employeeId) {
 		
 		if (username == null) {
 			throw new UserDomainException("El nombre de usuario no puede ser nulo.");
@@ -46,7 +46,7 @@ public class User {
 		this.employeeId = employeeId;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
