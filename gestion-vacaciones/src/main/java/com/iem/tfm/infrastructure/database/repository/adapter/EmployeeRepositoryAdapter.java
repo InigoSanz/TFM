@@ -1,5 +1,7 @@
 package com.iem.tfm.infrastructure.database.repository.adapter;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,5 +46,12 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 	public boolean existsByDni(String dni) {
 		
 		return employeeRepository.existsByDni(dni);
+	}
+
+	@Override
+	public List<Employee> findAll() {
+		List<EmployeeEntity> entities = employeeRepository.findAll();
+		
+		return employeeEntityMapper.toDomainList(entities);
 	}
 }

@@ -1,5 +1,7 @@
 package com.iem.tfm.application.port.output;
 
+import java.util.List;
+
 import com.iem.tfm.domain.model.Employee;
 
 /**
@@ -17,4 +19,6 @@ public interface EmployeeRepositoryOutputPort {
 	public String save(Employee employee);
 	
 	public boolean existsByDni(String dni);
+	
+	public List<Employee> findAll();
 }
