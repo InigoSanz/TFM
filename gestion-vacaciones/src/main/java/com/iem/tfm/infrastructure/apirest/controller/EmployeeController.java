@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,17 @@ public class EmployeeController {
 		log.debug("-> Empleados obtenidos exitosamente <-");
 		
 		return ResponseEntity.ok(responseDtoList);
+	}
+	
+	@GetMapping("/{employee-id}")
+	public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("employee-id") String id) {
+		log.debug("-> Petición para obtener un empleado por ID recibida <-");
+		
+		EmployeeResponseDto employeeDto = employeeDtoMapper.fromDomainToDto(employeeGetInputPort.getEmployee(id));
+		
+		log.debug("-> Empleado obtenido exitosamente <-");
+		
+		return ResponseEntity.ok(employeeDto);
 	}
 	
 	/**

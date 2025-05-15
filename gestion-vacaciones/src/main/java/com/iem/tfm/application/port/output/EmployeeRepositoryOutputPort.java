@@ -21,4 +21,6 @@ public interface EmployeeRepositoryOutputPort {
 	public boolean existsByDni(String dni);
 	
 	public List<Employee> findAll();
+	
+	public Employee findEmployeeById(String id);
 }

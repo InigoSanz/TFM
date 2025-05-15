@@ -14,4 +14,5 @@ public interface EmployeeGetInputPort {
 	
 	public List<Employee> getAllEmployees();
 	
+	public Employee getEmployee(String id);	
 }

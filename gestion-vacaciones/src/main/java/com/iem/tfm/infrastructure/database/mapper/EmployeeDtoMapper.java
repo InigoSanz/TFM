@@ -26,4 +26,6 @@ public interface EmployeeDtoMapper {
 	public EmployeeRegisterCommand fromDtoToCommand(EmployeeRequestDto dto);
 	
 	public List<EmployeeResponseDto> fromDomainToDtoList(List<Employee> employees);
+	
+	public EmployeeResponseDto fromDomainToDto(Employee employee);
 }

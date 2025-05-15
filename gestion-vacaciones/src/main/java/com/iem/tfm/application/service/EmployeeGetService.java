@@ -33,4 +33,11 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 		
 		return employeeRepositoryOutput.findAll();
 	}
+
+	@Override
+	public Employee getEmployee(String id) {
+		log.info("-> Obteniendo un empleado <-");
+		
+		return employeeRepositoryOutput.findEmployeeById(id);
+	}
 }
