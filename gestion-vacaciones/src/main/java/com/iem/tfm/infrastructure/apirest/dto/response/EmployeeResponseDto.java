@@ -33,6 +33,6 @@ public class EmployeeResponseDto {
 	private String email;
 	private Date startDate;
 	private Date endDate;
-	private List<String> departmentIds;
+	private List<DepartmentResponseDto> departments;
 	private EmployeeRoleEnum role;
 }

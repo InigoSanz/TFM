@@ -31,6 +31,6 @@ public class EmployeeRequestDto {
 	private String email;
 	private Date startDate;
 	private Date endDate;
-	private List<Long> departmentIds;
+	private List<String> departmentIds;
 	private String role;	// Aquí me acuerdo que es mejor trabajar con String, lo cambiamos y en el mapper lo mapearemos al Enum
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
+import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Department;
@@ -33,6 +34,9 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	@Autowired
 	EmployeeRepositoryOutputPort employeeRepositoryOutput;
 	
+	@Autowired
+	DepartmentRepositoryOutputPort departmentRepositoryOutput;
+	
 	@Override
 	public String employeeRegister(EmployeeRegisterCommand command) {
 		log.info("-> Inicio registro de empleado <-");
@@ -45,6 +49,14 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 		// Necesitamos obtener el valor del Enum, ya que en el command tenemos un String		 
 		EmployeeRoleEnum roleEnum = EmployeeRoleEnum.valueOf(command.getRole().toUpperCase());
 		
+		// Utilizamos el command para obtener los departamentos
+		List<Department> departmentList = departmentRepositoryOutput.findAllById(command.getDepartmentIds());
+		
+		// Comprobamos que los departamentos obtenidos y lo que hay realmente, son iguales
+		if (departmentList.size() != command.getDepartmentIds().size()) {
+			throw new EmployeeDomainException("-> Los departamentos no coinciden, es posible que alguno no exista <-");
+		}
+		
 		// Creamos el empleado
 		Employee employee = new Employee.Builder()
 				.name(command.getName())
@@ -53,10 +65,9 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				.age(command.getAge())
 				.email(command.getEmail())
 				.startDate(command.getStartDate())
-				// Departamento ficticio para comprobar el registro
-				.departments(List.of(new Department("liuywbf289735t923c7n", "Departamento ficticio"))) // TODO: cargar los departamentos reales por ID
+				.departments(departmentList)
 				.role(roleEnum)
-				.build();// TODO: cargar los departamentos reales por ID
+				.build();
 		
 		// Lo guardamos y obtenemos el id, es lo que devuelve el OutputPort
 		String employeeId = employeeRepositoryOutput.save(employee);

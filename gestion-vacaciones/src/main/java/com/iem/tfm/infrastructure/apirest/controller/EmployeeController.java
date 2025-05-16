@@ -48,6 +48,7 @@ public class EmployeeController {
 		
 		// Mapeamos el DTO a Command para que lo utilice la capa de aplicación
 		EmployeeRegisterCommand registerCommand = employeeDtoMapper.fromDtoToCommand(employeeDto);
+		
 		// Lo persistimos
 		String id = employeeRegisterInputPort.employeeRegister(registerCommand);
 		

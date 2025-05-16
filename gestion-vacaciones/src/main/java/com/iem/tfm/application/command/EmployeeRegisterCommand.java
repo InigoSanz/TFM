@@ -25,6 +25,6 @@ public class EmployeeRegisterCommand {
 	private int age;
 	private String email;
 	private Date startDate;
-	private List<Long> departmentIds;
+	private List<String> departmentIds;
 	private String role;
 }
