@@ -9,18 +9,18 @@ import com.iem.tfm.domain.util.EmailRules;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
 /**
- * Modelo de dominio para los empleados.
- * 
- * Encapsula los atributos personales, departamentos y roles de los empleados.
- * 
- * Utilizamos el patrón Builder para evitar constructores extensos, mejorar
- * el diseño y mantener el dominio libre de dependencias.
+ * Modelo de dominio que representa a un empleado. 
+ * <p>
+ * Contiene datos personales como rol, departamentos, fechas, ...
+ * Usa el patrón Builder para construir objetos con validaciones de dominio.
+ * </p>
  * 
  * @author Inigo
  * @version 1.1
  */
 public class Employee {
 	
+	// Atributos inmutables debido al patrón Builder
 	private final String id;
 	private final String name;
 	private final String surname;
@@ -32,7 +32,11 @@ public class Employee {
 	private final List<Department> departments;
 	private final EmployeeRoleEnum role;
 	
-	// Utilizaremos el patrón Builder debido a la cantidad de parámetros.
+	/**
+	 * Constructor privado. Solo se puede crear un empleado mediante Builder.
+	 * 
+	 * @param builder
+	 */
 	public Employee(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
@@ -47,24 +51,11 @@ public class Employee {
 	}
 	
 	/**
-	 * Clase interna para implementar el patrón <strong>Builder</strong> para construir instancias de {@link Employee}.
-	 * 
-	 * Ejemplo de uso: 
-	 * <pre>{@code
-	 * Employee empleado = new Employee.Builder()
-	 * 		.id(786736EL)
-	 * 		.name("Iñigo")
-	 * 		.surname("Sanz Delgado")
-	 * 		.dni("87265283T")
-	 * 		.age(32)
-	 * 		.email(inigosanz@iem.com)
-	 * 		.startDate(new Date())
-	 * 		.departments(departamento)
-	 * 		.role(EmployeeRoleEnum.RRHH)
-	 * 		.build();
-	 * }</pre>
+	 * Builder para crear las instancias de Employee.
+	 * Realiza validaciones antes de construir el objeto.
 	 */
 	public static class Builder {
+		
 		private String id;
         private String name;
         private String surname;
@@ -126,6 +117,12 @@ public class Employee {
         	return this;
         }
         
+        /**
+         * Valida los datos y construye el Employee.
+         * Lanza excepciones si hay algún dato no válido, son excepciones de dominio.
+         * 
+         * @return instancia válida de Employee
+         */
         public Employee build() {
         	
         	if (name == null) {
