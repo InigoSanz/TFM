@@ -16,7 +16,11 @@ import com.iem.tfm.infrastructure.database.mapper.DepartmentDtoMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Controlador REST para los endpoints de los departamentos.
+ * Controlador REST para exponer endpoints relacionados con departamentos.
+ * <p>
+ * Actúa como adaptador primario, conectando la capa externa (HTTP) con el caso
+ * de uso.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -32,25 +36,37 @@ public class DepartmentController {
 	@Autowired
 	DepartmentDtoMapper departmentDtoMapper;
 
+	/**
+	 * Endpoint GET para obtener todos los departamentos.
+	 * 
+	 * @return lista de departamentos como DTOs
+	 */
 	@GetMapping
 	public ResponseEntity<List<DepartmentResponseDto>> getDepartments() {
 		log.debug("-> Petición para obtener todos los departamentos recibida <-");
 
-		List<DepartmentResponseDto> responseDtoList = departmentDtoMapper.toDtoList(departmentGetInput.getAllDepartment());
+		List<DepartmentResponseDto> responseDtoList = departmentDtoMapper
+				.toDtoList(departmentGetInput.getAllDepartment());
 
 		log.debug("-> Departamentos obtenidos exitosamente <-");
-		
+
 		return ResponseEntity.ok(responseDtoList);
 	}
 
+	/**
+	 * Endpoint GET para obtener un departamento por su ID.
+	 * 
+	 * @param id identificador del departamento
+	 * @return departamento como DTO
+	 */
 	@GetMapping("/{department-id}")
 	public ResponseEntity<DepartmentResponseDto> getDepartment(@PathVariable("department-id") String id) {
 		log.debug("-> Petición para obtener un departamento por ID recibida <-");
-		
+
 		DepartmentResponseDto departmentDto = departmentDtoMapper.toDto(departmentGetInput.getDepartment(id));
-		
+
 		log.debug("-> Departamento obtenido exitosamente <-");
-		
+
 		return ResponseEntity.ok(departmentDto);
 	}
 }

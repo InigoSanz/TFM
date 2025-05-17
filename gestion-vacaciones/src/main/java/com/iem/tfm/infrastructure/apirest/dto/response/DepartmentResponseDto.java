@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * DTO de salida para la obtención de departamentos.
- * 
+ * DTO de salida para representar un departamento en las respuestas de la API.
+ * <p>
+ * Se utiliza para devolver la información básica de un departamento al cliente,
+ * por ejemplo en operaciones de consulta de empleados o de departamentos.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -19,7 +22,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DepartmentResponseDto {
-	
+
 	private String id;
-    private String name;
+	private String name;
 }

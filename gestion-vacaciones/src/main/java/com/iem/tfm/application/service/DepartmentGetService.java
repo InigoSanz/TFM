@@ -12,10 +12,11 @@ import com.iem.tfm.domain.model.Department;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de Servicio para la obtención de todos los empleados.
- * 
- * Implementa el puerto de entrada {@link DepartmentGetInputPort} y el puerto de salida
- * {@link DepartmentRepositoryOutputPort}.
+ * Servicio de aplicación para consultar departamentos registrados.
+ * <p>
+ * Implementa el caso de uso definido en {@link DepartmentGetInputPort} y accede
+ * a los datos mediante {@link DepartmentRepositoryOutputPort}.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -23,22 +24,32 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class DepartmentGetService implements DepartmentGetInputPort {
-	
+
 	@Autowired
 	DepartmentRepositoryOutputPort departmentRepositoryOutput;
-	
+
+	/**
+	 * Recupera todos los departamentos existentes.
+	 *
+	 * @return lista de departamentos
+	 */
 	@Override
 	public List<Department> getAllDepartment() {
 		log.info("-> Obteniendo todos los departamentos <-");
-		
+
 		return departmentRepositoryOutput.findAll();
 	}
 
+	/**
+	 * Recupera un departamento por su ID.
+	 *
+	 * @param id identificador del departamento
+	 * @return departamento correspondiente
+	 */
 	@Override
 	public Department getDepartment(String id) {
 		log.info("-> Obteniendo un departamento <-");
-		
+
 		return departmentRepositoryOutput.findDepartmentById(id);
 	}
-
 }

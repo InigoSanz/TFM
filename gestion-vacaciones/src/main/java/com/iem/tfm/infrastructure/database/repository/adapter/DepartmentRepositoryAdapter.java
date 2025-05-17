@@ -14,14 +14,19 @@ import com.iem.tfm.infrastructure.database.mapper.DepartmentEntityMapper;
 import com.iem.tfm.infrastructure.database.repository.DepartmentRepository;
 
 /**
- * Adaptador para conectar el puerto de salida con la infraestructura
+ * Adaptador que implementa el puerto de salida
  * {@link DepartmentRepositoryOutputPort}.
  * 
- * Convierte la entidades en documentos de MongoDB mediante un mapper.
+ * <p>
+ * Se encarga de interactuar con la base de datos MongoDB usando
+ * {@link DepartmentRepository} y convierte entre entidades y modelos del
+ * dominio con {@link DepartmentEntityMapper}.
+ * </p>
  * 
- * Delega las operaciones en el repositorio Mongo {@link DepartmentRepository}.
- * 
- * Punte entre la aplicación y la persistencia en BBDD.
+ * <p>
+ * Actúa como puente entre la lógica de aplicación y la infraestructura de
+ * persistencia.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -35,6 +40,12 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryOutputPo
 	@Autowired
 	DepartmentEntityMapper departmentEntityMapper;
 
+	/**
+	 * Busca una lista de departamentos por sus IDs.
+	 * 
+	 * @param departmentIds lista de IDs
+	 * @return lista de departamentos del dominio
+	 */
 	@Override
 	public List<Department> findAllById(List<String> departmentIds) {
 
@@ -43,6 +54,11 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryOutputPo
 		return departmentEntityMapper.toDomainList(entities);
 	}
 
+	/**
+	 * Devuelve todos los departamentos almacenados.
+	 * 
+	 * @return lista completa de departamentos del dominio
+	 */
 	@Override
 	public List<Department> findAll() {
 
@@ -51,9 +67,16 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryOutputPo
 		return departmentEntityMapper.toDomainList(entities);
 	}
 
+	/**
+	 * Busca un departamento por ID.
+	 * 
+	 * @param id identificador del departamento
+	 * @return departamento correspondiente
+	 * @throws DepartmentDomainException si no se encuentra
+	 */
 	@Override
 	public Department findDepartmentById(String id) {
-		
+
 		Optional<DepartmentEntity> entityOptional = departmentRepository.findById(id);
 
 		if (!entityOptional.isPresent()) {

@@ -1,9 +1,12 @@
 package com.iem.tfm.domain.exception;
 
 /**
- * Clase de excepciones del dominio para los departamentos.
- * 
- * Se usa para implementar restricciones específicas para la entidad {@link com.iem.tfm.domain.model.Department}.
+ * Excepción específica del dominio para la entidad
+ * {@link com.iem.tfm.domain.model.Department}.
+ * <p>
+ * Se lanza cuando se incumplen reglas de negocio relacionadas con los
+ * departamentos.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -11,7 +14,12 @@ package com.iem.tfm.domain.exception;
 public class DepartmentDomainException extends RuntimeException {
 
 	private static final long serialVersionUID = -4766671888147336389L;
-	
+
+	/**
+	 * Crea una nueva excepción de dominio con un mensaje descriptivo.
+	 *
+	 * @param message detalle del error de dominio
+	 */
 	public DepartmentDomainException(String message) {
 		super(message);
 	}
