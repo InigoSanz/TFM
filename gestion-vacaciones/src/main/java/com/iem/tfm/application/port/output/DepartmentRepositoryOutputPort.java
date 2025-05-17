@@ -19,4 +19,6 @@ public interface DepartmentRepositoryOutputPort {
 	public List<Department> findAllById(List<String> ids);
 
 	public List<Department> findAll();
+
+	public Department findDepartmentById(String id);
 }

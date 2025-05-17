@@ -1,11 +1,13 @@
 package com.iem.tfm.infrastructure.database.repository.adapter;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
+import com.iem.tfm.domain.exception.DepartmentDomainException;
 import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.infrastructure.database.entity.DepartmentEntity;
 import com.iem.tfm.infrastructure.database.mapper.DepartmentEntityMapper;
@@ -43,9 +45,22 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryOutputPo
 
 	@Override
 	public List<Department> findAll() {
-		
+
 		List<DepartmentEntity> entities = departmentRepository.findAll();
-		
+
 		return departmentEntityMapper.toDomainList(entities);
+	}
+
+	@Override
+	public Department findDepartmentById(String id) {
+		
+		Optional<DepartmentEntity> entityOptional = departmentRepository.findById(id);
+
+		if (!entityOptional.isPresent()) {
+			throw new DepartmentDomainException("Departamento no encontrado con id: " + id);
+		}
+
+		DepartmentEntity entity = entityOptional.get();
+		return departmentEntityMapper.toDomain(entity);
 	}
 }
