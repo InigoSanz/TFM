@@ -23,7 +23,11 @@ import com.iem.tfm.infrastructure.database.mapper.EmployeeDtoMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Controlador REST para los endpoints de los empleados.
+ * Controlador REST para gestionar los endpoints relacionados con empleados.
+ * <p>
+ * Expone operaciones para registrar, listar y obtener empleados.
+ * Utiliza los puertos de entrada para delegar la lógica a la capa de aplicación.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -42,14 +46,20 @@ public class EmployeeController {
 	@Autowired
 	EmployeeDtoMapper employeeDtoMapper;
 	
+	/**
+	 * Endpoint para registrar un nuevo empleado.
+	 * 
+	 * @param employeeDto datos del empleado recibidos por HTTP
+	 * @return respuesta con URI del nuevo recurso
+	 */
 	@PostMapping
 	public ResponseEntity<Void> employeeRegister(@RequestBody EmployeeRequestDto employeeDto) {
 		log.debug("-> Petición para registrar un empleado recibida <-");
 		
-		// Mapeamos el DTO a Command para que lo utilice la capa de aplicación
+		// Mapeamos el DTO a un Command para la capa de aplicación
 		EmployeeRegisterCommand registerCommand = employeeDtoMapper.fromDtoToCommand(employeeDto);
 		
-		// Lo persistimos
+		// Llamamos al caso de uso y obtenemos el ID generado
 		String id = employeeRegisterInputPort.employeeRegister(registerCommand);
 		
 		log.debug("-> Empleado registrado exitosamente <-");
@@ -57,6 +67,11 @@ public class EmployeeController {
 		return ResponseEntity.created(crearUri(id)).build();
 	}
 	
+	/**
+	 * Endpoint para obtener todos los empleados registrados.
+	 *
+	 * @return lista de empleados en formato DTO
+	 */
 	@GetMapping	
 	public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
 		log.debug("-> Petición para obtener todos los empleados recibida <-");
@@ -68,6 +83,12 @@ public class EmployeeController {
 		return ResponseEntity.ok(responseDtoList);
 	}
 	
+	/**
+	 * Endpoint para obtener un empleado por su ID.
+	 *
+	 * @param id identificador del empleado
+	 * @return empleado en formato DTO
+	 */
 	@GetMapping("/{employee-id}")
 	public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener un empleado por ID recibida <-");
@@ -80,10 +101,10 @@ public class EmployeeController {
 	}
 	
 	/**
-	 * Método para crear una URI recibiendo un parámetro.
-	 * 
-	 * @param id
-	 * @return uri
+	 * Crea la URI para el nuevo recurso creado.
+	 *
+	 * @param id identificador del recurso
+	 * @return URI del nuevo recurso
 	 */
 	public static URI crearUri(String id) {
 		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();

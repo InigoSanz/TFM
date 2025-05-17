@@ -13,11 +13,22 @@ import com.iem.tfm.infrastructure.apirest.dto.response.DepartmentResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 
 /**
- * Mapper de la capa de infraestructura para convertir DTO a Command.
+ * Mapper de infraestructura que convierte entre DTOs y modelos de aplicación o
+ * dominio.
+ * <p>
+ * Transforma un {@link EmployeeRequestDto} en un
+ * {@link EmployeeRegisterCommand}, y un {@link Employee} en un
+ * {@link EmployeeResponseDto}.
+ * </p>
  * 
- * Transforma un {@link EmployeeRequestDto} a un {@link EmployeeRegisterCommand}.
- * 
- * Se implementa utilizando MapStruct.
+ * <p>
+ * Se implementa parcialmente con MapStruct, y los departamentos de forma
+ * manual.
+ * </p>
+ * <p>
+ * Es una clase abstracta para permitir lógica personalizada, principalmente
+ * porque inyectamos otro mapper.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -25,29 +36,50 @@ import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class EmployeeDtoMapper {
 
-    @Autowired
-    protected DepartmentDtoMapper departmentDtoMapper;
+	@Autowired
+	protected DepartmentDtoMapper departmentDtoMapper;
 
-    public abstract EmployeeRegisterCommand fromDtoToCommand(EmployeeRequestDto dto);
+	/**
+	 * Convierte un DTO recibido desde la API en un command de aplicación.
+	 * 
+	 * @param dto DTO de entrada
+	 * @return command listo para usarse en la capa de aplicación
+	 */
+	public abstract EmployeeRegisterCommand fromDtoToCommand(EmployeeRequestDto dto);
 
-    public abstract List<EmployeeResponseDto> fromDomainToDtoList(List<Employee> employees);
+	/**
+	 * Convierte una lista de empleados del dominio a una lista de DTOs de
+	 * respuesta.
+	 * 
+	 * @param employees lista de objetos de dominio
+	 * @return lista de DTOs para responder al cliente
+	 */
+	public abstract List<EmployeeResponseDto> fromDomainToDtoList(List<Employee> employees);
 
-    public EmployeeResponseDto fromDomainToDto(Employee employee) {
-        EmployeeResponseDto dto = new EmployeeResponseDto();
+	/**
+	 * Convierte un {@link Employee} del dominio a un {@link EmployeeResponseDto},
+	 * incluyendo el mapeo de departamentos.
+	 * 
+	 * @param employee objeto del dominio
+	 * @return DTO de respuesta listo para devolver al cliente
+	 */
+	public EmployeeResponseDto fromDomainToDto(Employee employee) {
+		EmployeeResponseDto dto = new EmployeeResponseDto();
 
-        dto.setId(employee.getId());
-        dto.setName(employee.getName());
-        dto.setSurname(employee.getSurname());
-        dto.setDni(employee.getDni());
-        dto.setAge(employee.getAge());
-        dto.setEmail(employee.getEmail());
-        dto.setStartDate(employee.getStartDate());
-        dto.setEndDate(employee.getEndDate());
-        dto.setRole(employee.getRole());
+		dto.setId(employee.getId());
+		dto.setName(employee.getName());
+		dto.setSurname(employee.getSurname());
+		dto.setDni(employee.getDni());
+		dto.setAge(employee.getAge());
+		dto.setEmail(employee.getEmail());
+		dto.setStartDate(employee.getStartDate());
+		dto.setEndDate(employee.getEndDate());
+		dto.setRole(employee.getRole());
+		
+		// Se usa el mapper de departamentos para convertir cada uno a su DTO
+		List<DepartmentResponseDto> departmentDtos = departmentDtoMapper.toDtoList(employee.getDepartments());
+		dto.setDepartments(departmentDtos);
 
-        List<DepartmentResponseDto> departmentDtos = departmentDtoMapper.toDtoList(employee.getDepartments());
-        dto.setDepartments(departmentDtos);
-
-        return dto;
-    }
+		return dto;
+	}
 }

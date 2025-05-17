@@ -12,10 +12,11 @@ import com.iem.tfm.domain.model.Employee;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de Servicio para la obtención de todos los empleados.
- * 
- * Implementa el puerto de entrada {@link EmployeeGetInputPort} y el puerto de salida
- * {@link EmployeeRepositoryOutputPort}.
+ * Servicio de aplicación para consultar empleados dados de alta.
+ * <p>
+ * Implementa el caso de uso definido en {@link EmployeeGetInputPort}
+ * y accede a los datos mediante {@link EmployeeRepositoryOutputPort}.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -27,13 +28,24 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 	@Autowired
 	EmployeeRepositoryOutputPort employeeRepositoryOutput;
 	
+	/**
+	 * Obtiene todos los empleados del sistema.
+	 * 
+	 * @return lista de empleados
+	 */
 	@Override
 	public List<Employee> getAllEmployees() {		
 		log.info("-> Obteniendo todos los empleados <-");
 		
 		return employeeRepositoryOutput.findAll();
 	}
-
+	
+	/**
+	 * Obtiene un empleado por su ID.
+	 * 
+	 * @param id identificador del empleado
+	 * @return empleado correspondiente al ID
+	 */
 	@Override
 	public Employee getEmployee(String id) {
 		log.info("-> Obteniendo un empleado <-");

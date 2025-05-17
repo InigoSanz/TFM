@@ -15,7 +15,11 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * Entidad para el almacenamiento de los empleados en MongoDB.
+ * Entidad de base de datos que representa a un empleado en MongoDB.
+ * <p>
+ * Esta clase se utiliza para el almacenamiento y recuperación de datos.
+ * Equivale al modelo {@link com.iem.tfm.domain.model.Employee}, pero adaptado para que persista.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -37,6 +41,6 @@ public class EmployeeEntity {
 	private String email;
 	private Date startDate;
 	private Date endDate;
-	private List<String> departmentIds; // TODO: este campo se llenará con los IDs desde Employee.getDepartments()
+	private List<String> departmentIds;
 	private EmployeeRoleEnum role;	
 }

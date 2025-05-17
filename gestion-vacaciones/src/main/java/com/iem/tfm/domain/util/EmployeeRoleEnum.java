@@ -11,7 +11,7 @@ package com.iem.tfm.domain.util;
  *   <li><strong>RRHH</strong>: Personal del área de Recursos Humanos.</li>
  * </ul>
  * 
- * @author Iñigo
+ * @author Inigo
  * @version 1.0
  */
 public enum EmployeeRoleEnum {

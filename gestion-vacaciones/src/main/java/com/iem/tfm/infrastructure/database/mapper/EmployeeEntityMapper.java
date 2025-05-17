@@ -13,9 +13,11 @@ import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 
 /**
- * Mapper de la capa de infraestructura para convertir objetos del dominio a entidades de persistencia {@link EmployeeEntity}.
- * 
- * Se implementa utilizando MapStruct.
+ * Mapper de infraestructura que convierte entre {@link Employee} (modelo de dominio)
+ * y {@link EmployeeEntity} (entidad de base de datos para MongoDB).
+ * <p>
+ * Se implementa utilizando MapStruct y lógica adicional personalizada.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -23,28 +25,43 @@ import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = false), unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EmployeeEntityMapper {
 	
+	/**
+	 * Mapea un objeto de dominio a su entidad para persistencia.
+	 * Convierte los departamentos en una lista de IDs.
+	 * 
+	 * @param employee objeto del dominio
+	 * @return entidad para guardar en Mongo
+	 */
 	@Mapping(target ="departmentIds", source = "departments")
 	public EmployeeEntity toEntity(Employee employee);
-
+	
+	/**
+	 * Convierte una lista de entidades a una lista de objetos de dominio,
+	 * uniendo los IDs de departamentos con sus objetos reales.
+	 * 
+	 * @param entities lista de entidades
+	 * @param departments todos los departamentos
+	 * @return lista de empleados reconstruidos con sus departamentos completos
+	 */
 	public default List<Employee> toDomainList(List<EmployeeEntity> entities, List<Department> departments) {
 		List<Employee> mapResult = new ArrayList<>();
 		
-		// Doble bucle
-		for (EmployeeEntity entity : entities) {
-			
+		// Recorremos cada entiedad de empleado
+		for (EmployeeEntity entity : entities) {	
+			// Lista para guardar los departamentos completos del empleado
 			List<Department> employeeDepartments = new ArrayList<>();
-			
-			// Doble bucle
+			// Por cada ID de departamento de la entidad...
 			for (String departmentId : entity.getDepartmentIds()) {
+				// ...buscamos el departamento completo correspondiente
 				for (Department department : departments) {
 					if (department.getId().equals(departmentId)) {
+						// Si coincide el ID, lo añadimos a la lista del empleado
 						employeeDepartments.add(department);
-						break;
+						break; // Salimos del bucle interno
 					}
 				}
 			}
 			
-			// Creamos el empleado con toda la información de sus departamentos
 			Employee employee = new Employee.Builder()
 					.id(entity.getId())
 	                .name(entity.getName())
@@ -63,7 +80,14 @@ public interface EmployeeEntityMapper {
 		
 		return mapResult;
 	}
-
+	
+	/**
+	 * Convierte una entidad a objeto del dominio.
+	 * 
+	 * @param entity entidad almacenada
+	 * @param departments lista completa de departamentos
+	 * @return empleado del dominio
+	 */
 	public default Employee toDomain(EmployeeEntity entity, List<Department> departments) {
 		return new Employee.Builder()
 		        .id(entity.getId())
@@ -79,12 +103,16 @@ public interface EmployeeEntityMapper {
 		        .build();
 	}
 	
-	// Ahora tenemos que mapear los departamentos a los IDs
+	/**
+	 * Convierte una lista de objetos {@link Department} a una lista de sus IDs.
+	 * 
+	 * @param departments lista de departamentos
+	 * @return lista de IDs de departamentos
+	 */
 	public default List<String> departmentsToIds(List<Department> departments) {
 		
-		// Primero las validaciones
 		if (departments == null) {
-			return new ArrayList<>(); // Devolvemos un array vacio si nos llega nulo
+			return new ArrayList<>();
 		}
 		
 		List<String> departmentIds = new ArrayList<>();

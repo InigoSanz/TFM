@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * DTO de salida para la obtención de empleados.
- * 
+ * DTO de salida para representar la información de un empleado en la respuesta de una API.
+ * <p>
+ * Se utiliza cuando se devuelven empleados al cliente, ya sea de forma individual o en listas.
+ * Contiene información personal, departamentos y rol del empleado.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0

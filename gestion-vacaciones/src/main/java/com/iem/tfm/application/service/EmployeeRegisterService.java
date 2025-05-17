@@ -17,12 +17,11 @@ import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de Servicio para implementar el caso de uso de registro de empleados.
- * 
- * Recibe los datos encapsulados de {@link EmployeeRegisterCommand}, construye la entidad {@code Employee} 
- * utilizando el patrón Builder para que luego el puerto de salida lo persista {@link EmployeeRepositoryOutputPort}.
- * 
- * De momento creamos un arraylist vacio para que compile, ya que no tenemos los departamentos.
+ * Servicio de aplicación que implementa el caso de uso de registro de empleados.
+ * <p>
+ * Recibe un {@link EmployeeRegisterCommand}, valida los datos y construye una
+ * entidad {@link Employee}, que luego se persiste a tavés del {@link EmployeeRepositoryOutputPort}.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -37,27 +36,33 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	@Autowired
 	DepartmentRepositoryOutputPort departmentRepositoryOutput;
 	
+	/**
+	 * Registra un nuevo empleado en el sistema.
+	 * <p>
+	 * Valida el DNI, convierte el rol desde texto a Enum, recupera los departamentos,
+	 * construye el objeto del dominio y lo guarda.
+	 * </p>
+	 * 
+	 * @param command Command con los datos del nuevo empleado
+	 * @return ID generado del empleado registrado
+	 */
 	@Override
 	public String employeeRegister(EmployeeRegisterCommand command) {
 		log.info("-> Inicio registro de empleado <-");
 		
-		// Comprobamos que el empleado ya esta en nuestro sistema
 		if (employeeRepositoryOutput.existsByDni(command.getDni())) {
 			throw new EmployeeDomainException("Ya existe un empleado con el DNI introducido.");
 		}
-		
-		// Necesitamos obtener el valor del Enum, ya que en el command tenemos un String		 
+				 
 		EmployeeRoleEnum roleEnum = EmployeeRoleEnum.valueOf(command.getRole().toUpperCase());
 		
-		// Utilizamos el command para obtener los departamentos
 		List<Department> departmentList = departmentRepositoryOutput.findAllById(command.getDepartmentIds());
 		
-		// Comprobamos que los departamentos obtenidos y lo que hay realmente, son iguales
+		// Validamos que todos los departamentos solicitados existen
 		if (departmentList.size() != command.getDepartmentIds().size()) {
 			throw new EmployeeDomainException("-> Los departamentos no coinciden, es posible que alguno no exista <-");
 		}
 		
-		// Creamos el empleado
 		Employee employee = new Employee.Builder()
 				.name(command.getName())
 				.surname(command.getSurname())
@@ -69,7 +74,6 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				.role(roleEnum)
 				.build();
 		
-		// Lo guardamos y obtenemos el id, es lo que devuelve el OutputPort
 		String employeeId = employeeRepositoryOutput.save(employee);
 		
 		log.info("-> Empleado registrado exitosamente <-");

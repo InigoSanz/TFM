@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * DTO de entrada para la creación de empleados.
- * 
- * Se transformará a un {@code EmployeeRegisterCommand} por un mapper.
+ * DTO de entrada para crear un nuevo empleado desde una API externa.
+ * <p>
+ * Este objeto se transforma a un {@link com.iem.tfm.application.command.EmployeeRegisterCommand}
+ * mediante un mapper en la capa de infraestructura.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
@@ -32,5 +34,5 @@ public class EmployeeRequestDto {
 	private Date startDate;
 	private Date endDate;
 	private List<String> departmentIds;
-	private String role;	// Aquí me acuerdo que es mejor trabajar con String, lo cambiamos y en el mapper lo mapearemos al Enum
+	private String role; // En vez de trabajar con Enum, es buena práctica trabajar como texto y mapearlo
 }

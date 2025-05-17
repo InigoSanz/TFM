@@ -7,10 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Clase command que se utiliza para registrar un nuevo empleado.
- * 
- * Transporta los datos necesarios para ejecutar el caso de uso del alta
- * de un empleado desde un adaptador externo.
+ * Clase Command de la capa de aplicación que se utiliza para registrar un nuevo {@link com.iem.tfm.domain.model.Employee}.
+ * <p>
+ * Se utiliza para transportar los datos necesarios desde un adaptador (como un controlador REST)
+ * hacia el caso de uso correspondiente en la capa de aplicación.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0

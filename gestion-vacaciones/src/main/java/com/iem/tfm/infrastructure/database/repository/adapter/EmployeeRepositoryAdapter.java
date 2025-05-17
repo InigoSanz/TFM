@@ -16,70 +16,97 @@ import com.iem.tfm.infrastructure.database.mapper.EmployeeEntityMapper;
 import com.iem.tfm.infrastructure.database.repository.EmployeeRepository;
 
 /**
- * Adaptador para conectar el puerto de salida con la infraestructura {@link EmployeeRepositoryOutputPort}.
+ * Adaptador que conecta la capa de aplicación con la infraestructura de
+ * persistencia para empleados.
+ * <p>
+ * Implementa el puerto de salida {@link EmployeeRepositoryOutputPort} usando
+ * Spring Data MongoDB. Convierte entre el modelo de dominio {@link Employee} y
+ * la entidad de base de datos {@link EmployeeEntity}.
+ * </p>
  * 
- * Convierte la entidades en documentos de MongoDB mediante un mapper.
- * 
- * Delega las operaciones en el repositorio Mongo {@link EmployeeRepository}.
- * 
- * Punte entre la aplicación y la persistencia en BBDD.
+ * <p>
+ * Actúa como puente entre el caso de uso y el repositorio real.
+ * </p>
  * 
  * @author Inigo
  * @version 1.0
  */
 @Repository
 public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
-	
+
 	@Autowired
 	EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	EmployeeEntityMapper employeeEntityMapper;
-	
+
 	@Autowired
 	DepartmentRepositoryOutputPort departmentRepositoryOutput;
-
+	
+	/**
+	 * Guarda un empleado en la BBDD.
+	 * 
+	 * @param employee objeto del dominio a guardar
+	 * @return ID generado del nuevo empleado
+	 */
 	@Override
 	public String save(Employee employee) {
 		EmployeeEntity entity = employeeEntityMapper.toEntity(employee);
 		EmployeeEntity savedEmployee = employeeRepository.save(entity);
-		
+
 		return savedEmployee.getId();
 	}
-
+	
+	/**
+	 * Verifica si ya existe un empleado con el DNI dado.
+	 *
+	 * @param dni documento de identidad
+	 * @return {@code true} si el empleado existe, {@code false} si no
+	 */
 	@Override
 	public boolean existsByDni(String dni) {
-		
+
 		return employeeRepository.existsByDni(dni);
 	}
-
+	
+	/**
+	 * Recupera todos los empleados del sistema.
+	 *
+	 * @return lista de empleados con sus departamentos completos
+	 */
 	@Override
 	public List<Employee> findAll() {
 		List<EmployeeEntity> entities = employeeRepository.findAll();
 		List<Department> departments = departmentRepositoryOutput.findAll();
-		
+
 		return employeeEntityMapper.toDomainList(entities, departments);
 	}
-
+	
+	/**
+	 * Recupera un empleado por su ID, incluyendo sus departamentos.
+	 *
+	 * @param id identificador del empleado
+	 * @return empleado del dominio reconstruido
+	 * @throws EmployeeDomainException si el empleado no existe o los departamentos no coinciden
+	 */
 	@Override
 	public Employee findEmployeeById(String id) {
-		
+
 		Optional<EmployeeEntity> entityOptional = employeeRepository.findById(id);
-		
+
 		if (!entityOptional.isPresent()) {
 			throw new EmployeeDomainException("Empleado no encontrado con id: " + id);
 		}
-		
-		
+
 		EmployeeEntity entity = entityOptional.get();
-		
+
 		List<String> departmentIds = entity.getDepartmentIds();
 		List<Department> departments = departmentRepositoryOutput.findAllById(departmentIds);
-		
+
 		if (departments.size() != departmentIds.size()) {
 			throw new EmployeeDomainException("Algunos departamentos no coinciden, quizá no existan");
 		}
-		
-		return employeeEntityMapper.toDomain(entity, departments);	        
+
+		return employeeEntityMapper.toDomain(entity, departments);
 	}
 }
