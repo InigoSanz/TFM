@@ -3,6 +3,7 @@ package com.iem.tfm.domain.model;
 import java.util.Date;
 
 import com.iem.tfm.domain.exception.VacationDomainException;
+import com.iem.tfm.domain.util.VacationStatusEnum;
 
 /**
  * Modelo de dominio para las vacaciones.
@@ -19,8 +20,9 @@ public class Vacation {
 	private Date startDate;
 	private Date endDate;
 	private Employee employee;
+	private VacationStatusEnum status;
 	
-	public Vacation(String id, Date startDate, Date endDate, Employee employee) {
+	public Vacation(String id, Date startDate, Date endDate, Employee employee, VacationStatusEnum status) {
 		
 		if (employee == null) {
 			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
@@ -34,10 +36,15 @@ public class Vacation {
 			throw new VacationDomainException("El inicio de las vacaciones no puede ser posterior a la de fin.");
 		}
 		
+		if (status == null) {
+			throw new VacationDomainException("Las vacaciones deben contener un estado.");
+		}
+		
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.employee = employee;
+		this.status = status;
 	}
 
 	public String getId() {
@@ -54,5 +61,9 @@ public class Vacation {
 
 	public Employee getEmployee() {
 		return employee;
+	}
+	
+	public VacationStatusEnum getStatus() {
+		return status;
 	}
 }
