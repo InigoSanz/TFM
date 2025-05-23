@@ -1,8 +1,12 @@
 package com.iem.tfm.infrastructure.database.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 
@@ -10,9 +14,20 @@ import com.iem.tfm.infrastructure.database.entity.VacationEntity;
  * 
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface VacationEntityMapper {
+public abstract class VacationEntityMapper {
 	
-	public VacationEntity toEntity(Vacation vacation);
+	@Autowired
+	EmployeeEntityMapper employeeEntityMapper;
 	
-	public Vacation toDomain(VacationEntity entity);
+	public abstract  VacationEntity toEntity(Vacation vacation);
+	
+	public Vacation toDomain(VacationEntity entity, List<Department> departments) {
+		return new Vacation(
+				entity.getId(),
+				entity.getStartDate(),
+				entity.getEndDate(),
+				employeeEntityMapper.toDomain(entity.getEmployee(), departments),
+				entity.getStatus()
+			);			
+	}
 }
