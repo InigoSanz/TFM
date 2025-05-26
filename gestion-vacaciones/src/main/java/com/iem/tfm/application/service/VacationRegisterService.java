@@ -9,7 +9,6 @@ import com.iem.tfm.application.command.VacationRegisterCommand;
 import com.iem.tfm.application.port.input.VacationRegisterInputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
-import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.Vacation;
