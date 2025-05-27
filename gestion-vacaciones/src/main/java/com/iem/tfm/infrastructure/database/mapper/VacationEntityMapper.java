@@ -31,5 +31,11 @@ public abstract class VacationEntityMapper {
 			);			
 	}
 
-	public abstract List<Vacation> toDomainList(List<VacationEntity> entities);
+	public List<Vacation> toDomainList(List<VacationEntity> entities, List<Department> departments) {
+		if (entities == null) return List.of();
+
+	    return entities.stream()
+	        .map(entity -> toDomain(entity, departments))
+	        .toList();
+	}
 }

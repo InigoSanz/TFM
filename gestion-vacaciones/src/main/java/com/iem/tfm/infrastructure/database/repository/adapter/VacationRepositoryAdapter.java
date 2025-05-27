@@ -58,8 +58,9 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	@Override
 	public List<Vacation> findAll() {
 		List<VacationEntity> entities = vacationRepository.findAll();
+		List<Department> departmentEntities = departmentRepositoryOutput.findAll();
 		
-		return vacationEntityMapper.toDomainList(entities);
+		return vacationEntityMapper.toDomainList(entities, departmentEntities);
 	}
 
 	@Override
