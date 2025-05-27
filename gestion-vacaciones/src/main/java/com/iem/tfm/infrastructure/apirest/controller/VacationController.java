@@ -23,6 +23,9 @@ import com.iem.tfm.infrastructure.database.mapper.VacationDtoMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ */
 @RestController
 @RequestMapping("/vacations")
 @Slf4j
@@ -38,6 +41,11 @@ public class VacationController {
 	@Autowired
 	VacationGetInputPort vacationGetInputPort;
 	
+	/**
+	 * 
+	 * @param vacationDto
+	 * @return
+	 */
 	@PostMapping
 	public ResponseEntity<Void> vacationRegister(@RequestBody VacationRequestDto vacationDto) {
 		log.debug("-> Petición para registrar unas vacaciones recibida <-");
@@ -51,6 +59,10 @@ public class VacationController {
 		return ResponseEntity.created(crearUri(id)).build();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping
 	public ResponseEntity<List<VacationResponseDto>> getAllVacations() {
 		log.debug("-> Petición para obtener todas las vacaciones recibida <-");
@@ -62,6 +74,11 @@ public class VacationController {
 		return ResponseEntity.ok(responseDtoList);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{vacation-id}")
 	public ResponseEntity<VacationResponseDto> getVacation(@PathVariable("vacation-id") String id) {
 		log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
@@ -73,6 +90,11 @@ public class VacationController {
 		return ResponseEntity.ok(vacationDto);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/employee/{employee-id}")
 	public ResponseEntity<List<VacationResponseDto>> getVacationsOfEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener vacaciones del empleado con id: " + id + " recibida <-");
