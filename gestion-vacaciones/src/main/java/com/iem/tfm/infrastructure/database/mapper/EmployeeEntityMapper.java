@@ -37,7 +37,7 @@ public interface EmployeeEntityMapper {
 	
 	/**
 	 * Convierte una lista de entidades a una lista de objetos de dominio,
-	 * uniendo los IDs de departamentos con sus objetos reales.
+	 * matcheando los IDs de departamentos con sus objetos completos.
 	 * 
 	 * @param entities lista de entidades
 	 * @param departments todos los departamentos

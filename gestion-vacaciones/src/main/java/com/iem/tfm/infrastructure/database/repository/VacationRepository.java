@@ -23,4 +23,6 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	// el solapamiento de las vacaciones, por lo que hay que implementar la query
 	// Se utiliza la IA para esta consulta...
 	List<VacationEntity> findByEmployeeIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(String employeeId, Date endDate, Date startDate);
+
+	List<VacationEntity> findByEmployeeId(String employeeId);
 }

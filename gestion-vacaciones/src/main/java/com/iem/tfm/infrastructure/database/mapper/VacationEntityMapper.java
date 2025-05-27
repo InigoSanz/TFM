@@ -30,4 +30,6 @@ public abstract class VacationEntityMapper {
 				entity.getStatus()
 			);			
 	}
+
+	public abstract List<Vacation> toDomainList(List<VacationEntity> entities);
 }

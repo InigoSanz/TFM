@@ -1,5 +1,7 @@
 package com.iem.tfm.infrastructure.database.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -17,4 +19,6 @@ public interface VacationDtoMapper {
 		return new VacationResponseDto(vacation.getId(), vacation.getStartDate(), vacation.getEndDate(),
 				vacation.getEmployee().getId(), vacation.getStatus());
 	}
+
+	public List<VacationResponseDto> fromDomainToDtoList(List<Vacation> allVacation);
 }

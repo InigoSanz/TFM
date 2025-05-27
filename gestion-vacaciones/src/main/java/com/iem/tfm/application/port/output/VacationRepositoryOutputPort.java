@@ -13,4 +13,10 @@ public interface VacationRepositoryOutputPort {
 	public String save(Vacation vacation);
 	
 	public List<Vacation> findByEmployeeIdAndDateOverlap(String employeeId, Date startDate, Date endDate);
+
+	public List<Vacation> findAll();
+
+	public Vacation findVacationById(String id);
+
+	public List<Vacation> findVacationByEmployeeId(String id);
 }
