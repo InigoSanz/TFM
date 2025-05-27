@@ -1,5 +1,6 @@
 package com.iem.tfm.infrastructure.database.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -19,8 +20,19 @@ public abstract class VacationEntityMapper {
 	@Autowired
 	EmployeeEntityMapper employeeEntityMapper;
 	
+	/**
+	 * 
+	 * @param vacation
+	 * @return
+	 */
 	public abstract  VacationEntity toEntity(Vacation vacation);
 	
+	/**
+	 * 
+	 * @param entity
+	 * @param departments
+	 * @return
+	 */
 	public Vacation toDomain(VacationEntity entity, List<Department> departments) {
 		return new Vacation(
 				entity.getId(),
@@ -30,12 +42,23 @@ public abstract class VacationEntityMapper {
 				entity.getStatus()
 			);			
 	}
-
+	
+	/**
+	 * 
+	 * @param entities
+	 * @param departments
+	 * @return
+	 */
 	public List<Vacation> toDomainList(List<VacationEntity> entities, List<Department> departments) {
-		if (entities == null) return List.of();
+		List<Vacation> vacations = new ArrayList<>();
 
-	    return entities.stream()
-	        .map(entity -> toDomain(entity, departments))
-	        .toList();
+	    if (entities == null) return vacations;
+
+	    for (VacationEntity entity : entities) {
+	        Vacation vacation = toDomain(entity, departments);
+	        vacations.add(vacation);
+	    }
+
+	    return vacations;
 	}
 }
