@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
@@ -20,7 +20,7 @@ import com.iem.tfm.infrastructure.database.repository.VacationRepository;
 /**
  * 
  */
-@Repository
+@Component
 public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	
 	@Autowired

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
@@ -31,7 +31,7 @@ import com.iem.tfm.infrastructure.database.repository.EmployeeRepository;
  * @author Inigo
  * @version 1.0
  */
-@Repository
+@Component
 public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 	@Autowired
