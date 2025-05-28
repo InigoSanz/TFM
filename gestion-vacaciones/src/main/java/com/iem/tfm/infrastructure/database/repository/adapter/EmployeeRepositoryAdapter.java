@@ -6,10 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
-import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 import com.iem.tfm.infrastructure.database.mapper.EmployeeEntityMapper;
@@ -39,9 +37,6 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 	@Autowired
 	EmployeeEntityMapper employeeEntityMapper;
-
-	@Autowired
-	DepartmentRepositoryOutputPort departmentRepositoryOutput;
 	
 	/**
 	 * Guarda un empleado en la BBDD.
@@ -77,9 +72,8 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 	@Override
 	public List<Employee> findAll() {
 		List<EmployeeEntity> entities = employeeRepository.findAll();
-		List<Department> departments = departmentRepositoryOutput.findAll();
-
-		return employeeEntityMapper.toDomainList(entities, departments);
+		
+		return employeeEntityMapper.toDomainList(entities);
 	}
 	
 	/**
@@ -91,22 +85,21 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 	 */
 	@Override
 	public Employee findEmployeeById(String id) {
-
 		Optional<EmployeeEntity> entityOptional = employeeRepository.findById(id);
 
 		if (!entityOptional.isPresent()) {
 			throw new EmployeeDomainException("Empleado no encontrado con id: " + id);
 		}
 
-		EmployeeEntity entity = entityOptional.get();
-
-		List<String> departmentIds = entity.getDepartmentIds();
-		List<Department> departments = departmentRepositoryOutput.findAllById(departmentIds);
-
-		if (departments.size() != departmentIds.size()) {
-			throw new EmployeeDomainException("Algunos departamentos no coinciden, quizá no existan");
-		}
-
-		return employeeEntityMapper.toDomain(entity, departments);
+		return employeeEntityMapper.toDomain(entityOptional.get());
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public boolean existsById(String employeeId) {
+		
+		return employeeRepository.existsById(employeeId);
 	}
 }

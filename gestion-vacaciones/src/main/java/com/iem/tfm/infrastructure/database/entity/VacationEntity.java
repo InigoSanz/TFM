@@ -28,6 +28,6 @@ public class VacationEntity {
 	private String id;
 	private Date startDate;
 	private Date endDate;
-	private EmployeeEntity employee;
+	private String employeeId;
 	private VacationStatusEnum status;
 }

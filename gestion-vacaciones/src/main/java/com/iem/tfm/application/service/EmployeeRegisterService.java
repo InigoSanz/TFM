@@ -10,7 +10,6 @@ import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
-import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
@@ -56,21 +55,21 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 				 
 		EmployeeRoleEnum roleEnum = EmployeeRoleEnum.valueOf(command.getRole().toUpperCase());
 		
-		List<Department> departmentList = departmentRepositoryOutput.findAllById(command.getDepartmentIds());
+		List<String> departmentIdList = command.getDepartmentIds();
 		
 		// Validamos que todos los departamentos solicitados existen
-		if (departmentList.size() != command.getDepartmentIds().size()) {
-			throw new EmployeeDomainException("-> Los departamentos no coinciden, es posible que alguno no exista <-");
+		if (departmentIdList == null || departmentIdList.isEmpty()) {
+			throw new EmployeeDomainException("-> El empleado debe tener al menos un ID de departamento <-");
 		}
 		
-		Employee employee = new Employee.Builder()
+		Employee employee = Employee.builder()
 				.name(command.getName())
 				.surname(command.getSurname())
 				.dni(command.getDni())
 				.age(command.getAge())
 				.email(command.getEmail())
 				.startDate(command.getStartDate())
-				.departments(departmentList)
+				.departmentIds(departmentIdList)
 				.role(roleEnum)
 				.build();
 		

@@ -5,6 +5,8 @@ import java.util.Date;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.util.VacationStatusEnum;
 
+import lombok.Getter;
+
 /**
  * Modelo de dominio para las vacaciones.
  * 
@@ -14,17 +16,18 @@ import com.iem.tfm.domain.util.VacationStatusEnum;
  * @author Inigo
  * @version 1.1
  */
+@Getter
 public class Vacation {
 	
 	private String id;
 	private Date startDate;
 	private Date endDate;
-	private Employee employee;
+	private String employeeId;
 	private VacationStatusEnum status;
 	
-	public Vacation(String id, Date startDate, Date endDate, Employee employee, VacationStatusEnum status) {
+	public Vacation(String id, Date startDate, Date endDate, String employeeId, VacationStatusEnum status) {
 		
-		if (employee == null) {
+		if (employeeId == null) {
 			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
 		}
 		
@@ -43,27 +46,7 @@ public class Vacation {
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.employee = employee;
+		this.employeeId = employeeId;
 		this.status = status;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-	
-	public VacationStatusEnum getStatus() {
-		return status;
 	}
 }

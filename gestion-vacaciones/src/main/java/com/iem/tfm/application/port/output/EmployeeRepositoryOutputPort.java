@@ -46,4 +46,11 @@ public interface EmployeeRepositoryOutputPort {
 	 * @return empleado correspondiente al ID
 	 */
 	public Employee findEmployeeById(String id);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @return
+	 */
+	public boolean existsById(String employeeId);
 }

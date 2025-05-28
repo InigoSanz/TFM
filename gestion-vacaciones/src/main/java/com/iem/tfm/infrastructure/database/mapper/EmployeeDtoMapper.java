@@ -4,12 +4,10 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
-import com.iem.tfm.infrastructure.apirest.dto.response.DepartmentResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 
 /**
@@ -34,10 +32,7 @@ import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
  * @version 1.0
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public abstract class EmployeeDtoMapper {
-
-	@Autowired
-	protected DepartmentDtoMapper departmentDtoMapper;
+public interface EmployeeDtoMapper {
 
 	/**
 	 * Convierte un DTO recibido desde la API en un command de aplicación.
@@ -45,7 +40,7 @@ public abstract class EmployeeDtoMapper {
 	 * @param dto DTO de entrada
 	 * @return command listo para usarse en la capa de aplicación
 	 */
-	public abstract EmployeeRegisterCommand fromDtoToCommand(EmployeeRequestDto dto);
+	public EmployeeRegisterCommand fromDtoToCommand(EmployeeRequestDto dto);
 
 	/**
 	 * Convierte una lista de empleados del dominio a una lista de DTOs de
@@ -54,7 +49,7 @@ public abstract class EmployeeDtoMapper {
 	 * @param employees lista de objetos de dominio
 	 * @return lista de DTOs para responder al cliente
 	 */
-	public abstract List<EmployeeResponseDto> fromDomainToDtoList(List<Employee> employees);
+	public List<EmployeeResponseDto> fromDomainToDtoList(List<Employee> employees);
 
 	/**
 	 * Convierte un {@link Employee} del dominio a un {@link EmployeeResponseDto},
@@ -63,7 +58,7 @@ public abstract class EmployeeDtoMapper {
 	 * @param employee objeto del dominio
 	 * @return DTO de respuesta listo para devolver al cliente
 	 */
-	public EmployeeResponseDto fromDomainToDto(Employee employee) {
+	public default EmployeeResponseDto fromDomainToDto(Employee employee) {
 		EmployeeResponseDto dto = new EmployeeResponseDto();
 
 		dto.setId(employee.getId());
@@ -75,10 +70,8 @@ public abstract class EmployeeDtoMapper {
 		dto.setStartDate(employee.getStartDate());
 		dto.setEndDate(employee.getEndDate());
 		dto.setRole(employee.getRole());
-		
-		// Se usa el mapper de departamentos para convertir cada uno a su DTO
-		List<DepartmentResponseDto> departmentDtos = departmentDtoMapper.toDtoList(employee.getDepartments());
-		dto.setDepartments(departmentDtos);
+
+		dto.setDepartmentIds(employee.getDepartmentIds());
 
 		return dto;
 	}

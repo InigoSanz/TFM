@@ -8,18 +8,23 @@ import com.iem.tfm.domain.util.DniRules;
 import com.iem.tfm.domain.util.EmailRules;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
+import lombok.Builder;
+import lombok.Getter;
+
 /**
- * Modelo de dominio que representa a un empleado. 
+ * Modelo de dominio que representa a un empleado.
  * <p>
- * Contiene datos personales como rol, departamentos, fechas, ...
- * Usa el patrón Builder para construir objetos con validaciones de dominio.
+ * Contiene datos personales como rol, departamentos, fechas, ... Usa el patrón
+ * Builder para construir objetos con validaciones de dominio.
  * </p>
  * 
  * @author Inigo
  * @version 1.1
  */
+@Getter
+@Builder(builderClassName = "Builder")
 public class Employee {
-	
+
 	// Atributos inmutables debido al patrón Builder
 	private final String id;
 	private final String name;
@@ -29,9 +34,9 @@ public class Employee {
 	private final String email;
 	private final Date startDate;
 	private final Date endDate;
-	private final List<Department> departments;
+	private final List<String> departmentIds;
 	private final EmployeeRoleEnum role;
-	
+
 	/**
 	 * Constructor privado. Solo se puede crear un empleado mediante Builder.
 	 * 
@@ -46,159 +51,50 @@ public class Employee {
 		this.email = builder.email;
 		this.startDate = builder.startDate;
 		this.endDate = builder.endDate;
-		this.departments = builder.departments;
+		this.departmentIds = builder.departmentIds;
 		this.role = builder.role;
 	}
-	
+
 	/**
-	 * Builder para crear las instancias de Employee.
-	 * Realiza validaciones antes de construir el objeto.
+	 * Builder para crear las instancias de Employee. Realiza validaciones antes de
+	 * construir el objeto.
 	 */
 	public static class Builder {
-		
-		private String id;
-        private String name;
-        private String surname;
-        private String dni;
-        private int age;
-        private String email;
-        private Date startDate;
-        private Date endDate;
-        private List<Department> departments;
-        private EmployeeRoleEnum role;
-        
-        public Builder id(String id) {
-        	this.id = id;
-        	return this;
-        }
-        
-        public Builder name(String name) {
-        	this.name = name;
-        	return this;
-        }
-        
-        public Builder surname(String surname) {
-        	this.surname = surname;
-        	return this;
-        }
-        
-        public Builder dni(String dni) {
-        	this.dni = dni;
-        	return this;
-        }
-        
-        public Builder age(int age) {
-        	this.age = age;
-        	return this;
-        }
-        
-        public Builder email(String email) {
-        	this.email = email;
-        	return this;
-        }
-        
-        public Builder startDate(Date startDate) {
-        	this.startDate = startDate;
-        	return this;
-        }
-        
-        public Builder endDate(Date endDate) {
-        	this.endDate = endDate;
-        	return this;
-        }
-        
-        public Builder departments(List<Department> departments) {
-        	this.departments = departments;
-        	return this;
-        }
-        
-        public Builder role(EmployeeRoleEnum role) {
-        	this.role = role;
-        	return this;
-        }
-        
-        /**
-         * Valida los datos y construye el Employee.
-         * Lanza excepciones si hay algún dato no válido, son excepciones de dominio.
-         * 
-         * @return instancia válida de Employee
-         */
-        public Employee build() {
-        	
-        	if (name == null) {
-        		throw new EmployeeDomainException("El nombre del empleado no puede ser nulo.");
-        	}
-        	
-        	if (surname == null) {
-        		throw new EmployeeDomainException("Los apellidos del empleado no pueden ser nulos.");
-        	}
-        	
-        	if (!DniRules.isValidEmployeeDni(dni)) {
-        		throw new EmployeeDomainException("El DNI debe tener 8 dígitos y una letra al final (mayúscula o minúscula).");
-        	}
-        		
-        	if (age < 16 || age > 65) { // Reglamento ordinario de España, hay excepciones
-        		throw new EmployeeDomainException("Edad inválida para trabajar.");
-        	}
-        	
-        	if (!EmailRules.isValidEmployeeEmail(email)) {
-        		throw new EmployeeDomainException("Formato de correo electrónico no válido.");
-        	}
-        	
-        	if (startDate == null) {
-        		throw new EmployeeDomainException("La fecha de inicio del empleado no puede ser nula.");
-        	}
-        	
-        	if (departments == null || departments.isEmpty()) { // Utilizamos isEmpty() ya que es una lista y puede estar vacía
-        		throw new EmployeeDomainException("El empleado debe pertenecer a un departamento.");
-        	}
-        	
-        	if (role == null) {
-        		throw new EmployeeDomainException("El empleado debe tener un rol asignado en la empresa.");
-        	}
-        	
-        	return new Employee(this);
-        }
-	}
-	
-	// Getters
-	public String getId() {
-		return id;
-	}
+		public Employee build() {
 
-	public String getName() {
-		return name;
-	}
+			if (name == null) {
+				throw new EmployeeDomainException("El nombre del empleado no puede ser nulo.");
+			}
 
-	public String getSurname() {
-		return surname;
-	}
+			if (surname == null) {
+				throw new EmployeeDomainException("Los apellidos del empleado no pueden ser nulos.");
+			}
 
-	public String getDni() {
-		return dni;
-	}
+			if (!DniRules.isValidEmployeeDni(dni)) {
+				throw new EmployeeDomainException("El DNI debe tener 8 dígitos y una letra al final.");
+			}
 
-	public int getAge() {
-		return age;
-	}
+			if (age < 16 || age > 65) {
+				throw new EmployeeDomainException("Edad inválida para trabajar.");
+			}
 
-	public String getEmail() {
-		return email;
-	}
+			if (!EmailRules.isValidEmployeeEmail(email)) {
+				throw new EmployeeDomainException("Formato de correo electrónico no válido.");
+			}
 
-	public Date getStartDate() {
-		return startDate;
-	}
+			if (startDate == null) {
+				throw new EmployeeDomainException("La fecha de inicio del empleado no puede ser nula.");
+			}
 
-	public Date getEndDate() {
-		return endDate;
-	}
+			if (departmentIds == null || departmentIds.isEmpty()) {
+				throw new EmployeeDomainException("El empleado debe pertenecer al menos a un departamento.");
+			}
 
-	public List<Department> getDepartments() {
-		return departments;
-	}
+			if (role == null) {
+				throw new EmployeeDomainException("El empleado debe tener un rol asignado.");
+			}
 
-	public EmployeeRoleEnum getRole() {
-		return role;
+			return new Employee(this);
+		}
 	}
 }

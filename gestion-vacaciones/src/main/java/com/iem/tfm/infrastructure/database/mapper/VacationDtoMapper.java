@@ -17,7 +17,7 @@ public interface VacationDtoMapper {
 
 	public default VacationResponseDto fromDomaintoDto(Vacation vacation) {
 		return new VacationResponseDto(vacation.getId(), vacation.getStartDate(), vacation.getEndDate(),
-				vacation.getEmployee().getId(), vacation.getStatus());
+				vacation.getEmployeeId(), vacation.getStatus());
 	}
 
 	public List<VacationResponseDto> fromDomainToDtoList(List<Vacation> allVacation);
