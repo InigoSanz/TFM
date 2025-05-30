@@ -48,9 +48,7 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 			throw new VacationDomainException("El empleado ya ha tiene vacaciones en esas fechas.");
 		}
 
-		VacationStatusEnum vacationStatus = VacationStatusEnum.valueOf(command.getStatus().toUpperCase());
-
-		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(), vacationStatus);
+		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(), VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO);
 
 		return vacationRepositoryOutput.save(vacation);
 	}

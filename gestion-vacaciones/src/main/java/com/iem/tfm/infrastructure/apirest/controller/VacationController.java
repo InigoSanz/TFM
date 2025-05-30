@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.iem.tfm.application.command.VacationRegisterCommand;
+import com.iem.tfm.application.command.VacationStatusChangeCommand;
 import com.iem.tfm.application.port.input.VacationGetInputPort;
 import com.iem.tfm.application.port.input.VacationRegisterInputPort;
+import com.iem.tfm.application.port.input.VacationStatusInputPort;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
+import com.iem.tfm.infrastructure.apirest.dto.request.VacationStatusChangeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.VacationResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.VacationDtoMapper;
 
@@ -40,6 +44,9 @@ public class VacationController {
 	
 	@Autowired
 	VacationGetInputPort vacationGetInputPort;
+	
+	@Autowired
+	VacationStatusInputPort vacationStatusInputPort; 
 	
 	/**
 	 * 
@@ -114,5 +121,18 @@ public class VacationController {
 	 */
 	public static URI crearUri(String id) {
 		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
+	}
+	
+	@PatchMapping("/{vacation-id}/status")
+	public ResponseEntity<Void> vacationStatusChange(@PathVariable("vacation-id") String id, @RequestBody VacationStatusChangeRequestDto dto) {
+		log.debug("-> Petición para cambiar el estado de las vacaciones recibida <-");
+		
+		VacationStatusChangeCommand command = new VacationStatusChangeCommand(id, dto.getEmployeeId(), dto.getRole(), dto.isApprove());
+	
+		vacationStatusInputPort.statusChange(command);
+		
+		log.debug("-> Estado de las vacaciones actualizado exitosamente <-");
+		
+		return ResponseEntity.ok().build();
 	}
 }

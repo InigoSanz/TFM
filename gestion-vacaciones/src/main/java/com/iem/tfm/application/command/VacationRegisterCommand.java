@@ -17,5 +17,4 @@ public class VacationRegisterCommand {
 	private Date startDate;
 	private Date endDate;
 	private String employeeId;
-	private String status;
 }
