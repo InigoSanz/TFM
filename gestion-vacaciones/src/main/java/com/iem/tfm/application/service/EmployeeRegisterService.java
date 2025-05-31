@@ -9,9 +9,13 @@ import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
+import com.iem.tfm.application.port.output.UserRepositoryOutputPort;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Employee;
+import com.iem.tfm.domain.model.User;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
+import com.iem.tfm.domain.util.PasswordGenerator;
+import com.iem.tfm.domain.util.UserRoleEnum;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +38,9 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	
 	@Autowired
 	DepartmentRepositoryOutputPort departmentRepositoryOutput;
+	
+	@Autowired
+	UserRepositoryOutputPort userRepositoryOutput;
 	
 	/**
 	 * Registra un nuevo empleado en el sistema.
@@ -76,6 +83,16 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 		String employeeId = employeeRepositoryOutput.save(employee);
 		
 		log.info("-> Empleado registrado exitosamente <-");
+		
+		// Creamos el usuario del empleado que se da de alta
+		String password = PasswordGenerator.generatePassword(10);
+		User user = new User(null, command.getEmail(), password, UserRoleEnum.USER, true, employeeId);
+		
+		userRepositoryOutput.save(user);
+		
+		log.info("-> Usuario creado para el empleado <-");
+		log.info("Username: {}", user.getUsername());
+		log.info("Password: {}", password);
 		
 		return employeeId;
 	}
