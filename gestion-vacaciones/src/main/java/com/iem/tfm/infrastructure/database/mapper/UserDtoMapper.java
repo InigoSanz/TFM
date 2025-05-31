@@ -6,17 +6,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import com.iem.tfm.domain.model.User;
-import com.iem.tfm.infrastructure.database.entity.UserEntity;
+import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 
 /**
  * 
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserEntityMapper {
+public interface UserDtoMapper {
 	
-	public UserEntity toEntity(User user);
+	public UserResponseDto toDto(User user);
 	
-	public User toDomain(UserEntity entity);
-
-	public List<User> toDomainList(List<UserEntity> entities);
+	public List<UserResponseDto> toDtoList(List<User> users);
 }
