@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.iem.tfm.application.port.output.UserRepositoryOutputPort;
-import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.exception.UserDomainException;
 import com.iem.tfm.domain.model.User;
-import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 import com.iem.tfm.infrastructure.database.entity.UserEntity;
 import com.iem.tfm.infrastructure.database.mapper.UserEntityMapper;
 import com.iem.tfm.infrastructure.database.repository.UserRepository;
