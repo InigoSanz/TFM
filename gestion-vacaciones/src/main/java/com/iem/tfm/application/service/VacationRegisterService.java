@@ -16,8 +16,16 @@ import com.iem.tfm.domain.util.VacationStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
- */
+* Servicio de aplicación para registrar nuevas solicitudes de vacaciones.
+* <p>
+* Implementa el caso de uso definido en {@link VacationRegisterInputPort} y
+* utiliza los puertos de salida {@link VacationRepositoryOutputPort} y {@link EmployeeRepositoryOutputPort}
+* para acceder a los datos necesarios.
+* </p>
+* 
+* @author Inigo
+* @version 1.0
+*/
 @Service
 @Slf4j
 public class VacationRegisterService implements VacationRegisterInputPort {
@@ -27,7 +35,14 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 
 	@Autowired
 	EmployeeRepositoryOutputPort employeeRepositoryOutput;
-
+	
+	/**
+	 * Registra una nueva solicitud de vacaciones tras validar reglas de negocio.
+	 * 
+	 * @param command objeto {@link VacationRegisterCommand} con los datos de la solicitud
+	 * @return ID generado para la solicitud registrada
+	 * @throws VacationDomainException si los datos no cumplen una regla de negocio
+	 */
 	@Override
 	public String vacationRegister(VacationRegisterCommand command) {
 		log.info("-> Inicio registro de vacaciones <-");

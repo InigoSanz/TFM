@@ -11,7 +11,15 @@ import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
 /**
+ * Servicio de aplicación para gestionar el cambio de estado de solicitudes de vacaciones.
+ * <p>
+ * Implementa el caso de uso definido en {@link VacationStatusInputPort} y utiliza
+ * el puerto de salida {@link VacationRepositoryOutputPort} para acceder y modificar
+ * los datos persistidos de vacaciones.
+ * </p>
  * 
+ * @author Inigo
+ * @version 1.0
  */
 @Service
 public class VacationStatusService implements VacationStatusInputPort {
@@ -19,6 +27,13 @@ public class VacationStatusService implements VacationStatusInputPort {
 	@Autowired
 	VacationRepositoryOutputPort vacationRepositoryOutput;
 	
+	/**
+	 * Cambia el estado de una solicitud de vacaciones,
+	 * validando el rol del usuario que realiza la acción.
+	 * 
+	 * @param command objeto {@link VacationStatusChangeCommand} que contiene los datos para la decisión
+	 * @throws VacationDomainException lanza la excepción si incumple una regla
+	 */
 	@Override
 	public void statusChange(VacationStatusChangeCommand command) {
 

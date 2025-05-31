@@ -7,7 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Command para registrar una nueva solicitud de vacaciones.
+ * <p>
+ * Contiene los datos necesarios para realizar la operación de alta de vacaciones
+ * desde la capa de aplicación.
+ * </p>
  * 
+ * @author Inigo
+ * @version 1.0
  */
 @Data
 @NoArgsConstructor
