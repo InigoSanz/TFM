@@ -28,7 +28,19 @@ import com.iem.tfm.infrastructure.database.mapper.VacationDtoMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * Controlador REST para operaciones relacionadas con vacaciones.
+ * <p>
+ * Expone endpoints para registrar nuevas solicitudes de vacaciones,
+ * consultar vacaciones existentes (todas, por ID o por empleado),
+ * y cambiar su estado (aprobación o rechazo).
+ * </p>
+ *
+ * <p>
+ * Realiza las conversiones entre DTOs y comandos usando {@link VacationDtoMapper}.
+ * </p>
+ *
+ * @author Inigo
+ * @version 1.0
  */
 @RestController
 @RequestMapping("/vacations")
@@ -49,9 +61,10 @@ public class VacationController {
 	VacationStatusInputPort vacationStatusInputPort; 
 	
 	/**
-	 * 
-	 * @param vacationDto
-	 * @return
+	 * Registra una nueva solicitud de vacaciones.
+	 *
+	 * @param vacationDto DTO con los datos de la solicitud
+	 * @return respuesta con código 201 Created y URI del nuevo recurso
 	 */
 	@PostMapping
 	public ResponseEntity<Void> vacationRegister(@RequestBody VacationRequestDto vacationDto) {
@@ -67,14 +80,15 @@ public class VacationController {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Recupera todas las solicitudes de vacaciones registradas.
+	 *
+	 * @return lista de {@link VacationResponseDto}
 	 */
 	@GetMapping
 	public ResponseEntity<List<VacationResponseDto>> getAllVacations() {
 		log.debug("-> Petición para obtener todas las vacaciones recibida <-");
 		
-		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(vacationGetInputPort.getAllVacation());;
+		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(vacationGetInputPort.getAllVacation());
 	
 		log.debug("-> Vacaciones obtenidas exitosamente <-");
 		
@@ -82,9 +96,10 @@ public class VacationController {
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Recupera una solicitud de vacaciones por su ID.
+	 *
+	 * @param id identificador de la solicitud
+	 * @return objeto {@link VacationResponseDto}
 	 */
 	@GetMapping("/{vacation-id}")
 	public ResponseEntity<VacationResponseDto> getVacation(@PathVariable("vacation-id") String id) {
@@ -98,9 +113,10 @@ public class VacationController {
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Recupera todas las vacaciones asociadas a un empleado.
+	 *
+	 * @param id ID del empleado
+	 * @return lista de {@link VacationResponseDto}
 	 */
 	@GetMapping("/employee/{employee-id}")
 	public ResponseEntity<List<VacationResponseDto>> getVacationsOfEmployee(@PathVariable("employee-id") String id) {
@@ -114,15 +130,12 @@ public class VacationController {
 	}
 	
 	/**
-	 * Crea la URI para el nuevo recurso creado.
+	 * Cambia el estado de una solicitud de vacaciones.
 	 *
-	 * @param id identificador del recurso
-	 * @return URI del nuevo recurso
+	 * @param id  ID de la solicitud de vacaciones
+	 * @param dto DTO con los datos del cambio de estado
+	 * @return respuesta con estado 200 OK
 	 */
-	public static URI crearUri(String id) {
-		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
-	}
-	
 	@PatchMapping("/{vacation-id}/status")
 	public ResponseEntity<Void> vacationStatusChange(@PathVariable("vacation-id") String id, @RequestBody VacationStatusChangeRequestDto dto) {
 		log.debug("-> Petición para cambiar el estado de las vacaciones recibida <-");
@@ -134,5 +147,15 @@ public class VacationController {
 		log.debug("-> Estado de las vacaciones actualizado exitosamente <-");
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	/**
+	 * Crea la URI para el nuevo recurso creado.
+	 *
+	 * @param id identificador del recurso
+	 * @return URI del nuevo recurso
+	 */
+	public static URI crearUri(String id) {
+		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
 }

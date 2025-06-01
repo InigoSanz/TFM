@@ -10,19 +10,38 @@ import org.springframework.stereotype.Repository;
 import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 
 /**
+ * Repositorio MongoDB para la colección de vacaciones.
+ * <p>
+ * Extiende {@link MongoRepository} para proporcionar operaciones CRUD y consultas personalizadas
+ * sobre documentos de tipo {@link VacationEntity}.
+ * </p>
  * 
+ * <p><b>Nota:</b> A partir de una necesidad detectada en la capa de aplicación,
+ * se ha incluido una consulta personalizada para detectar solapamientos de fechas,
+ * usando el método {@code findByEmployeeIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual}.</p>
+ * 
+ * @author Inigo
+ * @version 1.0
  */
 @Repository
 @EnableMongoRepositories
 public interface VacationRepository extends MongoRepository<VacationEntity, String> {
-
-	// Aquí creo que en un futuro habrá que comprobar también el solapamiento de
-	// fechas en la BBDD al igual que lo hemos hecho en la capa de aplicación
 	
-	// Actualización: En el adaptador de las vacaciones nos damos cuenta de que hay que validar
-	// el solapamiento de las vacaciones, por lo que hay que implementar la query
-	// Se utiliza la IA para esta consulta...
+	/**
+	 * Busca todas las vacaciones de un empleado que se solapen con un rango de fechas dado.
+	 * 
+	 * @param employeeId ID del empleado
+	 * @param endDate fecha de fin de la nueva solicitud
+	 * @param startDate fecha de inicio de la nueva solicitud
+	 * @return lista de vacaciones solapadas
+	 */
 	List<VacationEntity> findByEmployeeIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(String employeeId, Date endDate, Date startDate);
-
+	
+	/**
+	 * Recupera todas las vacaciones asociadas a un empleado específico.
+	 * 
+	 * @param employeeId ID del empleado
+	 * @return lista de solicitudes de vacaciones
+	 */
 	List<VacationEntity> findByEmployeeId(String employeeId);
 }

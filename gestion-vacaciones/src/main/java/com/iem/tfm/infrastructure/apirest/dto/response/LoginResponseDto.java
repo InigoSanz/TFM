@@ -9,7 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
+ * DTO que representa la respuesta enviada al cliente tras un login exitoso.
+ * <p>
+ * Contiene la información esencial del usuario autenticado, que puede ser
+ * utilizada por el frontend para gestionar el estado de sesión y las vistas
+ * según el rol del usuario.
+ * </p>
  * 
+ * @author Inigo
+ * @version 1.0
  */
 @Data
 @Builder

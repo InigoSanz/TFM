@@ -10,23 +10,32 @@ import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 
 /**
+ * Mapper para convertir entre {@link Vacation} (modelo de dominio)
+ * y {@link VacationEntity} (entidad de base de datos).
+ * <p>
+ * Utiliza MapStruct para mapear automáticamente del dominio a entidad.
+ * Los métodos de entidad a dominio se implementan manualmente como {@code default}.
+ * </p>
  * 
+ * @author Inigo
+ * @version 1.0
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface VacationEntityMapper {
 
 	/**
+	 * Convierte un objeto Vacation del dominio en su representación como VacationEntity.
 	 * 
-	 * @param vacation
-	 * @return
+	 * @param vacation objeto del dominio a convertir
+	 * @return entidad de base de datos equivalente
 	 */
 	public VacationEntity toEntity(Vacation vacation);
 
 	/**
+	 * Convierte una entidad VacationEntity a un objeto del modelo de dominio Vacation.
 	 * 
-	 * @param entity
-	 * @param departments
-	 * @return
+	 * @param entity entidad persistida
+	 * @return objeto del dominio correspondiente
 	 */
 	public default Vacation toDomain(VacationEntity entity) {
 		return new Vacation(entity.getId(), entity.getStartDate(), entity.getEndDate(), entity.getEmployeeId(),
@@ -34,10 +43,10 @@ public interface VacationEntityMapper {
 	}
 
 	/**
+	 * Convierte una lista de entidades VacationEntity a una lista de objetos del dominio Vacation.
 	 * 
-	 * @param entities
-	 * @param departments
-	 * @return
+	 * @param entities lista de entidades
+	 * @return lista de objetos del dominio
 	 */
 	public default List<Vacation> toDomainList(List<VacationEntity> entities) {
 		List<Vacation> vacations = new ArrayList<>();

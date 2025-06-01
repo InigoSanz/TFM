@@ -8,6 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
+/**
+ * DTO de respuesta que representa a un usuario del sistema.
+ * <p>
+ * Esta clase se utiliza para enviar datos de usuario al cliente
+ * en respuestas de la API REST. Contiene información básica del usuario,
+ * incluyendo su rol, estado de activación y vínculo con el empleado correspondiente.
+ * </p>
+ * 
+ * @author Inigo
+ * @version 1.0
+ */
 @Data
 @Builder
 @Jacksonized
