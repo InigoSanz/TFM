@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.LoginDoInputPort;
 import com.iem.tfm.domain.model.User;
+import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.infrastructure.apirest.dto.request.LoginRequestDto;
-import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
+import com.iem.tfm.infrastructure.apirest.dto.response.LoginResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.UserDtoMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ public class LoginController {
 
 	@Autowired
 	UserDtoMapper userDtoMapper;
+	
+	@Autowired
+	EmployeeGetInputPort employeeGetInputPort;
 
 	/**
 	 * Realiza la autenticación del usuario con las credenciales proporcionadas.
@@ -48,15 +53,20 @@ public class LoginController {
 	 *         válidas
 	 */
 	@PostMapping
-	public ResponseEntity<UserResponseDto> login(@RequestBody LoginRequestDto loginDto) {
-		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
+	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginDto) {
+	    log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
-		User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
+	    User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
 
-		UserResponseDto responseDto = userDtoMapper.toDto(user);
+	    EmployeeRoleEnum employeeRole = null;
+	    if (user.getEmployeeId() != null) {
+	        employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+	    }
 
-		log.debug("-> Login realizado con exito para el usuario: {} <-", responseDto.getUsername());
+	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole);
 
-		return ResponseEntity.ok(responseDto);
+	    log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
+
+	    return ResponseEntity.ok(responseDto);
 	}
 }

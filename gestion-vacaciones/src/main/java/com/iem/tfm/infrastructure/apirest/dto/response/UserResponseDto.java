@@ -1,5 +1,6 @@
 package com.iem.tfm.infrastructure.apirest.dto.response;
 
+import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.domain.util.UserRoleEnum;
 
 import lombok.AllArgsConstructor;
@@ -31,4 +32,5 @@ public class UserResponseDto {
 	private UserRoleEnum role;
 	private boolean userActive;
 	private String employeeId;
+	private EmployeeRoleEnum employeeRole;
 }

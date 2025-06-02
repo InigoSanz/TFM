@@ -1,5 +1,6 @@
 package com.iem.tfm.infrastructure.apirest.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.UserGetInputPort;
+import com.iem.tfm.domain.model.User;
+import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.UserDtoMapper;
 
@@ -40,6 +44,9 @@ public class UserController {
 	@Autowired
 	UserDtoMapper userDtoMapper;
 	
+	@Autowired
+	EmployeeGetInputPort employeeGetInputPort;
+	
 	/**
 	 * Obtiene la lista completa de usuarios registrados en el sistema.
 	 * 
@@ -48,12 +55,27 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<List<UserResponseDto>> getAllUsers() {
 		log.debug("-> Petición para obtener todos los usuarios recibida <-");
-	
-		List<UserResponseDto> responseDtoList = userDtoMapper.toDtoList(userGetInputPort.getAllusers());
-		
-		log.debug("-> Usuarios obtenidos exitosamente <-");
-	
-		return ResponseEntity.ok(responseDtoList);
+
+        List<User> users = userGetInputPort.getAllusers();
+        List<UserResponseDto> responseDtoList = new ArrayList<>();
+
+        for (User user : users) {
+            EmployeeRoleEnum employeeRole = null;
+
+            if (user.getEmployeeId() != null) {
+                try {
+                    employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+                } catch (Exception e) {
+                    log.warn("-> Empleado no encontrado para userId: {} <-", user.getId());
+                }
+            }
+
+            responseDtoList.add(userDtoMapper.toLoginDto(user, employeeRole));
+        }
+
+        log.debug("-> Usuarios obtenidos exitosamente <-");
+
+        return ResponseEntity.ok(responseDtoList);
 	}
 	
 	/**
@@ -65,11 +87,22 @@ public class UserController {
 	@GetMapping("/{user-id}")
 	public ResponseEntity<UserResponseDto> getUser(@PathVariable("user-id") String id) {
 		log.debug("-> Petición para obtener un usuario por ID recibida <-");
-		
-		UserResponseDto userDto = userDtoMapper.toDto(userGetInputPort.getUserById(id));
-		
-		log.debug("-> Usuario obtenido exitosamente <-");
-		
-		return ResponseEntity.ok(userDto);
+
+        User user = userGetInputPort.getUserById(id);
+        EmployeeRoleEnum employeeRole = null;
+
+        if (user.getEmployeeId() != null) {
+            try {
+                employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+            } catch (Exception e) {
+                log.warn("-> Empleado no encontrado para userId: {} <-", id);
+            }
+        }
+
+        UserResponseDto userDto = userDtoMapper.toLoginDto(user, employeeRole);
+
+        log.debug("-> Usuario obtenido exitosamente <-");
+
+        return ResponseEntity.ok(userDto);
 	}
 }

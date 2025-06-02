@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import com.iem.tfm.domain.model.User;
+import com.iem.tfm.domain.util.EmployeeRoleEnum;
+import com.iem.tfm.infrastructure.apirest.dto.response.LoginResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 
 /**
@@ -36,4 +38,28 @@ public interface UserDtoMapper {
 	 * @return lista de DTOs de respuesta
 	 */
 	public List<UserResponseDto> toDtoList(List<User> users);
+	
+	// Preguntar a Cliff como hacerlo de mejor manera
+	default UserResponseDto toLoginDto(User user, EmployeeRoleEnum employeeRole) {
+	    return UserResponseDto.builder()
+	        .id(user.getId())
+	        .username(user.getUsername())
+	        .role(user.getRole())
+	        .userActive(user.isUserActive())
+	        .employeeId(user.getEmployeeId())
+	        .employeeRole(employeeRole)
+	        .build();
+	}
+	
+	// Preguntar a Cliff como hacerlo de mejor manera
+	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole) {
+        return LoginResponseDto.builder()
+            .userId(user.getId())
+            .username(user.getUsername())
+            .role(user.getRole())
+            .userActive(user.isUserActive())
+            .employeeId(user.getEmployeeId())
+            .employeeRole(employeeRole)
+            .build();
+    }
 }
