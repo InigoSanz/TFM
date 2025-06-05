@@ -149,6 +149,19 @@ public class VacationController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@GetMapping("/department/{department-id}")
+	public ResponseEntity<List<VacationResponseDto>> getVacationsOfDepartment(@PathVariable("department-id") String id) {
+		log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
+
+		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(
+			vacationGetInputPort.getDepartmentVacation(id)
+		);
+
+		log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
+
+		return ResponseEntity.ok(responseDtoList);
+	}
+	
 	/**
 	 * Crea la URI para el nuevo recurso creado.
 	 *
