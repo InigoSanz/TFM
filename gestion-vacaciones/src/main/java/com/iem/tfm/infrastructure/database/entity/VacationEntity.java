@@ -1,6 +1,7 @@
 package com.iem.tfm.infrastructure.database.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,4 +39,5 @@ public class VacationEntity {
 	private Date endDate;
 	private String employeeId;
 	private VacationStatusEnum status;
+	private List<String> departmentIds;
 }

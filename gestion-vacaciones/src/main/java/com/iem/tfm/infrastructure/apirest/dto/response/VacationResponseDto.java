@@ -1,6 +1,7 @@
 package com.iem.tfm.infrastructure.apirest.dto.response;
 
 import java.util.Date;
+import java.util.List;
 
 import com.iem.tfm.domain.util.VacationStatusEnum;
 
@@ -38,4 +39,5 @@ public class VacationResponseDto {
 	private Date endDate;
 	private String employeeId;
 	private VacationStatusEnum status;
+	private List<String> departmentIds;
 }	

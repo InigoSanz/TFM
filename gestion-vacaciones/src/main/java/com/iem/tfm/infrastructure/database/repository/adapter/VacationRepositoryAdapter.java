@@ -109,7 +109,7 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 	@Override
 	public List<Vacation> findVacationByDepartmentId(String id) {
-		List<VacationEntity> entities = vacationRepository.findByDepartmentId(id);
+		List<VacationEntity> entities = vacationRepository.findByDepartmentIdsContaining(id);
 		return vacationEntityMapper.toDomainList(entities);
 	}
 }

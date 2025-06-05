@@ -50,5 +50,5 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @param id
 	 * @return
 	 */
-	List<VacationEntity> findByDepartmentId(String id);
+	List<VacationEntity> findByDepartmentIdsContaining(String departmentId);
 }

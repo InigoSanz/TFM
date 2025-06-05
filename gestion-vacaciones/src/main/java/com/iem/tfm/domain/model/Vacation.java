@@ -1,6 +1,7 @@
 package com.iem.tfm.domain.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.util.VacationStatusEnum;
@@ -24,8 +25,9 @@ public class Vacation {
 	private Date endDate;
 	private String employeeId;
 	private VacationStatusEnum status;
+	private List<String> departmentIds;
 	
-	public Vacation(String id, Date startDate, Date endDate, String employeeId, VacationStatusEnum status) {
+	public Vacation(String id, Date startDate, Date endDate, String employeeId, VacationStatusEnum status, List<String> departmentIds) {
 		
 		if (employeeId == null) {
 			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
@@ -43,11 +45,16 @@ public class Vacation {
 			throw new VacationDomainException("Las vacaciones deben contener un estado.");
 		}
 		
+		if (departmentIds == null || departmentIds.isEmpty()) {
+		    throw new VacationDomainException("Las vacaciones deben contener al menos un departamento.");
+		}
+		
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.employeeId = employeeId;
 		this.status = status;
+		this.departmentIds = departmentIds;
 	}
 	
 	public void approveBySupervisor() {

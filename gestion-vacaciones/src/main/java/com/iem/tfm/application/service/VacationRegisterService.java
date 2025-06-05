@@ -10,6 +10,7 @@ import com.iem.tfm.application.port.input.VacationRegisterInputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
 import com.iem.tfm.domain.exception.VacationDomainException;
+import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.domain.util.VacationStatusEnum;
 
@@ -62,8 +63,16 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 		if (!vacationOverlap.isEmpty()) {
 			throw new VacationDomainException("El empleado ya ha tiene vacaciones en esas fechas.");
 		}
+		
+		Employee employee = employeeRepositoryOutput.findEmployeeById(command.getEmployeeId());
+		
+		List<String> departmentIds = employee.getDepartmentIds();
 
-		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(), VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO);
+		if (departmentIds == null || departmentIds.isEmpty()) {
+			throw new VacationDomainException("El empleado no pertenece a ningún departamento.");
+		}
+
+		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(), VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO, departmentIds);
 
 		return vacationRepositoryOutput.save(vacation);
 	}

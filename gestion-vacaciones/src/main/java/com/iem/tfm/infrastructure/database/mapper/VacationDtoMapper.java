@@ -44,7 +44,7 @@ public interface VacationDtoMapper {
 	 */
 	public default VacationResponseDto fromDomaintoDto(Vacation vacation) {
 		return new VacationResponseDto(vacation.getId(), vacation.getStartDate(), vacation.getEndDate(),
-				vacation.getEmployeeId(), vacation.getStatus());
+				vacation.getEmployeeId(), vacation.getStatus(), vacation.getDepartmentIds());
 	}
 	
 	/**
