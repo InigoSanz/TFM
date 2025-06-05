@@ -38,4 +38,6 @@ public interface VacationGetInputPort {
 	 * @return lista de vacaciones de un empleado
 	 */
 	public List<Vacation> getEmployeeVacation(String id);
+
+	public List<Vacation> getDepartmentVacation(String id);
 }

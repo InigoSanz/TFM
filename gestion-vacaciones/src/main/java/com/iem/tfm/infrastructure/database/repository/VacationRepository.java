@@ -44,4 +44,11 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @return lista de solicitudes de vacaciones
 	 */
 	List<VacationEntity> findByEmployeeId(String employeeId);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	List<VacationEntity> findByDepartmentId(String id);
 }

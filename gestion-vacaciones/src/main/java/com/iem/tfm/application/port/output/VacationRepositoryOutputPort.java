@@ -57,4 +57,11 @@ public interface VacationRepositoryOutputPort {
 	 * @return lista de vacaciones de un empleado
 	 */
 	public List<Vacation> findVacationByEmployeeId(String id);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Vacation> findVacationByDepartmentId(String id);
 }

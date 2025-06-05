@@ -62,6 +62,17 @@ public class VacationGetService implements VacationGetInputPort {
 	@Override
 	public List<Vacation> getEmployeeVacation(String id) {
 		log.info("-> Obteniendo las vacaciones de un empleado <-");
+		
 		return vacationRepositoryOutput.findVacationByEmployeeId(id);
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public List<Vacation> getDepartmentVacation(String id) {
+		log.info("-> Obteniendo las vacaciones de un departamento <-");
+		
+		return vacationRepositoryOutput.findVacationByDepartmentId(id);
 	}
 }
