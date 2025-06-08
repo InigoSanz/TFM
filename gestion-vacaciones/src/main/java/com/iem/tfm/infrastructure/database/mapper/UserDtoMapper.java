@@ -11,10 +11,12 @@ import com.iem.tfm.infrastructure.apirest.dto.response.LoginResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 
 /**
- * Mapeador para convertir entre objetos del dominio {@link User} y DTOs de respuesta {@link UserResponseDto}.
+ * Mapeador para convertir entre objetos del dominio {@link User} y DTOs de
+ * respuesta {@link UserResponseDto}.
  * <p>
- * Esta interfaz utiliza MapStruct para automatizar la conversión de objetos entre las capas de dominio e infraestructura,
- * facilitando el paso de datos al cliente sin exponer directamente la lógica interna del dominio.
+ * Esta interfaz utiliza MapStruct para automatizar la conversión de objetos
+ * entre las capas de dominio e infraestructura, facilitando el paso de datos al
+ * cliente sin exponer directamente la lógica interna del dominio.
  * </p>
  * 
  * @author Inigo
@@ -22,7 +24,7 @@ import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDtoMapper {
-	
+
 	/**
 	 * Convierte un objeto del dominio User en un DTO de respuesta UserResponseDto.
 	 * 
@@ -30,38 +32,27 @@ public interface UserDtoMapper {
 	 * @return DTO equivalente para respuesta en la API
 	 */
 	public UserResponseDto toDto(User user);
-	
+
 	/**
-	 * Convierte una lista de objetos del dominio User en una lista de DTOs de respuesta UserResponseDto.
+	 * Convierte una lista de objetos del dominio User en una lista de DTOs de
+	 * respuesta UserResponseDto.
 	 * 
 	 * @param users lista de objetos de dominio
 	 * @return lista de DTOs de respuesta
 	 */
 	public List<UserResponseDto> toDtoList(List<User> users);
-	
+
 	// Preguntar a Cliff como hacerlo de mejor manera
 	default UserResponseDto toLoginDto(User user, EmployeeRoleEnum employeeRole) {
-	    return UserResponseDto.builder()
-	        .id(user.getId())
-	        .username(user.getUsername())
-	        .role(user.getRole())
-	        .userActive(user.isUserActive())
-	        .employeeId(user.getEmployeeId())
-	        .employeeRole(employeeRole)
-	        .build();
+		return UserResponseDto.builder().id(user.getId()).username(user.getUsername()).role(user.getRole())
+				.userActive(user.isUserActive()).employeeId(user.getEmployeeId()).employeeRole(employeeRole).build();
 	}
-	
+
 	// Preguntar a Cliff como hacerlo de mejor manera
-	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole, List<String> departmentNames, List<String> departmentIds) {
-        return LoginResponseDto.builder()
-            .userId(user.getId())
-            .username(user.getUsername())
-            .role(user.getRole())
-            .userActive(user.isUserActive())
-            .employeeId(user.getEmployeeId())
-            .employeeRole(employeeRole)
-            .departmentName(departmentNames)
-            .departmentIds(departmentIds)
-            .build();
-    }
+	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole, List<String> departmentIds,
+			List<String> departmentNames) {
+		return LoginResponseDto.builder().userId(user.getId()).username(user.getUsername()).role(user.getRole())
+				.userActive(user.isUserActive()).employeeId(user.getEmployeeId()).employeeRole(employeeRole)
+				.departmentIds(departmentIds).departmentNames(departmentNames).build();
+	}
 }

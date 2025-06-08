@@ -35,6 +35,6 @@ public class LoginResponseDto {
 	private boolean userActive;
 	private String employeeId;
 	private EmployeeRoleEnum employeeRole;
-	private List<String> departmentName;
+	private List<String> departmentNames;
 	private List<String> departmentIds;
 }

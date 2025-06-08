@@ -1,5 +1,6 @@
 package com.iem.tfm.infrastructure.apirest.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,8 @@ public class LoginController {
 	    User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
 
 	    EmployeeRoleEnum employeeRole = null;
-	    List<String> departmentIds = List.of();
-	    List<String> departmentNames = List.of();
+	    List<String> departmentIds = new ArrayList<>();
+	    List<String> departmentNames = new ArrayList<>();
 
 	    if (user.getEmployeeId() != null) {
 	        Employee employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
