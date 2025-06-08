@@ -1,6 +1,7 @@
 package com.iem.tfm.infrastructure.apirest.controller;
 
-import org.slf4j.Logger;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iem.tfm.application.port.input.DepartmentGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.LoginDoInputPort;
 import com.iem.tfm.domain.model.User;
@@ -45,6 +47,9 @@ public class LoginController {
 	
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
+	
+	@Autowired
+	DepartmentGetInputPort departmentGetInputPort;
 
 	/**
 	 * Realiza la autenticación del usuario con las credenciales proporcionadas.
@@ -65,11 +70,13 @@ public class LoginController {
 	    if (user.getEmployeeId() != null) {
 	        var employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
 	        employeeRole = employee.getRole();
-	        if (employee.getDepartmentIds() != null) {
-	            departmentName = ((Logger) employee.getDepartmentIds()).getName();
+
+	        List<String> departmentIds = employee.getDepartmentIds();
+	        if (departmentIds != null && !departmentIds.isEmpty()) {
+	            String firstDepartmentId = departmentIds.get(0);
+	            departmentName = departmentGetInputPort.getDepartment(firstDepartmentId).getName();
 	        }
 	    }
-
 	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole, departmentName);
 
 	    log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
