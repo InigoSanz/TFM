@@ -1,5 +1,7 @@
 package com.iem.tfm.infrastructure.apirest.dto.response;
 
+import java.util.List;
+
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.domain.util.UserRoleEnum;
 
@@ -33,6 +35,6 @@ public class LoginResponseDto {
 	private boolean userActive;
 	private String employeeId;
 	private EmployeeRoleEnum employeeRole;
-	private String departmentName;
-	
+	private List<String> departmentName;
+	private List<String> departmentIds;
 }

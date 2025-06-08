@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iem.tfm.application.port.input.DepartmentGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.LoginDoInputPort;
+import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.User;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.infrastructure.apirest.dto.request.LoginRequestDto;
@@ -60,27 +61,34 @@ public class LoginController {
 	 */
 	@PostMapping
 	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginDto) {
-		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
+	    log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
 	    User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
 
 	    EmployeeRoleEnum employeeRole = null;
-	    String departmentName = null;
+	    List<String> departmentIds = List.of();
+	    List<String> departmentNames = List.of();
 
 	    if (user.getEmployeeId() != null) {
-	        var employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
+	        Employee employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
 	        employeeRole = employee.getRole();
 
-	        List<String> departmentIds = employee.getDepartmentIds();
+	        departmentIds = employee.getDepartmentIds();
+
 	        if (departmentIds != null && !departmentIds.isEmpty()) {
-	            String firstDepartmentId = departmentIds.get(0);
-	            departmentName = departmentGetInputPort.getDepartment(firstDepartmentId).getName();
+	            departmentNames = departmentIds.stream()
+	                .map(id -> departmentGetInputPort.getDepartment(id).getName())
+	                .toList();
 	        }
 	    }
-	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole, departmentName);
+
+	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(
+	        user, employeeRole, departmentIds, departmentNames
+	    );
 
 	    log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
 
 	    return ResponseEntity.ok(responseDto);
 	}
+
 }
