@@ -42,10 +42,12 @@ public interface VacationDtoMapper {
 	 * @param vacation objeto del modelo de dominio
 	 * @return objeto DTO listo para ser enviado como respuesta al cliente
 	 */
-	public default VacationResponseDto fromDomaintoDto(Vacation vacation) {
+	public default VacationResponseDto fromDomaintoDto(Vacation vacation, String employeeName) {
 		return new VacationResponseDto(vacation.getId(), vacation.getStartDate(), vacation.getEndDate(),
-				vacation.getEmployeeId(), vacation.getStatus(), vacation.getDepartmentIds());
+				vacation.getEmployeeId(), vacation.getStatus(), vacation.getDepartmentIds(), employeeName);
 	}
+	
+	
 	
 	/**
 	 * Convierte una lista de objetos del dominio Vacation en una lista de DTOs de respuesta.

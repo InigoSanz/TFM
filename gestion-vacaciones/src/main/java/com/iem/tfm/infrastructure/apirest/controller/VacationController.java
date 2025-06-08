@@ -1,6 +1,7 @@
 package com.iem.tfm.infrastructure.apirest.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.iem.tfm.application.command.VacationRegisterCommand;
 import com.iem.tfm.application.command.VacationStatusChangeCommand;
+import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.VacationGetInputPort;
 import com.iem.tfm.application.port.input.VacationRegisterInputPort;
 import com.iem.tfm.application.port.input.VacationStatusInputPort;
+import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationStatusChangeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.VacationResponseDto;
@@ -59,6 +62,9 @@ public class VacationController {
 	
 	@Autowired
 	VacationStatusInputPort vacationStatusInputPort; 
+	
+	@Autowired
+	EmployeeGetInputPort employeeGetInputPort;
 	
 	/**
 	 * Registra una nueva solicitud de vacaciones.
@@ -103,13 +109,17 @@ public class VacationController {
 	 */
 	@GetMapping("/{vacation-id}")
 	public ResponseEntity<VacationResponseDto> getVacation(@PathVariable("vacation-id") String id) {
-		log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
-	
-		VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacationGetInputPort.getVacation(id));
-	
-		log.debug("-> Vacaciones obtenidas exitosamente <-");
-		
-		return ResponseEntity.ok(vacationDto);
+	    log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
+
+	    Vacation vacation = vacationGetInputPort.getVacation(id);
+
+	    String employeeName = employeeGetInputPort.getEmployee(vacation.getEmployeeId()).getName();
+
+	    VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName);
+
+	    log.debug("-> Vacaciones obtenidas exitosamente <-");
+
+	    return ResponseEntity.ok(vacationDto);
 	}
 	
 	/**
@@ -151,15 +161,20 @@ public class VacationController {
 	
 	@GetMapping("/department/{department-id}")
 	public ResponseEntity<List<VacationResponseDto>> getVacationsOfDepartment(@PathVariable("department-id") String id) {
-		log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
+	    log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
 
-		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(
-			vacationGetInputPort.getDepartmentVacation(id)
-		);
+	    List<Vacation> vacations = vacationGetInputPort.getDepartmentVacation(id);
+	    List<VacationResponseDto> responseDtoList = new ArrayList<>();
 
-		log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
+	    for (Vacation vac : vacations) {
+	        String employeeName = employeeGetInputPort.getEmployee(vac.getEmployeeId()).getName();
+	        VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vac, employeeName);
+	        responseDtoList.add(dto);
+	    }
 
-		return ResponseEntity.ok(responseDtoList);
+	    log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
+
+	    return ResponseEntity.ok(responseDtoList);
 	}
 	
 	/**
