@@ -52,7 +52,7 @@ public interface UserDtoMapper {
 	}
 	
 	// Preguntar a Cliff como hacerlo de mejor manera
-	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole) {
+	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole, String departmentName) {
         return LoginResponseDto.builder()
             .userId(user.getId())
             .username(user.getUsername())
@@ -60,6 +60,7 @@ public interface UserDtoMapper {
             .userActive(user.isUserActive())
             .employeeId(user.getEmployeeId())
             .employeeRole(employeeRole)
+            .departmentName(departmentName)
             .build();
     }
 }

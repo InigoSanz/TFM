@@ -33,4 +33,6 @@ public class LoginResponseDto {
 	private boolean userActive;
 	private String employeeId;
 	private EmployeeRoleEnum employeeRole;
+	private String departmentName;
+	
 }

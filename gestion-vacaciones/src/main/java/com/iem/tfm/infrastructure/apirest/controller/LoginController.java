@@ -1,5 +1,6 @@
 package com.iem.tfm.infrastructure.apirest.controller;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -54,16 +55,22 @@ public class LoginController {
 	 */
 	@PostMapping
 	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginDto) {
-	    log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
+		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
 	    User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
 
 	    EmployeeRoleEnum employeeRole = null;
+	    String departmentName = null;
+
 	    if (user.getEmployeeId() != null) {
-	        employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+	        var employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
+	        employeeRole = employee.getRole();
+	        if (employee.getDepartmentIds() != null) {
+	            departmentName = ((Logger) employee.getDepartmentIds()).getName();
+	        }
 	    }
 
-	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole);
+	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole, departmentName);
 
 	    log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
 
