@@ -1,4 +1,4 @@
-package com.iem.tfm.infrastructure.database.repository.adapter;
+package com.iem.tfm.infrastructure.database.adapter;
 
 import java.util.List;
 import java.util.Optional;

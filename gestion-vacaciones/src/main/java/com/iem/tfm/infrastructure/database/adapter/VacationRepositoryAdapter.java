@@ -1,4 +1,4 @@
-package com.iem.tfm.infrastructure.database.repository.adapter;
+package com.iem.tfm.infrastructure.database.adapter;
 
 import java.util.Date;
 import java.util.List;
