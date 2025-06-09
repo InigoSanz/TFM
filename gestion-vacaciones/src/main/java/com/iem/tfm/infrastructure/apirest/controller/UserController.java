@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.UserGetInputPort;
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
 import com.iem.tfm.domain.model.User;
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.UserDtoMapper;
 

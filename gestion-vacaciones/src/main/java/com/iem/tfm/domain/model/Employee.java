@@ -6,7 +6,6 @@ import java.util.List;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.util.DniRules;
 import com.iem.tfm.domain.util.EmailRules;
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
 import lombok.Builder;
 import lombok.Getter;

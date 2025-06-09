@@ -3,7 +3,7 @@ package com.iem.tfm.infrastructure.apirest.dto.response;
 import java.util.Date;
 import java.util.List;
 
-import com.iem.tfm.domain.util.VacationStatusEnum;
+import com.iem.tfm.domain.model.VacationStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

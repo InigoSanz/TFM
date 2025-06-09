@@ -1,4 +1,4 @@
-package com.iem.tfm.domain.util;
+package com.iem.tfm.domain.model;
 
 /**
  * Enum que representa los roles posibles de un {@link com.iem.tfm.domain.model.Employee} dentro de la empresa.

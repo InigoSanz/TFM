@@ -1,7 +1,7 @@
 package com.iem.tfm.infrastructure.apirest.dto.response;
 
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
-import com.iem.tfm.domain.util.UserRoleEnum;
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
+import com.iem.tfm.domain.model.UserRoleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
 import com.iem.tfm.domain.model.User;
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
 import com.iem.tfm.infrastructure.apirest.dto.response.LoginResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.UserResponseDto;
 

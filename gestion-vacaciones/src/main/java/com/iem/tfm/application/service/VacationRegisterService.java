@@ -12,7 +12,7 @@ import com.iem.tfm.domain.command.VacationRegisterCommand;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.Vacation;
-import com.iem.tfm.domain.util.VacationStatusEnum;
+import com.iem.tfm.domain.model.VacationStatusEnum;
 
 import lombok.extern.slf4j.Slf4j;
 

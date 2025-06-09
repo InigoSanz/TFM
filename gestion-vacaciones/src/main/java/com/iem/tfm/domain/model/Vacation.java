@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.iem.tfm.domain.exception.VacationDomainException;
-import com.iem.tfm.domain.util.VacationStatusEnum;
 
 import lombok.Builder;
 import lombok.Getter;

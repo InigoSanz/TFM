@@ -12,10 +12,10 @@ import com.iem.tfm.application.port.output.UserRepositoryOutputPort;
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Employee;
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
 import com.iem.tfm.domain.model.User;
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
+import com.iem.tfm.domain.model.UserRoleEnum;
 import com.iem.tfm.domain.util.PasswordGenerator;
-import com.iem.tfm.domain.util.UserRoleEnum;
 
 import lombok.extern.slf4j.Slf4j;
 

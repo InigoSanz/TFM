@@ -2,7 +2,6 @@ package com.iem.tfm.domain.model;
 
 import com.iem.tfm.domain.exception.UserDomainException;
 import com.iem.tfm.domain.util.PasswordRules;
-import com.iem.tfm.domain.util.UserRoleEnum;
 
 import lombok.Builder;
 import lombok.Getter;

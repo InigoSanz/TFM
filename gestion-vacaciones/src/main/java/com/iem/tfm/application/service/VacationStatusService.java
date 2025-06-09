@@ -7,8 +7,8 @@ import com.iem.tfm.application.port.input.VacationStatusInputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
 import com.iem.tfm.domain.command.VacationStatusChangeCommand;
 import com.iem.tfm.domain.exception.VacationDomainException;
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
 import com.iem.tfm.domain.model.Vacation;
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
 import lombok.extern.slf4j.Slf4j;
 

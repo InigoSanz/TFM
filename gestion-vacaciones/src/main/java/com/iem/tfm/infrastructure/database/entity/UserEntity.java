@@ -3,7 +3,7 @@ package com.iem.tfm.infrastructure.database.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.iem.tfm.domain.util.UserRoleEnum;
+import com.iem.tfm.domain.model.UserRoleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

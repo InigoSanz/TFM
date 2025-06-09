@@ -3,7 +3,7 @@ package com.iem.tfm.infrastructure.apirest.dto.response;
 import java.util.Date;
 import java.util.List;
 
-import com.iem.tfm.domain.util.EmployeeRoleEnum;
+import com.iem.tfm.domain.model.EmployeeRoleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

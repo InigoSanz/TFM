@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.iem.tfm.domain.util.VacationStatusEnum;
+import com.iem.tfm.domain.model.VacationStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

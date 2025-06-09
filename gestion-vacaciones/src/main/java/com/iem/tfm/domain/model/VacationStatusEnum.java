@@ -1,4 +1,4 @@
-package com.iem.tfm.domain.util;
+package com.iem.tfm.domain.model;
 
 /**
  * 
