@@ -5,15 +5,15 @@ import com.iem.tfm.domain.command.VacationRegisterCommand;
 /**
  * Puerto de entrada para el caso de uso de registro de vacaciones.
  * <p>
- * Define la operación que debe implementar el servicio de aplicación.
- * Recibe los datos encapsulados en {@link VacationRegisterCommand}.
+ * Define la operación que debe implementar el servicio de aplicación. Recibe
+ * los datos encapsulados en {@link VacationRegisterCommand}.
  * </p>
  * 
  * @author Inigo
  * @version 1.0
  */
 public interface VacationRegisterInputPort {
-	
+
 	/**
 	 * Registra una nueva solicitud de vacaciones a partir de los datos del comando.
 	 * 

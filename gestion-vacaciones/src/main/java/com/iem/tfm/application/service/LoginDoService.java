@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * Este servicio comprueba:
  * <ul>
- *   <li>Si el usuario existe.</li>
- *   <li>Si el usuario está activo.</li>
- *   <li>Si la contraseña proporcionada coincide.</li>
+ * <li>Si el usuario existe.</li>
+ * <li>Si el usuario está activo.</li>
+ * <li>Si la contraseña proporcionada coincide.</li>
  * </ul>
  * 
  * @author Inigo
@@ -31,38 +31,39 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class LoginDoService implements LoginDoInputPort {
-	
+
 	@Autowired
-    UserRepositoryOutputPort userRepositoryOutput;
-	
+	UserRepositoryOutputPort userRepositoryOutput;
+
 	/**
 	 * Valida las credenciales del usuario e inicia sesión si son correctas.
 	 * 
 	 * @param username nombre de usuario
 	 * @param password contraseña en texto plano
 	 * @return objeto User autenticado
-	 * @throws UserDomainException si el usuario no existe, no está activo o la contraseña es incorrecta
+	 * @throws UserDomainException si el usuario no existe, no está activo o la
+	 *                             contraseña es incorrecta
 	 */
 	@Override
 	public User login(String username, String password) {
 		log.debug("-> Autenticando al usuario: {} <-", username);
-		
+
 		User user = userRepositoryOutput.findByUsername(username);
-		
+
 		if (user == null) {
 			throw new UserDomainException("Usuario no encontrado con username: " + username);
 		}
-		
+
 		if (!user.isUserActive()) {
 			throw new UserDomainException("El usuario no esta activado.");
 		}
-		
+
 		if (!user.getPassword().equals(password)) {
-            throw new UserDomainException("Contraseña incorrecta.");
-        }
-		
+			throw new UserDomainException("Contraseña incorrecta.");
+		}
+
 		log.debug("-> Usuario autenticado correctamente: {} <-", username);
-		
+
 		return user;
 	}
 }

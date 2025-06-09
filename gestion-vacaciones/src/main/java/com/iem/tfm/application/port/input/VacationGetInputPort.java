@@ -7,22 +7,22 @@ import com.iem.tfm.domain.model.Vacation;
 /**
  * Puerto de entrada para el caso de uso de consulta de vacaciones.
  * <p>
- * Define las operaciones necesarias para recuperar información sobre las solicitudes de vacaciones,
- * tanto a nivel global como por empleado específico.
+ * Define las operaciones necesarias para recuperar información sobre las
+ * solicitudes de vacaciones, tanto a nivel global como por empleado específico.
  * </p>
  * 
  * @author Inigo
  * @version 1.0
  */
 public interface VacationGetInputPort {
-	
+
 	/**
 	 * Recupera todas las solicitudes de vacaciones registradas.
 	 * 
 	 * @return lista de las vacaciones
 	 */
 	public List<Vacation> getAllVacation();
-	
+
 	/**
 	 * Recupera una solicitud de vacaciones por su ID.
 	 * 
@@ -30,7 +30,7 @@ public interface VacationGetInputPort {
 	 * @return Vacaciones correspondiente al ID
 	 */
 	public Vacation getVacation(String id);
-	
+
 	/**
 	 * Recupera todas las solicitudes de vacaciones asociadas a un empleado.
 	 * 

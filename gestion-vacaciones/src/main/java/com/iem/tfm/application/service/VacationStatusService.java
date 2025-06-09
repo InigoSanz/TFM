@@ -13,11 +13,12 @@ import com.iem.tfm.domain.model.Vacation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Servicio de aplicación para gestionar el cambio de estado de solicitudes de vacaciones.
+ * Servicio de aplicación para gestionar el cambio de estado de solicitudes de
+ * vacaciones.
  * <p>
- * Implementa el caso de uso definido en {@link VacationStatusInputPort} y utiliza
- * el puerto de salida {@link VacationRepositoryOutputPort} para acceder y modificar
- * los datos persistidos de vacaciones.
+ * Implementa el caso de uso definido en {@link VacationStatusInputPort} y
+ * utiliza el puerto de salida {@link VacationRepositoryOutputPort} para acceder
+ * y modificar los datos persistidos de vacaciones.
  * </p>
  * 
  * @author Inigo
@@ -29,12 +30,13 @@ public class VacationStatusService implements VacationStatusInputPort {
 
 	@Autowired
 	VacationRepositoryOutputPort vacationRepositoryOutput;
-	
+
 	/**
-	 * Cambia el estado de una solicitud de vacaciones,
-	 * validando el rol del usuario que realiza la acción.
+	 * Cambia el estado de una solicitud de vacaciones, validando el rol del usuario
+	 * que realiza la acción.
 	 * 
-	 * @param command objeto {@link VacationStatusChangeCommand} que contiene los datos para la decisión
+	 * @param command objeto {@link VacationStatusChangeCommand} que contiene los
+	 *                datos para la decisión
 	 * @throws VacationDomainException lanza la excepción si incumple una regla
 	 */
 	@Override
@@ -57,11 +59,11 @@ public class VacationStatusService implements VacationStatusInputPort {
 			switch (employeeRole) {
 			case EmployeeRoleEnum.ENCARGADO -> {
 				vacation.approveBySupervisor();
-				
+
 			}
 			case EmployeeRoleEnum.RRHH -> {
 				vacation.approveByHhrr();
-				
+
 			}
 			default -> {
 				throw new VacationDomainException(
@@ -71,7 +73,7 @@ public class VacationStatusService implements VacationStatusInputPort {
 		} else {
 			vacation.solReject();
 		}
-		
+
 		log.debug("-> Estado de las vacaciones cambiado exitosamente <-");
 
 		vacationRepositoryOutput.save(vacation);

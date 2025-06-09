@@ -17,16 +17,16 @@ import com.iem.tfm.domain.model.VacationStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-* Servicio de aplicación para registrar nuevas solicitudes de vacaciones.
-* <p>
-* Implementa el caso de uso definido en {@link VacationRegisterInputPort} y
-* utiliza los puertos de salida {@link VacationRepositoryOutputPort} y {@link EmployeeRepositoryOutputPort}
-* para acceder a los datos necesarios.
-* </p>
-* 
-* @author Inigo
-* @version 1.0
-*/
+ * Servicio de aplicación para registrar nuevas solicitudes de vacaciones.
+ * <p>
+ * Implementa el caso de uso definido en {@link VacationRegisterInputPort} y
+ * utiliza los puertos de salida {@link VacationRepositoryOutputPort} y
+ * {@link EmployeeRepositoryOutputPort} para acceder a los datos necesarios.
+ * </p>
+ * 
+ * @author Inigo
+ * @version 1.0
+ */
 @Service
 @Slf4j
 public class VacationRegisterService implements VacationRegisterInputPort {
@@ -36,11 +36,12 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 
 	@Autowired
 	EmployeeRepositoryOutputPort employeeRepositoryOutput;
-	
+
 	/**
 	 * Registra una nueva solicitud de vacaciones tras validar reglas de negocio.
 	 * 
-	 * @param command objeto {@link VacationRegisterCommand} con los datos de la solicitud
+	 * @param command objeto {@link VacationRegisterCommand} con los datos de la
+	 *                solicitud
 	 * @return ID generado para la solicitud registrada
 	 * @throws VacationDomainException si los datos no cumplen una regla de negocio
 	 */
@@ -63,16 +64,17 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 		if (!vacationOverlap.isEmpty()) {
 			throw new VacationDomainException("El empleado ya ha tiene vacaciones en esas fechas.");
 		}
-		
+
 		Employee employee = employeeRepositoryOutput.findEmployeeById(command.getEmployeeId());
-		
+
 		List<String> departmentIds = employee.getDepartmentIds();
 
 		if (departmentIds == null || departmentIds.isEmpty()) {
 			throw new VacationDomainException("El empleado no pertenece a ningún departamento.");
 		}
 
-		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(), VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO, departmentIds);
+		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(),
+				VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO, departmentIds);
 
 		return vacationRepositoryOutput.save(vacation);
 	}

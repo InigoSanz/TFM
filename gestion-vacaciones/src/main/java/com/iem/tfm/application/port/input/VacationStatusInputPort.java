@@ -5,16 +5,16 @@ import com.iem.tfm.domain.command.VacationStatusChangeCommand;
 /**
  * Puerto de entrada para el caso de uso de cambio de estado de vacaciones.
  * <p>
- * Define la operación necesaria para cambia el estado de una solicitud de vacaciones,
- * en función del rol del usuario que realiza la acción.
- * Recibe los datos encapsulados en {@link VacationStatusChangeCommand}.
+ * Define la operación necesaria para cambia el estado de una solicitud de
+ * vacaciones, en función del rol del usuario que realiza la acción. Recibe los
+ * datos encapsulados en {@link VacationStatusChangeCommand}.
  * </p>
  * 
  * @author Inigo
  * @version 1.0
  */
 public interface VacationStatusInputPort {
-	
+
 	/**
 	 * Cambia el estado de una solicitud de vacaciones.
 	 * 

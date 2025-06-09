@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Servicio de aplicación para la consulta de usuarios registrados.
  * <p>
- * Implementa el caso de uso definido en {@link UserGetInputPort} y accede
- * a los datos mediante el puerto de salida {@link UserRepositoryOutputPort}.
+ * Implementa el caso de uso definido en {@link UserGetInputPort} y accede a los
+ * datos mediante el puerto de salida {@link UserRepositoryOutputPort}.
  * </p>
  * 
  * @author Inigo
@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class UserGetService implements UserGetInputPort {
-	
+
 	@Autowired
 	UserRepositoryOutputPort userRepositoryOutput;
-	
+
 	/**
 	 * Recupera todos los usuarios registrados en el sistema.
 	 * 
@@ -36,10 +36,10 @@ public class UserGetService implements UserGetInputPort {
 	@Override
 	public List<User> getAllusers() {
 		log.debug("-> Obteniendo todos los usuarios <-");
-		
+
 		return userRepositoryOutput.findAll();
 	}
-	
+
 	/**
 	 * Recupera un usuario por su ID.
 	 * 
@@ -49,7 +49,7 @@ public class UserGetService implements UserGetInputPort {
 	@Override
 	public User getUserById(String id) {
 		log.debug("-> Obteniendo un usuario <-");
-		
+
 		return userRepositoryOutput.findById(id);
 	}
 }

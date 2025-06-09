@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Servicio de aplicación para consultar solicitudes de vacaciones.
  * <p>
- * Implementa el caso de uso definido en {@link VacationGetInputPort} y accede
- * a los datos mediante el puerto de salida {@link VacationRepositoryOutputPort}.
+ * Implementa el caso de uso definido en {@link VacationGetInputPort} y accede a
+ * los datos mediante el puerto de salida {@link VacationRepositoryOutputPort}.
  * </p>
  * 
  * @author Inigo
@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class VacationGetService implements VacationGetInputPort {
-	
+
 	@Autowired
 	VacationRepositoryOutputPort vacationRepositoryOutput;
-	
+
 	/**
 	 * Recupera todas las solicitudes de vacaciones del sistema.
 	 * 
@@ -36,10 +36,10 @@ public class VacationGetService implements VacationGetInputPort {
 	@Override
 	public List<Vacation> getAllVacation() {
 		log.debug("-> Obteniendo todas las vacaciones <-");
-		
+
 		return vacationRepositoryOutput.findAll();
 	}
-	
+
 	/**
 	 * Recupera una solicitud de vacaciones por su ID.
 	 * 
@@ -49,10 +49,10 @@ public class VacationGetService implements VacationGetInputPort {
 	@Override
 	public Vacation getVacation(String id) {
 		log.debug("-> Obteniendo unas vacaciones <-");
-		
+
 		return vacationRepositoryOutput.findVacationById(id);
 	}
-	
+
 	/**
 	 * Recupera todas las vacaciones solicitadas por un empleado específico.
 	 * 
@@ -62,17 +62,17 @@ public class VacationGetService implements VacationGetInputPort {
 	@Override
 	public List<Vacation> getEmployeeVacation(String id) {
 		log.debug("-> Obteniendo las vacaciones de un empleado <-");
-		
+
 		return vacationRepositoryOutput.findVacationByEmployeeId(id);
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public List<Vacation> getDepartmentVacation(String id) {
 		log.debug("-> Obteniendo las vacaciones de un departamento <-");
-		
+
 		return vacationRepositoryOutput.findVacationByDepartmentId(id);
 	}
 }
