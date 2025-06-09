@@ -12,7 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * DTO de entrada para crear un nuevo empleado desde una API externa.
  * <p>
- * Este objeto se transforma a un {@link com.iem.tfm.application.command.EmployeeRegisterCommand}
+ * Este objeto se transforma a un {@link com.iem.tfm.domain.command.EmployeeRegisterCommand}
  * mediante un mapper en la capa de infraestructura.
  * </p>
  * 

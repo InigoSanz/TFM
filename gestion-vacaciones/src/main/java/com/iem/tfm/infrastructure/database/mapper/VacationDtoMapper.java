@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.iem.tfm.application.command.VacationRegisterCommand;
+import com.iem.tfm.domain.command.VacationRegisterCommand;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.VacationResponseDto;

@@ -1,6 +1,6 @@
 package com.iem.tfm.application.port.input;
 
-import com.iem.tfm.application.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 
 /**
  * Puerto de entrada para el caso de uso de registro de empleados.

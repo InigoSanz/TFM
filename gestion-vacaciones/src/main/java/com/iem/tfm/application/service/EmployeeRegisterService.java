@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.output.DepartmentRepositoryOutputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.application.port.output.UserRepositoryOutputPort;
+import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.User;

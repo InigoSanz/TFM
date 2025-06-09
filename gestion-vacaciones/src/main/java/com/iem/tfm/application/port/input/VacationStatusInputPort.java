@@ -1,6 +1,6 @@
 package com.iem.tfm.application.port.input;
 
-import com.iem.tfm.application.command.VacationStatusChangeCommand;
+import com.iem.tfm.domain.command.VacationStatusChangeCommand;
 
 /**
  * Puerto de entrada para el caso de uso de cambio de estado de vacaciones.

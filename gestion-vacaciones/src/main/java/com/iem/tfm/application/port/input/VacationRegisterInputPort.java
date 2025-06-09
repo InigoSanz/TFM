@@ -1,6 +1,6 @@
 package com.iem.tfm.application.port.input;
 
-import com.iem.tfm.application.command.VacationRegisterCommand;
+import com.iem.tfm.domain.command.VacationRegisterCommand;
 
 /**
  * Puerto de entrada para el caso de uso de registro de vacaciones.

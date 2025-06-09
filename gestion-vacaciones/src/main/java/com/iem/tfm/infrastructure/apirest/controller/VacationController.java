@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.iem.tfm.application.command.VacationRegisterCommand;
-import com.iem.tfm.application.command.VacationStatusChangeCommand;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.VacationGetInputPort;
 import com.iem.tfm.application.port.input.VacationRegisterInputPort;
 import com.iem.tfm.application.port.input.VacationStatusInputPort;
+import com.iem.tfm.domain.command.VacationRegisterCommand;
+import com.iem.tfm.domain.command.VacationStatusChangeCommand;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationStatusChangeRequestDto;

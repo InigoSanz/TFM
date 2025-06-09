@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.iem.tfm.application.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;

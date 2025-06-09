@@ -1,4 +1,4 @@
-package com.iem.tfm.application.command;
+package com.iem.tfm.domain.command;
 
 import java.util.Date;
 

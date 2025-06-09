@@ -3,9 +3,9 @@ package com.iem.tfm.application.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iem.tfm.application.command.VacationStatusChangeCommand;
 import com.iem.tfm.application.port.input.VacationStatusInputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
+import com.iem.tfm.domain.command.VacationStatusChangeCommand;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;

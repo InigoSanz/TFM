@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.iem.tfm.application.command.EmployeeRegisterCommand;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
+import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.EmployeeDtoMapper;

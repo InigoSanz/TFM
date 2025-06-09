@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iem.tfm.application.command.VacationRegisterCommand;
 import com.iem.tfm.application.port.input.VacationRegisterInputPort;
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
+import com.iem.tfm.domain.command.VacationRegisterCommand;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.Vacation;
