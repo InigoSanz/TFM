@@ -65,7 +65,12 @@ public class LoginController {
 		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
 		User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
-
+		
+		if (user == null) {
+			log.warn("-> Usuario o contraseña incorrectos (login falso) para: {} <-", loginDto.getUsername());
+			return ResponseEntity.badRequest().build();
+		}
+		
 		EmployeeRoleEnum employeeRole = null;
 		List<String> departmentIds = new ArrayList<>();
 		List<String> departmentNames = new ArrayList<>();
@@ -89,5 +94,4 @@ public class LoginController {
 
 		return ResponseEntity.ok(responseDto);
 	}
-
 }

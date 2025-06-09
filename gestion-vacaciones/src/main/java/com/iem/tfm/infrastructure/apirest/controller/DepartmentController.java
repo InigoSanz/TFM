@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iem.tfm.application.port.input.DepartmentGetInputPort;
+import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.infrastructure.apirest.dto.response.DepartmentResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.DepartmentDtoMapper;
 
@@ -49,6 +50,11 @@ public class DepartmentController {
 
 		List<DepartmentResponseDto> responseDtoList = departmentDtoMapper
 				.toDtoList(departmentGetInput.getAllDepartment());
+		
+		if (responseDtoList.isEmpty()) {
+			log.warn("-> No se encontraron departamentos <-");
+			return ResponseEntity.noContent().build();
+		}
 
 		log.debug("-> Departamentos obtenidos exitosamente <-");
 
@@ -64,8 +70,15 @@ public class DepartmentController {
 	@GetMapping("/{department-id}")
 	public ResponseEntity<DepartmentResponseDto> getDepartment(@PathVariable("department-id") String id) {
 		log.debug("-> Petición para obtener un departamento por ID recibida <-");
-
-		DepartmentResponseDto departmentDto = departmentDtoMapper.toDto(departmentGetInput.getDepartment(id));
+		
+		Department department = departmentGetInput.getDepartment(id);
+		
+		if (department == null) {
+			log.warn("-> Departamento con ID [{}] no encontrado <-", id);
+			return ResponseEntity.notFound().build();
+		}
+		
+		DepartmentResponseDto departmentDto = departmentDtoMapper.toDto(department);
 
 		log.debug("-> Departamento obtenido exitosamente <-");
 

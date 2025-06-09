@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.EmployeeDtoMapper;
@@ -80,6 +81,11 @@ public class EmployeeController {
 
 		List<EmployeeResponseDto> responseDtoList = employeeDtoMapper
 				.fromDomainToDtoList(employeeGetInputPort.getAllEmployees());
+		
+		if (responseDtoList.isEmpty()) {
+			log.warn("-> No se encontraron empleados registrados <-");
+			return ResponseEntity.noContent().build();
+		}
 
 		log.debug("-> Empleados obtenidos exitosamente <-");
 
@@ -95,9 +101,16 @@ public class EmployeeController {
 	@GetMapping("/{employee-id}")
 	public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener un empleado por ID recibida <-");
+		
+		Employee employee = employeeGetInputPort.getEmployee(id);
+		
+		if (employee == null) {
+	        log.warn("-> Empleado con ID [{}] no encontrado <-", id);
+	        return ResponseEntity.notFound().build();
+	    }
 
-		EmployeeResponseDto employeeDto = employeeDtoMapper.fromDomainToDto(employeeGetInputPort.getEmployee(id));
-
+		EmployeeResponseDto employeeDto = employeeDtoMapper.fromDomainToDto(employee);
+		
 		log.debug("-> Empleado obtenido exitosamente <-");
 
 		return ResponseEntity.ok(employeeDto);

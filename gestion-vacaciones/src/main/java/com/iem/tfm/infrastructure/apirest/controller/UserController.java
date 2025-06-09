@@ -58,6 +58,12 @@ public class UserController {
 		log.debug("-> Petición para obtener todos los usuarios recibida <-");
 
 		List<User> users = userGetInputPort.getAllusers();
+		
+		if (users.isEmpty()) {
+			log.warn("-> No hay usuarios registrados <-");
+			return ResponseEntity.noContent().build();
+		}
+		
 		List<UserResponseDto> responseDtoList = new ArrayList<>();
 
 		for (User user : users) {
@@ -91,6 +97,12 @@ public class UserController {
 		log.debug("-> Petición para obtener un usuario por ID recibida <-");
 
 		User user = userGetInputPort.getUserById(id);
+		
+		if (user == null) {
+			log.warn("-> Usuario con ID [{}] no encontrado <-", id);
+			return ResponseEntity.notFound().build();
+		}
+		
 		EmployeeRoleEnum employeeRole = null;
 
 		if (user.getEmployeeId() != null) {

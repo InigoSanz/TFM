@@ -97,6 +97,11 @@ public class VacationController {
 
 		List<VacationResponseDto> responseDtoList = vacationDtoMapper
 				.fromDomainToDtoList(vacationGetInputPort.getAllVacation());
+		
+		if (responseDtoList.isEmpty()) {
+			log.warn("-> No hay vacaciones registradas <-");
+			return ResponseEntity.noContent().build();
+		}
 
 		log.debug("-> Vacaciones obtenidas exitosamente <-");
 
@@ -114,6 +119,11 @@ public class VacationController {
 		log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
 
 		Vacation vacation = vacationGetInputPort.getVacation(id);
+		
+		if (vacation == null) {
+			log.warn("-> Vacaciones con ID [{}] no encontradas <-", id);
+			return ResponseEntity.notFound().build();
+		}
 
 		String employeeName = employeeGetInputPort.getEmployee(vacation.getEmployeeId()).getName();
 
@@ -136,6 +146,11 @@ public class VacationController {
 
 		List<VacationResponseDto> responseDtoList = vacationDtoMapper
 				.fromDomainToDtoList(vacationGetInputPort.getEmployeeVacation(id));
+		
+		if (responseDtoList.isEmpty()) {
+			log.warn("-> El empleado no tiene vacaciones registradas <-");
+			return ResponseEntity.noContent().build();
+		}
 
 		log.debug("-> Vacaciones del empleado obtenidas exitosamente <-");
 
@@ -170,6 +185,12 @@ public class VacationController {
 		log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
 
 		List<Vacation> vacations = vacationGetInputPort.getDepartmentVacation(id);
+		
+		if (vacations.isEmpty()) {
+			log.warn("-> No hay vacaciones en este departamento <-");
+			return ResponseEntity.noContent().build();
+		}
+		
 		List<VacationResponseDto> responseDtoList = new ArrayList<>();
 
 		for (Vacation vac : vacations) {
