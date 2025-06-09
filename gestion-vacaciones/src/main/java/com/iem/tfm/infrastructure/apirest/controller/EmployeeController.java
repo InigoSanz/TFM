@@ -26,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Controlador REST para gestionar los endpoints relacionados con empleados.
  * <p>
- * Expone operaciones para registrar, listar y obtener empleados.
- * Utiliza los puertos de entrada para delegar la lógica a la capa de aplicación.
+ * Expone operaciones para registrar, listar y obtener empleados. Utiliza los
+ * puertos de entrada para delegar la lógica a la capa de aplicación.
  * </p>
  * 
  * @author Inigo
@@ -38,16 +38,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 public class EmployeeController {
-	
+
 	@Autowired
 	EmployeeRegisterInputPort employeeRegisterInputPort;
-	
+
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
-	
+
 	@Autowired
 	EmployeeDtoMapper employeeDtoMapper;
-	
+
 	/**
 	 * Endpoint para registrar un nuevo empleado.
 	 * 
@@ -57,34 +57,35 @@ public class EmployeeController {
 	@PostMapping
 	public ResponseEntity<Void> employeeRegister(@RequestBody EmployeeRequestDto employeeDto) {
 		log.debug("-> Petición para registrar un empleado recibida <-");
-		
+
 		// Mapeamos el DTO a un Command para la capa de aplicación
 		EmployeeRegisterCommand registerCommand = employeeDtoMapper.fromDtoToCommand(employeeDto);
-		
+
 		// Llamamos al caso de uso y obtenemos el ID generado
 		String id = employeeRegisterInputPort.employeeRegister(registerCommand);
-		
+
 		log.debug("-> Empleado registrado exitosamente <-");
-		
+
 		return ResponseEntity.created(crearUri(id)).build();
 	}
-	
+
 	/**
 	 * Endpoint para obtener todos los empleados registrados.
 	 *
 	 * @return lista de empleados en formato DTO
 	 */
-	@GetMapping	
+	@GetMapping
 	public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
 		log.debug("-> Petición para obtener todos los empleados recibida <-");
-		
-		List<EmployeeResponseDto> responseDtoList = employeeDtoMapper.fromDomainToDtoList(employeeGetInputPort.getAllEmployees());
-		
+
+		List<EmployeeResponseDto> responseDtoList = employeeDtoMapper
+				.fromDomainToDtoList(employeeGetInputPort.getAllEmployees());
+
 		log.debug("-> Empleados obtenidos exitosamente <-");
-		
+
 		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Endpoint para obtener un empleado por su ID.
 	 *
@@ -94,14 +95,14 @@ public class EmployeeController {
 	@GetMapping("/{employee-id}")
 	public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener un empleado por ID recibida <-");
-		
+
 		EmployeeResponseDto employeeDto = employeeDtoMapper.fromDomainToDto(employeeGetInputPort.getEmployee(id));
-		
+
 		log.debug("-> Empleado obtenido exitosamente <-");
-		
+
 		return ResponseEntity.ok(employeeDto);
 	}
-	
+
 	/**
 	 * Crea la URI para el nuevo recurso creado.
 	 *

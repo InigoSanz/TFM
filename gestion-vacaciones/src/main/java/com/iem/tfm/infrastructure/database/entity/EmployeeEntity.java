@@ -18,7 +18,8 @@ import lombok.extern.jackson.Jacksonized;
  * Entidad de base de datos que representa a un empleado en MongoDB.
  * <p>
  * Esta clase se utiliza para el almacenamiento y recuperación de datos.
- * Equivale al modelo {@link com.iem.tfm.domain.model.Employee}, pero adaptado para que persista.
+ * Equivale al modelo {@link com.iem.tfm.domain.model.Employee}, pero adaptado
+ * para que persista.
  * </p>
  * 
  * @author Inigo
@@ -31,7 +32,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @Document("EMPLOYEES")
 public class EmployeeEntity {
-	
+
 	@Id
 	private String id;
 	private String name;
@@ -42,5 +43,5 @@ public class EmployeeEntity {
 	private Date startDate;
 	private Date endDate;
 	private List<String> departmentIds;
-	private EmployeeRoleEnum role;	
+	private EmployeeRoleEnum role;
 }

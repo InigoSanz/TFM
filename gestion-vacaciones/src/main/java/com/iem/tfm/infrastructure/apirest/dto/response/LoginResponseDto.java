@@ -28,7 +28,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseDto {
-	
+
 	private String userId;
 	private String username;
 	private UserRoleEnum role;

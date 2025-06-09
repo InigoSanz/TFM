@@ -17,9 +17,9 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * Entidad de base de datos que representa una solicitud de vacaciones.
  * <p>
- * Esta clase es utilizada por MongoDB para mapear documentos de la colección {@code VACATIONS}.
- * Se corresponde con el modelo de dominio {@code Vacation}, y contiene todos los
- * atributos necesarios para su persistencia.
+ * Esta clase es utilizada por MongoDB para mapear documentos de la colección
+ * {@code VACATIONS}. Se corresponde con el modelo de dominio {@code Vacation},
+ * y contiene todos los atributos necesarios para su persistencia.
  * </p>
  * 
  * @author Inigo
@@ -32,7 +32,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacationEntity {
-	
+
 	@Id
 	private String id;
 	private Date startDate;

@@ -12,9 +12,9 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * DTO de respuesta que representa a un usuario del sistema.
  * <p>
- * Esta clase se utiliza para enviar datos de usuario al cliente
- * en respuestas de la API REST. Contiene información básica del usuario,
- * incluyendo su rol, estado de activación y vínculo con el empleado correspondiente.
+ * Esta clase se utiliza para enviar datos de usuario al cliente en respuestas
+ * de la API REST. Contiene información básica del usuario, incluyendo su rol,
+ * estado de activación y vínculo con el empleado correspondiente.
  * </p>
  * 
  * @author Inigo
@@ -26,7 +26,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDto {
-	
+
 	private String id;
 	private String username;
 	private UserRoleEnum role;

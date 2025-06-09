@@ -20,7 +20,7 @@ import com.iem.tfm.infrastructure.database.entity.DepartmentEntity;
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DepartmentEntityMapper {
-	
+
 	/**
 	 * Convierte una entidad de base de datos a un objeto del dominio.
 	 * 
@@ -28,7 +28,7 @@ public interface DepartmentEntityMapper {
 	 * @return objeto de dominio
 	 */
 	public Department toDomain(DepartmentEntity entity);
-	
+
 	/**
 	 * Convierte un objeto del dominio a una entidad para persistencia.
 	 * 
@@ -36,7 +36,7 @@ public interface DepartmentEntityMapper {
 	 * @return entidad lista para guardar en MongoDB
 	 */
 	public DepartmentEntity toEntity(Department domain);
-	
+
 	/**
 	 * Convierte una lista de entidades a una lista de objetos del dominio.
 	 * 
@@ -44,7 +44,7 @@ public interface DepartmentEntityMapper {
 	 * @return lista de departamentos del dominio
 	 */
 	public List<Department> toDomainList(List<DepartmentEntity> entities);
-	
+
 	/**
 	 * Convierte una lista de objetos del dominio a entidades.
 	 * 

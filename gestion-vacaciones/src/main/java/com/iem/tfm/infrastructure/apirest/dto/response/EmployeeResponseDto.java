@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * DTO de salida para representar la información de un empleado en la respuesta de una API.
+ * DTO de salida para representar la información de un empleado en la respuesta
+ * de una API.
  * <p>
- * Se utiliza cuando se devuelven empleados al cliente, ya sea de forma individual o en listas.
- * Contiene información personal, departamentos y rol del empleado.
+ * Se utiliza cuando se devuelven empleados al cliente, ya sea de forma
+ * individual o en listas. Contiene información personal, departamentos y rol
+ * del empleado.
  * </p>
  * 
  * @author Inigo
@@ -27,7 +29,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeResponseDto {
-	
+
 	private String id;
 	private String name;
 	private String surname;

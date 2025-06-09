@@ -12,8 +12,9 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * DTO de entrada para crear un nuevo empleado desde una API externa.
  * <p>
- * Este objeto se transforma a un {@link com.iem.tfm.domain.command.EmployeeRegisterCommand}
- * mediante un mapper en la capa de infraestructura.
+ * Este objeto se transforma a un
+ * {@link com.iem.tfm.domain.command.EmployeeRegisterCommand} mediante un mapper
+ * en la capa de infraestructura.
  * </p>
  * 
  * @author Inigo
@@ -25,7 +26,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeRequestDto {
-	
+
 	private String name;
 	private String surname;
 	private String dni;

@@ -37,72 +37,74 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
-	
+
 	@Autowired
 	UserGetInputPort userGetInputPort;
-	
+
 	@Autowired
 	UserDtoMapper userDtoMapper;
-	
+
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
-	
+
 	/**
 	 * Obtiene la lista completa de usuarios registrados en el sistema.
 	 * 
-	 * @return una respuesta HTTP con una lista de {@link UserResponseDto} representando todos los usuarios.
+	 * @return una respuesta HTTP con una lista de {@link UserResponseDto}
+	 *         representando todos los usuarios.
 	 */
 	@GetMapping
 	public ResponseEntity<List<UserResponseDto>> getAllUsers() {
 		log.debug("-> Petición para obtener todos los usuarios recibida <-");
 
-        List<User> users = userGetInputPort.getAllusers();
-        List<UserResponseDto> responseDtoList = new ArrayList<>();
+		List<User> users = userGetInputPort.getAllusers();
+		List<UserResponseDto> responseDtoList = new ArrayList<>();
 
-        for (User user : users) {
-            EmployeeRoleEnum employeeRole = null;
+		for (User user : users) {
+			EmployeeRoleEnum employeeRole = null;
 
-            if (user.getEmployeeId() != null) {
-                try {
-                    employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
-                } catch (Exception e) {
-                    log.warn("-> Empleado no encontrado para userId: {} <-", user.getId());
-                }
-            }
+			if (user.getEmployeeId() != null) {
+				try {
+					employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+				} catch (Exception e) {
+					log.warn("-> Empleado no encontrado para userId: {} <-", user.getId());
+				}
+			}
 
-            responseDtoList.add(userDtoMapper.toLoginDto(user, employeeRole));
-        }
+			responseDtoList.add(userDtoMapper.toLoginDto(user, employeeRole));
+		}
 
-        log.debug("-> Usuarios obtenidos exitosamente <-");
+		log.debug("-> Usuarios obtenidos exitosamente <-");
 
-        return ResponseEntity.ok(responseDtoList);
+		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Obtiene los detalles de un usuario específico por su identificador único.
 	 * 
 	 * @param id identificador del usuario que se desea consultar.
-	 * @return una respuesta HTTP con los datos del usuario como {@link UserResponseDto}.
+	 * @return una respuesta HTTP con los datos del usuario como
+	 *         {@link UserResponseDto}.
 	 */
 	@GetMapping("/{user-id}")
 	public ResponseEntity<UserResponseDto> getUser(@PathVariable("user-id") String id) {
 		log.debug("-> Petición para obtener un usuario por ID recibida <-");
 
-        User user = userGetInputPort.getUserById(id);
-        EmployeeRoleEnum employeeRole = null;
+		User user = userGetInputPort.getUserById(id);
+		EmployeeRoleEnum employeeRole = null;
 
-        if (user.getEmployeeId() != null) {
-            try {
-                employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
-            } catch (Exception e) {
-                log.warn("-> Empleado no encontrado para userId: {} <-", id);
-            }
-        }
+		if (user.getEmployeeId() != null) {
+			try {
+				employeeRole = employeeGetInputPort.getEmployee(user.getEmployeeId()).getRole();
+			} catch (Exception e) {
+				log.warn("-> Empleado no encontrado para userId: {} <-", id);
+			}
+		}
 
-        UserResponseDto userDto = userDtoMapper.toLoginDto(user, employeeRole);
+		UserResponseDto userDto = userDtoMapper.toLoginDto(user, employeeRole);
 
-        log.debug("-> Usuario obtenido exitosamente <-");
+		log.debug("-> Usuario obtenido exitosamente <-");
 
-        return ResponseEntity.ok(userDto);
+		return ResponseEntity.ok(userDto);
 	}
 }

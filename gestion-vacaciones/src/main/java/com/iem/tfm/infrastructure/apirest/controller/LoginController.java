@@ -46,10 +46,10 @@ public class LoginController {
 
 	@Autowired
 	UserDtoMapper userDtoMapper;
-	
+
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
-	
+
 	@Autowired
 	DepartmentGetInputPort departmentGetInputPort;
 
@@ -62,34 +62,32 @@ public class LoginController {
 	 */
 	@PostMapping
 	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginDto) {
-	    log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
+		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
-	    User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
+		User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
 
-	    EmployeeRoleEnum employeeRole = null;
-	    List<String> departmentIds = new ArrayList<>();
-	    List<String> departmentNames = new ArrayList<>();
+		EmployeeRoleEnum employeeRole = null;
+		List<String> departmentIds = new ArrayList<>();
+		List<String> departmentNames = new ArrayList<>();
 
-	    if (user.getEmployeeId() != null) {
-	        Employee employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
-	        employeeRole = employee.getRole();
+		if (user.getEmployeeId() != null) {
+			Employee employee = employeeGetInputPort.getEmployee(user.getEmployeeId());
+			employeeRole = employee.getRole();
 
-	        departmentIds = employee.getDepartmentIds();
+			departmentIds = employee.getDepartmentIds();
 
-	        if (departmentIds != null && !departmentIds.isEmpty()) {
-	            departmentNames = departmentIds.stream()
-	                .map(id -> departmentGetInputPort.getDepartment(id).getName())
-	                .toList();
-	        }
-	    }
+			if (departmentIds != null && !departmentIds.isEmpty()) {
+				departmentNames = departmentIds.stream().map(id -> departmentGetInputPort.getDepartment(id).getName())
+						.toList();
+			}
+		}
 
-	    LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(
-	        user, employeeRole, departmentIds, departmentNames
-	    );
+		LoginResponseDto responseDto = userDtoMapper.toLoginDtoLogin(user, employeeRole, departmentIds,
+				departmentNames);
 
-	    log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
+		log.debug("-> Login realizado con éxito para el usuario: {} <-", responseDto.getUsername());
 
-	    return ResponseEntity.ok(responseDto);
+		return ResponseEntity.ok(responseDto);
 	}
 
 }

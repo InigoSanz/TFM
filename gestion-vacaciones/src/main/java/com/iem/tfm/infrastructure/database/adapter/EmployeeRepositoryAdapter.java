@@ -37,7 +37,7 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 	@Autowired
 	EmployeeEntityMapper employeeEntityMapper;
-	
+
 	/**
 	 * Guarda un empleado en la BBDD.
 	 * 
@@ -51,7 +51,7 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 		return savedEmployee.getId();
 	}
-	
+
 	/**
 	 * Verifica si ya existe un empleado con el DNI dado.
 	 *
@@ -63,7 +63,7 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 		return employeeRepository.existsByDni(dni);
 	}
-	
+
 	/**
 	 * Recupera todos los empleados del sistema.
 	 *
@@ -72,16 +72,17 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 	@Override
 	public List<Employee> findAll() {
 		List<EmployeeEntity> entities = employeeRepository.findAll();
-		
+
 		return employeeEntityMapper.toDomainList(entities);
 	}
-	
+
 	/**
 	 * Recupera un empleado por su ID, incluyendo sus departamentos.
 	 *
 	 * @param id identificador del empleado
 	 * @return empleado del dominio reconstruido
-	 * @throws EmployeeDomainException si el empleado no existe o los departamentos no coinciden
+	 * @throws EmployeeDomainException si el empleado no existe o los departamentos
+	 *                                 no coinciden
 	 */
 	@Override
 	public Employee findEmployeeById(String id) {
@@ -93,13 +94,13 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 		return employeeEntityMapper.toDomain(entityOptional.get());
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public boolean existsById(String employeeId) {
-		
+
 		return employeeRepository.existsById(employeeId);
 	}
 }

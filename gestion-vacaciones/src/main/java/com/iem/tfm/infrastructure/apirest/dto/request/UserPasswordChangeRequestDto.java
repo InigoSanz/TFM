@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * Esta clase la utilizaremos más adelante para que el usuario pueda cambiar su password generada por defecto.
+ * Esta clase la utilizaremos más adelante para que el usuario pueda cambiar su
+ * password generada por defecto.
  */
 @Data
 @Builder
@@ -15,6 +16,6 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPasswordChangeRequestDto {
-	
+
 	private String newPassword;
 }

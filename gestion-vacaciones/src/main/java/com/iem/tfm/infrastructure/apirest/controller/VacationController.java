@@ -33,13 +33,14 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Controlador REST para operaciones relacionadas con vacaciones.
  * <p>
- * Expone endpoints para registrar nuevas solicitudes de vacaciones,
- * consultar vacaciones existentes (todas, por ID o por empleado),
- * y cambiar su estado (aprobación o rechazo).
+ * Expone endpoints para registrar nuevas solicitudes de vacaciones, consultar
+ * vacaciones existentes (todas, por ID o por empleado), y cambiar su estado
+ * (aprobación o rechazo).
  * </p>
  *
  * <p>
- * Realiza las conversiones entre DTOs y comandos usando {@link VacationDtoMapper}.
+ * Realiza las conversiones entre DTOs y comandos usando
+ * {@link VacationDtoMapper}.
  * </p>
  *
  * @author Inigo
@@ -50,22 +51,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 public class VacationController {
-	
+
 	@Autowired
 	VacationRegisterInputPort vacationRegisterInputPort;
-	
+
 	@Autowired
 	VacationDtoMapper vacationDtoMapper;
-	
+
 	@Autowired
 	VacationGetInputPort vacationGetInputPort;
-	
+
 	@Autowired
-	VacationStatusInputPort vacationStatusInputPort; 
-	
+	VacationStatusInputPort vacationStatusInputPort;
+
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
-	
+
 	/**
 	 * Registra una nueva solicitud de vacaciones.
 	 *
@@ -75,16 +76,16 @@ public class VacationController {
 	@PostMapping
 	public ResponseEntity<Void> vacationRegister(@RequestBody VacationRequestDto vacationDto) {
 		log.debug("-> Petición para registrar unas vacaciones recibida <-");
-		
+
 		VacationRegisterCommand registerCommand = vacationDtoMapper.fromDtoToCommand(vacationDto);
-		
+
 		String id = vacationRegisterInputPort.vacationRegister(registerCommand);
-		
+
 		log.debug("-> Vacaciones registradas exitosamente <-");
-		
+
 		return ResponseEntity.created(crearUri(id)).build();
 	}
-	
+
 	/**
 	 * Recupera todas las solicitudes de vacaciones registradas.
 	 *
@@ -93,14 +94,15 @@ public class VacationController {
 	@GetMapping
 	public ResponseEntity<List<VacationResponseDto>> getAllVacations() {
 		log.debug("-> Petición para obtener todas las vacaciones recibida <-");
-		
-		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(vacationGetInputPort.getAllVacation());
-	
+
+		List<VacationResponseDto> responseDtoList = vacationDtoMapper
+				.fromDomainToDtoList(vacationGetInputPort.getAllVacation());
+
 		log.debug("-> Vacaciones obtenidas exitosamente <-");
-		
+
 		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Recupera una solicitud de vacaciones por su ID.
 	 *
@@ -109,19 +111,19 @@ public class VacationController {
 	 */
 	@GetMapping("/{vacation-id}")
 	public ResponseEntity<VacationResponseDto> getVacation(@PathVariable("vacation-id") String id) {
-	    log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
+		log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
 
-	    Vacation vacation = vacationGetInputPort.getVacation(id);
+		Vacation vacation = vacationGetInputPort.getVacation(id);
 
-	    String employeeName = employeeGetInputPort.getEmployee(vacation.getEmployeeId()).getName();
+		String employeeName = employeeGetInputPort.getEmployee(vacation.getEmployeeId()).getName();
 
-	    VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName);
+		VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName);
 
-	    log.debug("-> Vacaciones obtenidas exitosamente <-");
+		log.debug("-> Vacaciones obtenidas exitosamente <-");
 
-	    return ResponseEntity.ok(vacationDto);
+		return ResponseEntity.ok(vacationDto);
 	}
-	
+
 	/**
 	 * Recupera todas las vacaciones asociadas a un empleado.
 	 *
@@ -131,14 +133,15 @@ public class VacationController {
 	@GetMapping("/employee/{employee-id}")
 	public ResponseEntity<List<VacationResponseDto>> getVacationsOfEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener vacaciones del empleado con id: " + id + " recibida <-");
-		
-		List<VacationResponseDto> responseDtoList = vacationDtoMapper.fromDomainToDtoList(vacationGetInputPort.getEmployeeVacation(id));
-	
+
+		List<VacationResponseDto> responseDtoList = vacationDtoMapper
+				.fromDomainToDtoList(vacationGetInputPort.getEmployeeVacation(id));
+
 		log.debug("-> Vacaciones del empleado obtenidas exitosamente <-");
-		
+
 		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Cambia el estado de una solicitud de vacaciones.
 	 *
@@ -147,36 +150,39 @@ public class VacationController {
 	 * @return respuesta con estado 200 OK
 	 */
 	@PatchMapping("/{vacation-id}/status")
-	public ResponseEntity<Void> vacationStatusChange(@PathVariable("vacation-id") String id, @RequestBody VacationStatusChangeRequestDto dto) {
+	public ResponseEntity<Void> vacationStatusChange(@PathVariable("vacation-id") String id,
+			@RequestBody VacationStatusChangeRequestDto dto) {
 		log.debug("-> Petición para cambiar el estado de las vacaciones recibida <-");
-		
-		VacationStatusChangeCommand command = new VacationStatusChangeCommand(id, dto.getEmployeeId(), dto.getRole(), dto.isApprove());
-	
+
+		VacationStatusChangeCommand command = new VacationStatusChangeCommand(id, dto.getEmployeeId(), dto.getRole(),
+				dto.isApprove());
+
 		vacationStatusInputPort.statusChange(command);
-		
+
 		log.debug("-> Estado de las vacaciones actualizado exitosamente <-");
-		
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/department/{department-id}")
-	public ResponseEntity<List<VacationResponseDto>> getVacationsOfDepartment(@PathVariable("department-id") String id) {
-	    log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
+	public ResponseEntity<List<VacationResponseDto>> getVacationsOfDepartment(
+			@PathVariable("department-id") String id) {
+		log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
 
-	    List<Vacation> vacations = vacationGetInputPort.getDepartmentVacation(id);
-	    List<VacationResponseDto> responseDtoList = new ArrayList<>();
+		List<Vacation> vacations = vacationGetInputPort.getDepartmentVacation(id);
+		List<VacationResponseDto> responseDtoList = new ArrayList<>();
 
-	    for (Vacation vac : vacations) {
-	        String employeeName = employeeGetInputPort.getEmployee(vac.getEmployeeId()).getName();
-	        VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vac, employeeName);
-	        responseDtoList.add(dto);
-	    }
+		for (Vacation vac : vacations) {
+			String employeeName = employeeGetInputPort.getEmployee(vac.getEmployeeId()).getName();
+			VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vac, employeeName);
+			responseDtoList.add(dto);
+		}
 
-	    log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
+		log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
 
-	    return ResponseEntity.ok(responseDtoList);
+		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Crea la URI para el nuevo recurso creado.
 	 *

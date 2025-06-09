@@ -9,8 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * DTO que representa los datos necesarios para realizar una petición de login.
  * <p>
- * Este objeto es enviado desde el frontend y contiene las credenciales
- * del usuario que intenta autenticarse en el sistema.
+ * Este objeto es enviado desde el frontend y contiene las credenciales del
+ * usuario que intenta autenticarse en el sistema.
  * </p>
  * 
  * @author Inigo
@@ -22,7 +22,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequestDto {
-	
+
 	private String username;
-    private String password;
+	private String password;
 }

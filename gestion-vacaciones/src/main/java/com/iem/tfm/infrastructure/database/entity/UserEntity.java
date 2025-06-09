@@ -14,8 +14,8 @@ import lombok.extern.jackson.Jacksonized;
 /**
  * Entidad de base de datos que representa a un usuario en MongoDB.
  * <p>
- * Esta clase se utiliza para el almacenamiento y recuperación de credenciales
- * y datos de acceso del sistema. Equivale al modelo 
+ * Esta clase se utiliza para el almacenamiento y recuperación de credenciales y
+ * datos de acceso del sistema. Equivale al modelo
  * {@link com.iem.tfm.domain.model.User}, pero adaptado para persistencia.
  * </p>
  * 
@@ -29,7 +29,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @Document("USERS")
 public class UserEntity {
-	
+
 	@Id
 	private String id;
 	private String username;

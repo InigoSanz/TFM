@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
 
 /**
- * Repositorio de acceso a datos para {@link EmployeeEntity}, gestionado por Spring Data MongoDB.
+ * Repositorio de acceso a datos para {@link EmployeeEntity}, gestionado por
+ * Spring Data MongoDB.
  * <p>
- * Permite operaciones CRUD y define una consulta personalizada por DNI.
- * Se utiliza en el adaptador que implementa el puerto de salida.
+ * Permite operaciones CRUD y define una consulta personalizada por DNI. Se
+ * utiliza en el adaptador que implementa el puerto de salida.
  * </p>
  * 
  * @author Inigo
@@ -18,8 +19,8 @@ import com.iem.tfm.infrastructure.database.entity.EmployeeEntity;
  */
 @Repository
 @EnableMongoRepositories
-public interface EmployeeRepository extends MongoRepository<EmployeeEntity, String>{
-	
+public interface EmployeeRepository extends MongoRepository<EmployeeEntity, String> {
+
 	/**
 	 * Verifica si existe un empleado por su DNI.
 	 * 

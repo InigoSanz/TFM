@@ -10,11 +10,11 @@ import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 
 /**
- * Mapper para convertir entre {@link Vacation} (modelo de dominio)
- * y {@link VacationEntity} (entidad de base de datos).
+ * Mapper para convertir entre {@link Vacation} (modelo de dominio) y
+ * {@link VacationEntity} (entidad de base de datos).
  * <p>
- * Utiliza MapStruct para mapear automáticamente del dominio a entidad.
- * Los métodos de entidad a dominio se implementan manualmente como {@code default}.
+ * Utiliza MapStruct para mapear automáticamente del dominio a entidad. Los
+ * métodos de entidad a dominio se implementan manualmente como {@code default}.
  * </p>
  * 
  * @author Inigo
@@ -24,7 +24,8 @@ import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 public interface VacationEntityMapper {
 
 	/**
-	 * Convierte un objeto Vacation del dominio en su representación como VacationEntity.
+	 * Convierte un objeto Vacation del dominio en su representación como
+	 * VacationEntity.
 	 * 
 	 * @param vacation objeto del dominio a convertir
 	 * @return entidad de base de datos equivalente
@@ -32,7 +33,8 @@ public interface VacationEntityMapper {
 	public VacationEntity toEntity(Vacation vacation);
 
 	/**
-	 * Convierte una entidad VacationEntity a un objeto del modelo de dominio Vacation.
+	 * Convierte una entidad VacationEntity a un objeto del modelo de dominio
+	 * Vacation.
 	 * 
 	 * @param entity entidad persistida
 	 * @return objeto del dominio correspondiente
@@ -43,7 +45,8 @@ public interface VacationEntityMapper {
 	}
 
 	/**
-	 * Convierte una lista de entidades VacationEntity a una lista de objetos del dominio Vacation.
+	 * Convierte una lista de entidades VacationEntity a una lista de objetos del
+	 * dominio Vacation.
 	 * 
 	 * @param entities lista de entidades
 	 * @return lista de objetos del dominio

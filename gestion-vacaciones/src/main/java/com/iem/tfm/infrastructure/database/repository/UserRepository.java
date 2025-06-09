@@ -29,7 +29,7 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
 	 * @return un Optional que puede contener el UserEntity correspondiente
 	 */
 	public Optional<UserEntity> findByUsername(String username);
-	
+
 	/**
 	 * Comprueba si existe un usuario con el nombre de usuario dado.
 	 * 

@@ -15,11 +15,13 @@ import com.iem.tfm.infrastructure.database.mapper.VacationEntityMapper;
 import com.iem.tfm.infrastructure.database.repository.VacationRepository;
 
 /**
- * Adaptador de infraestructura que implementa el puerto de salida {@link VacationRepositoryOutputPort}.
+ * Adaptador de infraestructura que implementa el puerto de salida
+ * {@link VacationRepositoryOutputPort}.
  * <p>
- * Encapsula el acceso a la base de datos utilizando el repositorio Spring Data {@link VacationRepository}
- * y transforma las entidades {@link VacationEntity} hacia y desde el modelo de dominio {@link Vacation}
- * mediante el mapper {@link VacationEntityMapper}.
+ * Encapsula el acceso a la base de datos utilizando el repositorio Spring Data
+ * {@link VacationRepository} y transforma las entidades {@link VacationEntity}
+ * hacia y desde el modelo de dominio {@link Vacation} mediante el mapper
+ * {@link VacationEntityMapper}.
  * </p>
  * 
  * @author Inigo
@@ -33,7 +35,7 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 	@Autowired
 	VacationEntityMapper vacationEntityMapper;
-	
+
 	/**
 	 * Guarda una solicitud de vacaciones en la base de datos.
 	 * 
@@ -47,13 +49,14 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return savedVacation.getId();
 	}
-	
+
 	/**
-	 * Recupera las solicitudes de vacaciones de un empleado que se solapen con un rango de fechas.
+	 * Recupera las solicitudes de vacaciones de un empleado que se solapen con un
+	 * rango de fechas.
 	 * 
 	 * @param employeeId ID del empleado
-	 * @param startDate fecha de inicio del nuevo rango
-	 * @param endDate fecha de fin del nuevo rango
+	 * @param startDate  fecha de inicio del nuevo rango
+	 * @param endDate    fecha de fin del nuevo rango
 	 * @return lista de solicitudes de vacaciones solapadas
 	 */
 	@Override
@@ -63,7 +66,7 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return vacationEntityMapper.toDomainList(vacationOverlaps);
 	}
-	
+
 	/**
 	 * Recupera todas las solicitudes de vacaciones registradas en la base de datos.
 	 * 
@@ -75,13 +78,14 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return vacationEntityMapper.toDomainList(entities);
 	}
-	
+
 	/**
 	 * Busca una solicitud de vacaciones por su ID.
 	 * 
 	 * @param id identificador de la solicitud
 	 * @return objeto Vacation correspondiente
-	 * @throws VacationDomainException si no se encuentra ninguna solicitud con ese ID
+	 * @throws VacationDomainException si no se encuentra ninguna solicitud con ese
+	 *                                 ID
 	 */
 	@Override
 	public Vacation findVacationById(String id) {
@@ -93,9 +97,10 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return vacationEntityMapper.toDomain(entityOptional.get());
 	}
-	
+
 	/**
-	 * Recupera todas las solicitudes de vacaciones asociadas a un empleado específico.
+	 * Recupera todas las solicitudes de vacaciones asociadas a un empleado
+	 * específico.
 	 * 
 	 * @param id ID del empleado
 	 * @return lista de objetos Vacation del empleado
@@ -103,7 +108,7 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	@Override
 	public List<Vacation> findVacationByEmployeeId(String id) {
 		List<VacationEntity> entities = vacationRepository.findByEmployeeId(id);
-		
+
 		return vacationEntityMapper.toDomainList(entities);
 	}
 
