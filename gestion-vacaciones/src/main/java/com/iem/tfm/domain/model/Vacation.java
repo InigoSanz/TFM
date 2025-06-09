@@ -6,6 +6,7 @@ import java.util.List;
 import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.util.VacationStatusEnum;
 
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -18,6 +19,7 @@ import lombok.Getter;
  * @version 1.1
  */
 @Getter
+@Builder
 public class Vacation {
 	
 	private String id;

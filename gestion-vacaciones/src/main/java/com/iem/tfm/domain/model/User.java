@@ -4,6 +4,9 @@ import com.iem.tfm.domain.exception.UserDomainException;
 import com.iem.tfm.domain.util.PasswordRules;
 import com.iem.tfm.domain.util.UserRoleEnum;
 
+import lombok.Builder;
+import lombok.Getter;
+
 /**
  * Modelo de dominio para los usuarios.
  * 
@@ -15,6 +18,8 @@ import com.iem.tfm.domain.util.UserRoleEnum;
  * @author Inigo
  * @version 1.1
  */
+@Getter
+@Builder
 public class User {
 	
 	private String id;
@@ -44,29 +49,5 @@ public class User {
 		this.role = role;
 		this.userActive = userActive;
 		this.employeeId = employeeId;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public UserRoleEnum getRole() {
-		return role;
-	}
-
-	public boolean isUserActive() {
-		return userActive;
-	}
-	
-	public String getEmployeeId() {
-		return employeeId;
 	}
 }
