@@ -27,7 +27,10 @@ public interface DepartmentEntityMapper {
 	 * @param entity entidad almacenada en MongoDB
 	 * @return objeto de dominio
 	 */
-	public Department toDomain(DepartmentEntity entity);
+	default Department toDomain(DepartmentEntity entity) {
+	    if (entity == null) return null;
+	    return new Department(entity.getId(), entity.getName());
+	}
 
 	/**
 	 * Convierte un objeto del dominio a una entidad para persistencia.

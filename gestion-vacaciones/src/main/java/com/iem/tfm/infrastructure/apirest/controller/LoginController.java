@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iem.tfm.application.port.input.DepartmentGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.LoginDoInputPort;
+import com.iem.tfm.domain.model.Department;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.domain.model.EmployeeRoleEnum;
 import com.iem.tfm.domain.model.User;
@@ -65,12 +66,12 @@ public class LoginController {
 		log.debug("-> Petición de login recibida del usuario: {} <-", loginDto.getUsername());
 
 		User user = loginDoInputPort.login(loginDto.getUsername(), loginDto.getPassword());
-		
+
 		if (user == null) {
 			log.warn("-> Usuario o contraseña incorrectos (login falso) para: {} <-", loginDto.getUsername());
 			return ResponseEntity.badRequest().build();
 		}
-		
+
 		EmployeeRoleEnum employeeRole = null;
 		List<String> departmentIds = new ArrayList<>();
 		List<String> departmentNames = new ArrayList<>();
@@ -82,8 +83,15 @@ public class LoginController {
 			departmentIds = employee.getDepartmentIds();
 
 			if (departmentIds != null && !departmentIds.isEmpty()) {
-				departmentNames = departmentIds.stream().map(id -> departmentGetInputPort.getDepartment(id).getName())
-						.toList();
+			    departmentNames = new ArrayList<>();
+			    for (String id : departmentIds) {
+			        Department department = departmentGetInputPort.getDepartment(id);
+			        if (department != null) {
+			            departmentNames.add(department.getName());
+			        } else {
+			            log.warn("Departamento no encontrado con id: {}", id);
+			        }
+			    }
 			}
 		}
 
