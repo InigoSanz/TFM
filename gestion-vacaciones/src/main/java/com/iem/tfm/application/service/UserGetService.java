@@ -35,7 +35,7 @@ public class UserGetService implements UserGetInputPort {
 	 */
 	@Override
 	public List<User> getAllusers() {
-		log.info("-> Obteniendo todos los usuarios <-");
+		log.debug("-> Obteniendo todos los usuarios <-");
 		
 		return userRepositoryOutput.findAll();
 	}
@@ -48,7 +48,7 @@ public class UserGetService implements UserGetInputPort {
 	 */
 	@Override
 	public User getUserById(String id) {
-		log.info("-> Obteniendo un usuario <-");
+		log.debug("-> Obteniendo un usuario <-");
 		
 		return userRepositoryOutput.findById(id);
 	}

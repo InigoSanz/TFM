@@ -35,7 +35,7 @@ public class VacationGetService implements VacationGetInputPort {
 	 */
 	@Override
 	public List<Vacation> getAllVacation() {
-		log.info("-> Obteniendo todas las vacaciones <-");
+		log.debug("-> Obteniendo todas las vacaciones <-");
 		
 		return vacationRepositoryOutput.findAll();
 	}
@@ -48,7 +48,7 @@ public class VacationGetService implements VacationGetInputPort {
 	 */
 	@Override
 	public Vacation getVacation(String id) {
-		log.info("-> Obteniendo unas vacaciones <-");
+		log.debug("-> Obteniendo unas vacaciones <-");
 		
 		return vacationRepositoryOutput.findVacationById(id);
 	}
@@ -61,7 +61,7 @@ public class VacationGetService implements VacationGetInputPort {
 	 */
 	@Override
 	public List<Vacation> getEmployeeVacation(String id) {
-		log.info("-> Obteniendo las vacaciones de un empleado <-");
+		log.debug("-> Obteniendo las vacaciones de un empleado <-");
 		
 		return vacationRepositoryOutput.findVacationByEmployeeId(id);
 	}
@@ -71,7 +71,7 @@ public class VacationGetService implements VacationGetInputPort {
 	 */
 	@Override
 	public List<Vacation> getDepartmentVacation(String id) {
-		log.info("-> Obteniendo las vacaciones de un departamento <-");
+		log.debug("-> Obteniendo las vacaciones de un departamento <-");
 		
 		return vacationRepositoryOutput.findVacationByDepartmentId(id);
 	}

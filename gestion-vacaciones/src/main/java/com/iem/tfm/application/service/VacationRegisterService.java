@@ -46,7 +46,7 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 	 */
 	@Override
 	public String vacationRegister(VacationRegisterCommand command) {
-		log.info("-> Inicio registro de vacaciones <-");
+		log.debug("-> Inicio registro de vacaciones <-");
 
 		if (command.getStartDate().after(command.getEndDate())) {
 			throw new VacationDomainException(

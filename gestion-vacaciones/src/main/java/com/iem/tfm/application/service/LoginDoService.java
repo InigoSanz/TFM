@@ -45,7 +45,7 @@ public class LoginDoService implements LoginDoInputPort {
 	 */
 	@Override
 	public User login(String username, String password) {
-		log.info("-> Autenticando al usuario: {} <-", username);
+		log.debug("-> Autenticando al usuario: {} <-", username);
 		
 		User user = userRepositoryOutput.findByUsername(username);
 		
@@ -61,7 +61,7 @@ public class LoginDoService implements LoginDoInputPort {
             throw new UserDomainException("Contraseña incorrecta.");
         }
 		
-		log.info("-> Usuario autenticado correctamente: {} <-", username);
+		log.debug("-> Usuario autenticado correctamente: {} <-", username);
 		
 		return user;
 	}

@@ -35,7 +35,7 @@ public class DepartmentGetService implements DepartmentGetInputPort {
 	 */
 	@Override
 	public List<Department> getAllDepartment() {
-		log.info("-> Obteniendo todos los departamentos <-");
+		log.debug("-> Obteniendo todos los departamentos <-");
 
 		return departmentRepositoryOutput.findAll();
 	}
@@ -48,7 +48,7 @@ public class DepartmentGetService implements DepartmentGetInputPort {
 	 */
 	@Override
 	public Department getDepartment(String id) {
-		log.info("-> Obteniendo un departamento <-");
+		log.debug("-> Obteniendo un departamento <-");
 
 		return departmentRepositoryOutput.findDepartmentById(id);
 	}

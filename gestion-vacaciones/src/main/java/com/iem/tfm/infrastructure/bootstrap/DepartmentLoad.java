@@ -32,6 +32,8 @@ public class DepartmentLoad {
 	 */
 	@PostConstruct
 	public void postDepartmentData() {
+		log.info("-> Iniciando precarga de departamentos <-");
+		
 		List<DepartmentEntity> departmentLoadList = List.of(new DepartmentEntity("HR001", "Recursos Humanos"),
 				new DepartmentEntity("TS001", "Tiendas"), new DepartmentEntity("DR001", "Direccion"),
 				new DepartmentEntity("IN001", "IT"), new DepartmentEntity("CT001", "Contabilidad"));

@@ -35,7 +35,7 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 	 */
 	@Override
 	public List<Employee> getAllEmployees() {		
-		log.info("-> Obteniendo todos los empleados <-");
+		log.debug("-> Obteniendo todos los empleados <-");
 		
 		return employeeRepositoryOutput.findAll();
 	}
@@ -48,7 +48,7 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 	 */
 	@Override
 	public Employee getEmployee(String id) {
-		log.info("-> Obteniendo un empleado <-");
+		log.debug("-> Obteniendo un empleado <-");
 		
 		return employeeRepositoryOutput.findEmployeeById(id);
 	}

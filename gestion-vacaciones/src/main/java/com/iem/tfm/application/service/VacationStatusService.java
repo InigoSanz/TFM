@@ -10,6 +10,8 @@ import com.iem.tfm.domain.exception.VacationDomainException;
 import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.domain.util.EmployeeRoleEnum;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Servicio de aplicación para gestionar el cambio de estado de solicitudes de vacaciones.
  * <p>
@@ -22,6 +24,7 @@ import com.iem.tfm.domain.util.EmployeeRoleEnum;
  * @version 1.0
  */
 @Service
+@Slf4j
 public class VacationStatusService implements VacationStatusInputPort {
 
 	@Autowired
@@ -36,6 +39,7 @@ public class VacationStatusService implements VacationStatusInputPort {
 	 */
 	@Override
 	public void statusChange(VacationStatusChangeCommand command) {
+		log.debug("-> Inicio cambio de estado de vacaciones <-");
 
 		Vacation vacation = vacationRepositoryOutput.findVacationById(command.getVacationId());
 
@@ -67,6 +71,8 @@ public class VacationStatusService implements VacationStatusInputPort {
 		} else {
 			vacation.solReject();
 		}
+		
+		log.debug("-> Estado de las vacaciones cambiado exitosamente <-");
 
 		vacationRepositoryOutput.save(vacation);
 	}

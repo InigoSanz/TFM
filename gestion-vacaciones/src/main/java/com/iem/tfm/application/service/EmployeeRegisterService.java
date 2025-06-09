@@ -54,7 +54,7 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 	 */
 	@Override
 	public String employeeRegister(EmployeeRegisterCommand command) {
-		log.info("-> Inicio registro de empleado <-");
+		log.debug("-> Inicio registro de empleado <-");
 		
 		if (employeeRepositoryOutput.existsByDni(command.getDni())) {
 			throw new EmployeeDomainException("Ya existe un empleado con el DNI introducido.");
@@ -82,7 +82,7 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 		
 		String employeeId = employeeRepositoryOutput.save(employee);
 		
-		log.info("-> Empleado registrado exitosamente <-");
+		log.debug("-> Empleado registrado exitosamente <-");
 		
 		// Creamos el usuario del empleado que se da de alta
 		String password = PasswordGenerator.generatePassword(10);
@@ -90,9 +90,9 @@ public class EmployeeRegisterService implements EmployeeRegisterInputPort {
 		
 		userRepositoryOutput.save(user);
 		
-		log.info("-> Usuario creado para el empleado <-");
-		log.info("Username: {}", user.getUsername());
-		log.info("Password: {}", password);
+		log.debug("-> Usuario creado para el empleado <-");
+		log.debug("Username: {}", user.getUsername());
+		log.debug("Password: {}", password);
 		
 		return employeeId;
 	}
