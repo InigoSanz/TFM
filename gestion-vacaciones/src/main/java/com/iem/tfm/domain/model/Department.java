@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 /**
  * Modelo de dominio que representa un departamento dentro de la empresa.
  * <p>
- * Contiene la información esencial del departamento y se utiliza para asociar empleados
- * a uno o más departamentos.
+ * Contiene la información esencial del departamento y se utiliza para asociar
+ * empleados a uno o más departamentos.
  * </p>
  * 
  * @author Inigo
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Department {
-	
+
 	private String id;
 	private String name;
 }

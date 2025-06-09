@@ -8,10 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Clase Command de la capa de aplicación que se utiliza para registrar un nuevo {@link com.iem.tfm.domain.model.Employee}.
+ * Clase Command de la capa de aplicación que se utiliza para registrar un nuevo
+ * {@link com.iem.tfm.domain.model.Employee}.
  * <p>
- * Se utiliza para transportar los datos necesarios desde un adaptador (como un controlador REST)
- * hacia el caso de uso correspondiente en la capa de aplicación.
+ * Se utiliza para transportar los datos necesarios desde un adaptador (como un
+ * controlador REST) hacia el caso de uso correspondiente en la capa de
+ * aplicación.
  * </p>
  * 
  * @author Inigo
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeRegisterCommand {
-	
+
 	private String name;
 	private String surname;
 	private String dni;

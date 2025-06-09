@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 /**
  * Command para registrar una nueva solicitud de vacaciones.
  * <p>
- * Contiene los datos necesarios para realizar la operación de alta de vacaciones
- * desde la capa de aplicación.
+ * Contiene los datos necesarios para realizar la operación de alta de
+ * vacaciones desde la capa de aplicación.
  * </p>
  * 
  * @author Inigo
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacationRegisterCommand {
-	
+
 	private Date startDate;
 	private Date endDate;
 	private String employeeId;

@@ -5,8 +5,8 @@ package com.iem.tfm.domain.util;
  * <p>
  * Reglas básicas:
  * <ul>
- *   <li>Debe tener 8 dígitos seguidos de una letra (mayúscula o minúscula).</li>
- *   <li>No se admiten valores nulos.</li>
+ * <li>Debe tener 8 dígitos seguidos de una letra (mayúscula o minúscula).</li>
+ * <li>No se admiten valores nulos.</li>
  * </ul>
  * </p>
  * 
@@ -14,13 +14,13 @@ package com.iem.tfm.domain.util;
  * @version 1.0.1
  */
 public class DniRules {
-	
+
 	/**
 	 * Constructor privado para evitar que se instancie esta clase utilitaria.
 	 */
 	private DniRules() {
 	}
-	
+
 	/**
 	 * Varifica si el formato del DNI es válido.
 	 * 
@@ -28,18 +28,18 @@ public class DniRules {
 	 * @return {@code true} si el formato es correcto, {@code false} si no
 	 */
 	public static boolean isValidEmployeeDni(String dni) {
-		
+
 		if (dni == null) {
 			return false;
 		}
-		
+
 		boolean isDniFormatCorrect = false;
-		
+
 		// Expresión regular, 8 números seguidos de 1 letra (minúscula o mayúscula)
 		if (dni.matches("\\d{8}[A-Za-z]")) {
 			isDniFormatCorrect = true;
 		}
-		
+
 		return isDniFormatCorrect;
 	}
 }
