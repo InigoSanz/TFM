@@ -103,4 +103,11 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 		return employeeRepository.existsById(employeeId);
 	}
+
+	@Override
+	public List<Employee> findEmployeesByDepartmentId(List<String> departmentIds) {
+		List<EmployeeEntity> entityOptional = employeeRepository.findByDepartmentIdsIn(departmentIds);	
+		
+		return employeeEntityMapper.toDomainList(entityOptional);
+	}
 }

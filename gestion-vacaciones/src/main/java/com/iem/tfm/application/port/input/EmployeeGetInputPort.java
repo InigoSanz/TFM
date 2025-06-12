@@ -30,4 +30,11 @@ public interface EmployeeGetInputPort {
 	 * @return empleado correspondiente al ID
 	 */
 	public Employee getEmployee(String id);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @return
+	 */
+	public List<Employee> getEmployeesByDepartment(List<String> departmentIds);
 }

@@ -52,4 +52,11 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 
 		return employeeRepositoryOutput.findEmployeeById(id);
 	}
+
+	@Override
+	public List<Employee> getEmployeesByDepartment(List<String> departmentIds) {
+		log.debug("-> Obteniendo los empleados del departamento: {}", departmentIds);
+		
+		return employeeRepositoryOutput.findEmployeesByDepartmentId(departmentIds);
+	}
 }

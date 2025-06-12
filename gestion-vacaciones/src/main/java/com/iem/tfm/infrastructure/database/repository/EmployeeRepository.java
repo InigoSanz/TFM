@@ -1,5 +1,7 @@
 package com.iem.tfm.infrastructure.database.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
@@ -28,4 +30,11 @@ public interface EmployeeRepository extends MongoRepository<EmployeeEntity, Stri
 	 * @return {@code true} si el empleado existe, {@code false} si no
 	 */
 	public boolean existsByDni(String dni);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @return
+	 */
+	public List<EmployeeEntity> findByDepartmentIdsIn(List<String> departmentId);
 }

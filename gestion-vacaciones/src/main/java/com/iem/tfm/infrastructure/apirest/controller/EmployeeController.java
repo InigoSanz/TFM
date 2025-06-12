@@ -115,6 +115,24 @@ public class EmployeeController {
 
 		return ResponseEntity.ok(employeeDto);
 	}
+	
+	@GetMapping("/department/{department-id}")
+	public ResponseEntity<List<EmployeeResponseDto>> getEmployeesByDepartment(@PathVariable("department-id") List<String> departmentIds) {
+	    log.debug("-> Petición para obtener empleados del departamento con ID: [{}] <-", departmentIds);
+
+	    List<Employee> employees = employeeGetInputPort.getEmployeesByDepartment(departmentIds);
+
+	    if (employees.isEmpty()) {
+	        log.warn("-> No hay empleados registrados en este departamento <-");
+	        return ResponseEntity.noContent().build();
+	    }
+
+	    List<EmployeeResponseDto> responseDtoList = employeeDtoMapper.fromDomainToDtoList(employees);
+
+	    log.debug("-> Empleados del departamento obtenidos exitosamente <-");
+
+	    return ResponseEntity.ok(responseDtoList);
+	}
 
 	/**
 	 * Crea la URI para el nuevo recurso creado.
