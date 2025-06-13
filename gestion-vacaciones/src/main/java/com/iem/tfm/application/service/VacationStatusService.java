@@ -55,27 +55,25 @@ public class VacationStatusService implements VacationStatusInputPort {
 			throw new VacationDomainException("El empleado que solicita las vacaciones debe contener un rol.");
 		}
 
+		// Cambiar el estado según el rol
 		if (command.isApprove()) {
 			switch (employeeRole) {
-			case EmployeeRoleEnum.ENCARGADO -> {
-				vacation.approveBySupervisor();
-
-			}
-			case EmployeeRoleEnum.RRHH -> {
-				vacation.approveByHhrr();
-
-			}
-			default -> {
-				throw new VacationDomainException(
-						"Este rol no tiene permisos para aprobar la solicitud de las vacaciones.");
-			}
+				case EmployeeRoleEnum.ENCARGADO -> vacation.approveBySupervisor();
+				case EmployeeRoleEnum.RRHH -> vacation.approveByHhrr();
+				default -> throw new VacationDomainException("Este rol no tiene permisos para aprobar la solicitud.");
 			}
 		} else {
 			vacation.solReject();
 		}
 
-		log.debug("-> Estado de las vacaciones cambiado exitosamente <-");
+		// Guardar el resolvedor si está presente
+		String resolvedBy = command.getResolvedByName();
+		if (resolvedBy != null && !resolvedBy.isBlank()) {
+			vacationRepositoryOutput.setResolvedBy(command.getVacationId(), resolvedBy);
+			log.debug("-> Solicitud resuelta por: {} <-", resolvedBy);
+		}
 
-		vacationRepositoryOutput.save(vacation);
+		log.debug("-> Estado de las vacaciones cambiado exitosamente <-");
 	}
+
 }

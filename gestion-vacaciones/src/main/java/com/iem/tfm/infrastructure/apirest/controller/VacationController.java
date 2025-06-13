@@ -27,6 +27,7 @@ import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationStatusChangeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.VacationResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.VacationDtoMapper;
+import com.iem.tfm.infrastructure.database.repository.VacationRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,6 +68,9 @@ public class VacationController {
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
 
+	@Autowired
+	VacationRepository vacationRepository;
+
 	/**
 	 * Registra una nueva solicitud de vacaciones.
 	 *
@@ -97,7 +101,7 @@ public class VacationController {
 
 		List<VacationResponseDto> responseDtoList = vacationDtoMapper
 				.fromDomainToDtoList(vacationGetInputPort.getAllVacation());
-		
+
 		if (responseDtoList.isEmpty()) {
 			log.warn("-> No hay vacaciones registradas <-");
 			return ResponseEntity.noContent().build();
@@ -119,7 +123,7 @@ public class VacationController {
 		log.debug("-> Petición para obtener unas vacaciones por ID recibida <-");
 
 		Vacation vacation = vacationGetInputPort.getVacation(id);
-		
+
 		if (vacation == null) {
 			log.warn("-> Vacaciones con ID [{}] no encontradas <-", id);
 			return ResponseEntity.notFound().build();
@@ -127,7 +131,12 @@ public class VacationController {
 
 		String employeeName = employeeGetInputPort.getEmployee(vacation.getEmployeeId()).getName();
 
-		VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName);
+		String resolvedBy = null;
+		if (vacationRepository.findById(vacation.getId()).isPresent()) {
+			resolvedBy = vacationRepository.findById(vacation.getId()).get().getResolvedBy();
+		}
+
+		VacationResponseDto vacationDto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName, resolvedBy);
 
 		log.debug("-> Vacaciones obtenidas exitosamente <-");
 
@@ -146,7 +155,7 @@ public class VacationController {
 
 		List<VacationResponseDto> responseDtoList = vacationDtoMapper
 				.fromDomainToDtoList(vacationGetInputPort.getEmployeeVacation(id));
-		
+
 		if (responseDtoList.isEmpty()) {
 			log.warn("-> El empleado no tiene vacaciones registradas <-");
 			return ResponseEntity.noContent().build();
@@ -170,7 +179,7 @@ public class VacationController {
 		log.debug("-> Petición para cambiar el estado de las vacaciones recibida <-");
 
 		VacationStatusChangeCommand command = new VacationStatusChangeCommand(id, dto.getEmployeeId(), dto.getRole(),
-				dto.isApprove());
+				dto.isApprove(), dto.getResolvedByName());
 
 		vacationStatusInputPort.statusChange(command);
 
@@ -185,17 +194,23 @@ public class VacationController {
 		log.debug("-> Petición para obtener vacaciones del departamento con id: " + id + " recibida <-");
 
 		List<Vacation> vacations = vacationGetInputPort.getDepartmentVacation(id);
-		
+
 		if (vacations.isEmpty()) {
 			log.warn("-> No hay vacaciones en este departamento <-");
 			return ResponseEntity.noContent().build();
 		}
-		
+
 		List<VacationResponseDto> responseDtoList = new ArrayList<>();
 
 		for (Vacation vac : vacations) {
 			String employeeName = employeeGetInputPort.getEmployee(vac.getEmployeeId()).getName();
-			VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vac, employeeName);
+
+			String resolvedBy = null;
+			if (vacationRepository.findById(vac.getId()).isPresent()) {
+				resolvedBy = vacationRepository.findById(vac.getId()).get().getResolvedBy();
+			}
+
+			VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vac, employeeName, resolvedBy);
 			responseDtoList.add(dto);
 		}
 

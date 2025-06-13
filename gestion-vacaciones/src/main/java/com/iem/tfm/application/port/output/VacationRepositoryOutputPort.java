@@ -67,4 +67,11 @@ public interface VacationRepositoryOutputPort {
 	 * @return
 	 */
 	public List<Vacation> findVacationByDepartmentId(String id);
+	
+	/**
+	 * 
+	 * @param vacationId
+	 * @param resolvedBy
+	 */
+	public void setResolvedBy(String vacationId, String resolvedBy);
 }

@@ -41,4 +41,5 @@ public class VacationResponseDto {
 	private VacationStatusEnum status;
 	private List<String> departmentIds;
 	private String employeeName;
+	private String resolvedBy;
 }

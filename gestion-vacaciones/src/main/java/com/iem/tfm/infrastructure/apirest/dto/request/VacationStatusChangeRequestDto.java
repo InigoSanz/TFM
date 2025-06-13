@@ -29,4 +29,5 @@ public class VacationStatusChangeRequestDto {
 	private String employeeId;
 	private String role;
 	private boolean approve;
+	private String resolvedByName;
 }

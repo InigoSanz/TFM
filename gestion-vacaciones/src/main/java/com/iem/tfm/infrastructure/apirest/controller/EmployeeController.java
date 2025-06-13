@@ -116,6 +116,11 @@ public class EmployeeController {
 		return ResponseEntity.ok(employeeDto);
 	}
 	
+	/**
+	 * 
+	 * @param departmentIds
+	 * @return
+	 */
 	@GetMapping("/department/{department-id}")
 	public ResponseEntity<List<EmployeeResponseDto>> getEmployeesByDepartment(@PathVariable("department-id") List<String> departmentIds) {
 	    log.debug("-> Petición para obtener empleados del departamento con ID: [{}] <-", departmentIds);

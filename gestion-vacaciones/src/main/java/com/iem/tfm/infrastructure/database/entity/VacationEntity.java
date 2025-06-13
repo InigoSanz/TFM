@@ -40,4 +40,5 @@ public class VacationEntity {
 	private String employeeId;
 	private VacationStatusEnum status;
 	private List<String> departmentIds;
+	private String resolvedBy; // Añadimos esto para saber quien resuelve las solicitudes
 }

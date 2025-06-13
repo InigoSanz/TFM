@@ -111,10 +111,26 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return vacationEntityMapper.toDomainList(entities);
 	}
-
+	
+	/**
+	 * 
+	 */
 	@Override
 	public List<Vacation> findVacationByDepartmentId(String id) {
 		List<VacationEntity> entities = vacationRepository.findByDepartmentIdsContaining(id);
 		return vacationEntityMapper.toDomainList(entities);
+	}
+
+	@Override
+	public void setResolvedBy(String vacationId, String resolvedBy) {
+		Optional<VacationEntity> entityOptional = vacationRepository.findById(vacationId);
+		
+		if (!entityOptional.isPresent()) {
+			throw new VacationDomainException("Vacaciones no encontradas con id: " + vacationId);
+		}
+		
+		VacationEntity entity = entityOptional.get();
+		entity.setResolvedBy(resolvedBy);
+		vacationRepository.save(entity);
 	}
 }
