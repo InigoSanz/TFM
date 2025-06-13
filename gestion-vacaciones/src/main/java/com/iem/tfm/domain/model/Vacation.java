@@ -7,6 +7,7 @@ import com.iem.tfm.domain.exception.VacationDomainException;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Modelo de dominio para las vacaciones.
@@ -18,6 +19,7 @@ import lombok.Getter;
  * @version 1.1
  */
 @Getter
+@Setter // No deberiamos poner Setters en el dominio, pero lo necesitamos para cambiar el estado en el servicio de status change
 @Builder
 public class Vacation {
 
@@ -27,9 +29,10 @@ public class Vacation {
 	private String employeeId;
 	private VacationStatusEnum status;
 	private List<String> departmentIds;
+	private String resolvedBy;
 
 	public Vacation(String id, Date startDate, Date endDate, String employeeId, VacationStatusEnum status,
-			List<String> departmentIds) {
+			List<String> departmentIds, String resolvedBy) {
 
 		if (employeeId == null) {
 			throw new VacationDomainException("Las vacaciones tienen que estar asociadas a un empleado.");
@@ -57,6 +60,7 @@ public class Vacation {
 		this.employeeId = employeeId;
 		this.status = status;
 		this.departmentIds = departmentIds;
+		this.resolvedBy = resolvedBy;
 	}
 
 	public void approveBySupervisor() {

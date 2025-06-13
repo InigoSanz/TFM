@@ -41,7 +41,7 @@ public interface VacationEntityMapper {
 	 */
 	public default Vacation toDomain(VacationEntity entity) {
 		return new Vacation(entity.getId(), entity.getStartDate(), entity.getEndDate(), entity.getEmployeeId(),
-				entity.getStatus(), entity.getDepartmentIds());
+				entity.getStatus(), entity.getDepartmentIds(), entity.getResolvedBy());
 	}
 
 	/**

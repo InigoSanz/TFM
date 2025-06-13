@@ -66,14 +66,16 @@ public class VacationStatusService implements VacationStatusInputPort {
 			vacation.solReject();
 		}
 
-		// Guardar el resolvedor si está presente
+		// Guardar el resolvedor en el mismo objeto
 		String resolvedBy = command.getResolvedByName();
 		if (resolvedBy != null && !resolvedBy.isBlank()) {
-			vacationRepositoryOutput.setResolvedBy(command.getVacationId(), resolvedBy);
+			vacation.setResolvedBy(resolvedBy);
 			log.debug("-> Solicitud resuelta por: {} <-", resolvedBy);
 		}
 
+		// Guardar el objeto completo
+		vacationRepositoryOutput.save(vacation);
+
 		log.debug("-> Estado de las vacaciones cambiado exitosamente <-");
 	}
-
 }
