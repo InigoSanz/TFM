@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +17,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
+import com.iem.tfm.application.port.input.EmployeeUpdateInputPort;
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.command.EmployeeUpdateCommand;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
+import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeUpdateRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.EmployeeDtoMapper;
 
@@ -45,6 +49,9 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
+	
+	@Autowired
+	EmployeeUpdateInputPort employeeUpdateInputPort;
 
 	@Autowired
 	EmployeeDtoMapper employeeDtoMapper;
@@ -81,7 +88,7 @@ public class EmployeeController {
 
 		List<EmployeeResponseDto> responseDtoList = employeeDtoMapper
 				.fromDomainToDtoList(employeeGetInputPort.getAllEmployees());
-		
+
 		if (responseDtoList.isEmpty()) {
 			log.warn("-> No se encontraron empleados registrados <-");
 			return ResponseEntity.noContent().build();
@@ -101,42 +108,60 @@ public class EmployeeController {
 	@GetMapping("/{employee-id}")
 	public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para obtener un empleado por ID recibida <-");
-		
+
 		Employee employee = employeeGetInputPort.getEmployee(id);
-		
+
 		if (employee == null) {
-	        log.warn("-> Empleado con ID [{}] no encontrado <-", id);
-	        return ResponseEntity.notFound().build();
-	    }
+			log.warn("-> Empleado con ID [{}] no encontrado <-", id);
+			return ResponseEntity.notFound().build();
+		}
 
 		EmployeeResponseDto employeeDto = employeeDtoMapper.fromDomainToDto(employee);
-		
+
 		log.debug("-> Empleado obtenido exitosamente <-");
 
 		return ResponseEntity.ok(employeeDto);
 	}
-	
+
 	/**
 	 * 
 	 * @param departmentIds
 	 * @return
 	 */
 	@GetMapping("/department/{department-id}")
-	public ResponseEntity<List<EmployeeResponseDto>> getEmployeesByDepartment(@PathVariable("department-id") List<String> departmentIds) {
-	    log.debug("-> Petición para obtener empleados del departamento con ID: [{}] <-", departmentIds);
+	public ResponseEntity<List<EmployeeResponseDto>> getEmployeesByDepartment(
+			@PathVariable("department-id") List<String> departmentIds) {
+		log.debug("-> Petición para obtener empleados del departamento con ID: [{}] <-", departmentIds);
 
-	    List<Employee> employees = employeeGetInputPort.getEmployeesByDepartment(departmentIds);
+		List<Employee> employees = employeeGetInputPort.getEmployeesByDepartment(departmentIds);
 
-	    if (employees.isEmpty()) {
-	        log.warn("-> No hay empleados registrados en este departamento <-");
-	        return ResponseEntity.noContent().build();
-	    }
+		if (employees.isEmpty()) {
+			log.warn("-> No hay empleados registrados en este departamento <-");
+			return ResponseEntity.noContent().build();
+		}
 
-	    List<EmployeeResponseDto> responseDtoList = employeeDtoMapper.fromDomainToDtoList(employees);
+		List<EmployeeResponseDto> responseDtoList = employeeDtoMapper.fromDomainToDtoList(employees);
 
-	    log.debug("-> Empleados del departamento obtenidos exitosamente <-");
+		log.debug("-> Empleados del departamento obtenidos exitosamente <-");
 
-	    return ResponseEntity.ok(responseDtoList);
+		return ResponseEntity.ok(responseDtoList);
+	}
+
+	@PutMapping("/{employee-id}")
+	public ResponseEntity<Void> updateEmployee(@PathVariable("employee-id") String id,
+			@RequestBody EmployeeUpdateRequestDto dto) {
+		log.debug("-> Petición para actualizar empleado con id: {} recibida <-", id);
+
+		// Creamos el command utilizando el DTO, quiza aqui podriamos implementar un
+		// mapeo en vez de hacerlo aquí
+		EmployeeUpdateCommand commandUpdate = new EmployeeUpdateCommand(id, dto.getAge(), dto.getEmail(),
+				dto.getStartDate(), dto.getEndDate(), dto.getDepartmentIds(), dto.getRole());
+		
+		employeeUpdateInputPort.updateEmployee(commandUpdate);
+		
+		log.debug("-> Empleado con id: {} actualizado exitosamente <-", id);
+		
+		return ResponseEntity.ok().build();
 	}
 
 	/**
