@@ -146,16 +146,20 @@ public class EmployeeController {
 
 		return ResponseEntity.ok(responseDtoList);
 	}
-
+	
+	/**
+	 * Actualiza los datos modificables de un empleado existente.
+	 *
+	 * @param id  identificador del empleado
+	 * @param dto datos nuevos del empleado
+	 * @return respuesta con estado 200 OK si la operación fue exitosa
+	 */
 	@PutMapping("/{employee-id}")
 	public ResponseEntity<Void> updateEmployee(@PathVariable("employee-id") String id,
 			@RequestBody EmployeeUpdateRequestDto dto) {
 		log.debug("-> Petición para actualizar empleado con id: {} recibida <-", id);
 
-		// Creamos el command utilizando el DTO, quiza aqui podriamos implementar un
-		// mapeo en vez de hacerlo aquí
-		EmployeeUpdateCommand commandUpdate = new EmployeeUpdateCommand(id, dto.getAge(), dto.getEmail(),
-				dto.getStartDate(), dto.getEndDate(), dto.getDepartmentIds(), dto.getRole());
+		EmployeeUpdateCommand commandUpdate = employeeDtoMapper.fromDtoToUpdateCommand(id, dto);
 		
 		employeeUpdateInputPort.updateEmployee(commandUpdate);
 		

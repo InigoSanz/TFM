@@ -6,8 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.command.EmployeeUpdateCommand;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
+import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeUpdateRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 
 /**
@@ -74,5 +76,16 @@ public interface EmployeeDtoMapper {
 		dto.setDepartmentIds(employee.getDepartmentIds());
 
 		return dto;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param dto
+	 * @return
+	 */
+	public default EmployeeUpdateCommand fromDtoToUpdateCommand(String id, EmployeeUpdateRequestDto dto) {
+		return new EmployeeUpdateCommand(id, dto.getAge(), dto.getEmail(), dto.getStartDate(), dto.getEndDate(),
+				dto.getDepartmentIds(), dto.getRole());
 	}
 }
