@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.iem.tfm.application.port.input.EmployeeDeactivateInputPort;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.input.EmployeeUpdateInputPort;
@@ -55,6 +57,9 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeDtoMapper employeeDtoMapper;
+	
+	@Autowired
+	EmployeeDeactivateInputPort employeeDeactivateInputPort;
 
 	/**
 	 * Endpoint para registrar un nuevo empleado.
@@ -164,6 +169,22 @@ public class EmployeeController {
 		employeeUpdateInputPort.updateEmployee(commandUpdate);
 		
 		log.debug("-> Empleado con id: {} actualizado exitosamente <-", id);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@PatchMapping("/{employee-id}/deactivate")
+	public ResponseEntity<Void> deactivateEmployee(@PathVariable("employee-id") String id) {
+		log.debug("-> Petición para dar de baja empleado con id: {} recibida <-", id);
+		
+		employeeDeactivateInputPort.deactivateEmployee(id);
+		
+		log.debug("-> Empleado con id: {} dado de baja exitosamente <-", id);
 		
 		return ResponseEntity.ok().build();
 	}
