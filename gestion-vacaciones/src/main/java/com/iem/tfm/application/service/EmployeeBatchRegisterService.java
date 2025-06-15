@@ -18,6 +18,7 @@ import com.iem.tfm.application.port.input.EmployeeBatchRegisterInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.exception.EmployeeDomainException;
+import com.iem.tfm.domain.util.EmailRules;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeBatchRegisterResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,8 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 		int total = 0;
 		List<String> registerEmployees = new ArrayList<>();
 		List<String> errors = new ArrayList<>();
+		List<String> existingDepartments = Arrays.asList("HR001", "TS001", "DR001", "IN001", "CT001"); // Para la
+																										// validación
 
 		try (InputStream input = file.getInputStream(); Workbook workbook = new XSSFWorkbook(input)) {
 			Sheet excelSheet = workbook.getSheetAt(0);
@@ -63,6 +66,18 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 					String departmentList = row.getCell(6).getStringCellValue();
 					List<String> departmentIds = Arrays.asList(departmentList.split(","));
 					String role = row.getCell(7).getStringCellValue().toUpperCase();
+					
+					// Validación de email usando clase del dominio
+					if (!EmailRules.isValidEmployeeEmail(email)) {
+					    throw new EmployeeDomainException("Email inválido: " + email);
+					}
+
+					// Validación de departamentos
+					for (String department : departmentIds) {
+					    if (!existingDepartments.contains(department.trim())) {
+					        throw new EmployeeDomainException("Departamento no válido: " + department);
+					    }
+					}
 
 					// Ahora utilizamos el command de registro para cada iteración
 					EmployeeRegisterCommand registerCommand = new EmployeeRegisterCommand(name, surname, dni, age,
@@ -71,7 +86,7 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 					log.debug("Dando de alta: {} {}", name, surname);
 					employeeRegisterInputPort.employeeRegister(registerCommand);
 
-					registerEmployees.add(name + " " + surname + " (" + email + ")"); 
+					registerEmployees.add(name + " " + surname + " (" + email + ")");
 				} catch (Exception rowError) {
 					errors.add("Fila " + (i + 1) + ": " + rowError.getMessage());
 				}
