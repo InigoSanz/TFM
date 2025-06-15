@@ -73,7 +73,7 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 
 					registerEmployees.add(name + " " + surname + " (" + email + ")"); 
 				} catch (Exception rowError) {
-					errors.add(null);
+					errors.add("Fila " + (i + 1) + ": " + rowError.getMessage());
 				}
 			}
 		} catch (Exception ex) {
