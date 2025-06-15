@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.iem.tfm.application.port.input.EmployeeBatchRegisterInputPort;
 import com.iem.tfm.application.port.input.EmployeeDeactivateInputPort;
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
@@ -60,6 +63,9 @@ public class EmployeeController {
 	
 	@Autowired
 	EmployeeDeactivateInputPort employeeDeactivateInputPort;
+	
+	@Autowired
+	EmployeeBatchRegisterInputPort employeeBatchRegisterInputPort;
 
 	/**
 	 * Endpoint para registrar un nuevo empleado.
@@ -80,6 +86,22 @@ public class EmployeeController {
 		log.debug("-> Empleado registrado exitosamente <-");
 
 		return ResponseEntity.created(crearUri(id)).build();
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
+	@PostMapping("/batch-upload")
+	public ResponseEntity<Void> employeeRegisterExcel(@RequestParam("file") MultipartFile file) {
+		log.debug("-> Petición para carga masiva de empleados mediante Excel recibida <-");
+		
+		employeeBatchRegisterInputPort.registerEmployeesExcel(file);
+		
+		log.debug("-> Carga masiva de empleados completada exitosamente <-");
+		
+		return ResponseEntity.ok().build();
 	}
 
 	/**
