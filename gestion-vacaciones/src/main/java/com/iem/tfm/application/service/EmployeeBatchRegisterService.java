@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.iem.tfm.application.port.input.EmployeeBatchRegisterInputPort;
 import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
+import com.iem.tfm.domain.command.EmployeeRegisterCommand;
+import com.iem.tfm.domain.exception.EmployeeDomainException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,8 +56,15 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 				String role = row.getCell(7).getStringCellValue().toUpperCase(); 
 				
 				// Ahora utilizamos el command de registro para cada iteración
+				EmployeeRegisterCommand registerCommand = new EmployeeRegisterCommand(
+						name, surname, dni, age, email, startDate, departmentIds, role);
 				
+				log.debug("Dando de alta: {} {}", name, surname);
+				employeeRegisterInputPort.employeeRegister(registerCommand);
 			}
+		} catch (Exception ex) {
+			log.error("Error al procesar el Excel de empleados", ex);
+			throw new EmployeeDomainException("No se ha podido procesar el Excel: ", ex.getMessage()); // Creamos nueva excepción
 		}
 	}
 }

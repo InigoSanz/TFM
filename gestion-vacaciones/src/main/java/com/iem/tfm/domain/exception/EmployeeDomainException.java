@@ -22,4 +22,13 @@ public class EmployeeDomainException extends RuntimeException {
 	public EmployeeDomainException(String message) {
 		super(message);
 	}
+	
+	/**
+	 * 
+	 * @param string
+	 * @param message
+	 */
+	public EmployeeDomainException(String string, String message) {
+		// Para el try y catch de dar de alta masivamente
+	}
 }
