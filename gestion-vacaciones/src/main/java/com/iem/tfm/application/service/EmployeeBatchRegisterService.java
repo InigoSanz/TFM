@@ -47,9 +47,9 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 			// Empezamos en la 1 ya que la 0 sería la cabecera de la tabla
 			for (int i = 1; i <= excelSheet.getLastRowNum(); i++) {
 				Row row = excelSheet.getRow(i);
-
-				if (row == null) {
-					continue;
+				
+				if (row == null || row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) {
+				    continue;
 				}
 
 				total++;
