@@ -2,6 +2,7 @@ package com.iem.tfm.application.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,20 @@ public class EmployeeUpdateService implements EmployeeUpdateInputPort {
 
 		// Habría que comprobar que existe aquí?
 		Employee workingEmployee = employeeRepositoryOutput.findEmployeeById(command.getId());
-
+		
+		// No nos queda otra para los campos que vienen null en actualizaciones parciales hacer esto.
+		// De esta manera conserva el valor anterior.
 		Employee updatedEmployee = Employee.builder().id(workingEmployee.getId()).name(workingEmployee.getName())
-				.surname(workingEmployee.getSurname()).dni(workingEmployee.getDni()).age(command.getAge())
-				.email(command.getEmail()).startDate(command.getStartDate()).endDate(command.getEndDate())
-				.departmentIds(command.getDepartmentIds()).role(EmployeeRoleEnum.valueOf(command.getRole())).build();
+				.surname(workingEmployee.getSurname()).dni(workingEmployee.getDni())
+				.age(Optional.ofNullable(command.getAge()).orElse(workingEmployee.getAge()))
+				.email(Optional.ofNullable(command.getEmail()).orElse(workingEmployee.getEmail()))
+				.startDate(Optional.ofNullable(command.getStartDate()).orElse(workingEmployee.getStartDate()))
+				.endDate(Optional.ofNullable(command.getEndDate()).orElse(workingEmployee.getEndDate()))
+				.departmentIds(
+						Optional.ofNullable(command.getDepartmentIds()).orElse(workingEmployee.getDepartmentIds()))
+				.role(Optional.ofNullable(command.getRole()).map(EmployeeRoleEnum::valueOf)
+						.orElse(workingEmployee.getRole()))
+				.build();
 
 		employeeRepositoryOutput.save(updatedEmployee);
 

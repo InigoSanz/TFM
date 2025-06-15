@@ -29,7 +29,7 @@ public class Employee {
 	private final String name;
 	private final String surname;
 	private final String dni;
-	private final int age;
+	private final Integer age; // Cambiamos a Integer para que admita null en actualizaciones parciales
 	private final String email;
 	private final Date startDate;
 	private final Date endDate;
@@ -73,8 +73,8 @@ public class Employee {
 				throw new EmployeeDomainException("El DNI debe tener 8 dígitos y una letra al final.");
 			}
 
-			if (age < 16 || age > 65) {
-				throw new EmployeeDomainException("Edad inválida para trabajar.");
+			if (age != null && (age < 16 || age > 65)) {
+			    throw new EmployeeDomainException("Edad inválida para trabajar.");
 			}
 
 			if (!EmailRules.isValidEmployeeEmail(email)) {
