@@ -25,9 +25,11 @@ import com.iem.tfm.application.port.input.EmployeeRegisterInputPort;
 import com.iem.tfm.application.port.input.EmployeeUpdateInputPort;
 import com.iem.tfm.domain.command.EmployeeRegisterCommand;
 import com.iem.tfm.domain.command.EmployeeUpdateCommand;
+import com.iem.tfm.domain.exception.EmployeeDomainException;
 import com.iem.tfm.domain.model.Employee;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.request.EmployeeUpdateRequestDto;
+import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeBatchRegisterResponseDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeResponseDto;
 import com.iem.tfm.infrastructure.database.mapper.EmployeeDtoMapper;
 
@@ -94,14 +96,30 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/batch-upload")
-	public ResponseEntity<Void> employeeRegisterExcel(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<EmployeeBatchRegisterResponseDto> employeeRegisterExcel(@RequestParam("file") MultipartFile file) {
 		log.debug("-> Petición para carga masiva de empleados mediante Excel recibida <-");
-		
-		employeeBatchRegisterInputPort.registerEmployeesExcel(file);
-		
-		log.debug("-> Carga masiva de empleados completada exitosamente <-");
-		
-		return ResponseEntity.ok().build();
+
+	    try {
+	        EmployeeBatchRegisterResponseDto resumen = employeeBatchRegisterInputPort.registerEmployeesExcel(file);
+
+	        int total = resumen.getTotal();
+	        int fallos = resumen.getErrors().size();
+
+	        if (fallos == 0) {
+	            log.debug("-> Todos los empleados se registraron exitosamente <-");
+	            return ResponseEntity.ok(resumen);
+	        } else if (fallos < total) {
+	            log.warn("-> Algunos empleados no se pudieron registrar <-");
+	            return ResponseEntity.status(207).body(resumen); // 207 Multi-Status
+	        } else {
+	            log.error("-> Fallo total: ningún empleado fue registrado <-");
+	            return ResponseEntity.badRequest().body(resumen); // 400 Bad Request
+	        }
+
+	    } catch (EmployeeDomainException ex) {
+	        log.error("-> Error al procesar el archivo Excel <-");
+	        return ResponseEntity.status(500).build(); // Internal Server Error
+	    }
 	}
 
 	/**
