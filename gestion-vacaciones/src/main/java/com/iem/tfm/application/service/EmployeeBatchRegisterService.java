@@ -54,7 +54,8 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 				}
 
 				total++;
-
+				
+				// Meter el catch de dentro en un método
 				try {
 					String name = row.getCell(0).getStringCellValue();
 					String surname = row.getCell(1).getStringCellValue();

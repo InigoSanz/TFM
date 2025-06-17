@@ -19,7 +19,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 public class EmployeeUpdateRequestDto {
 	
-	private int age;
+	private int age; // Cambiar al Date para fecha de nacimiento
 	private String email;
 	private Date startDate;
 	private Date endDate;

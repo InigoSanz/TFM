@@ -11,7 +11,8 @@ package com.iem.tfm.domain.exception;
  * @author Inigo
  * @version 1.0
  */
-public class DepartmentDomainException extends RuntimeException {
+public class DepartmentDomainException extends RuntimeException { // Cambiar todas las excepciones definidas por mi a
+																	// Exception (así incluye checked exception)
 
 	private static final long serialVersionUID = -4766671888147336389L;
 
