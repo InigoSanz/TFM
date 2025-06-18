@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -217,6 +218,17 @@ public class VacationController {
 		log.debug("-> Vacaciones del departamento obtenidas exitosamente <-");
 
 		return ResponseEntity.ok(responseDtoList);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping("employee/{employee-id}/paginated}")
+	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(/*Pensar que ponemos aqui*/) {
+		log.debug("-> Petición paginada para vacaciones del empleado con id: " + employeeId + " <-");
+		
+		log.debug("-> Petición paginada para vacaciones del empleado obtenida exitosamente <-");
 	}
 
 	/**
