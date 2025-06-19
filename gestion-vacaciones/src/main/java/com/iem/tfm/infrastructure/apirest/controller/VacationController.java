@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ import com.iem.tfm.domain.model.Vacation;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.request.VacationStatusChangeRequestDto;
 import com.iem.tfm.infrastructure.apirest.dto.response.VacationResponseDto;
+import com.iem.tfm.infrastructure.database.entity.VacationEntity;
 import com.iem.tfm.infrastructure.database.mapper.VacationDtoMapper;
 import com.iem.tfm.infrastructure.database.repository.VacationRepository;
 
@@ -220,18 +223,39 @@ public class VacationController {
 
 		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping("employee/{employee-id}/paginated}")
-	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(@PathVariable("employee-id") String employeeId, @RequestParam int page, @RequestParam int size, @RequestParam(required = false) String status) {
+	@GetMapping("employee/{employee-id}/paginated")
+	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(
+			@PathVariable("employee-id") String employeeId, @RequestParam int page, @RequestParam int size,
+			@RequestParam(required = false) String status) {
 		log.debug("-> Petición paginada para vacaciones del empleado con id: " + employeeId + " <-");
-		
-		Page<Vacation> vacationPage = vacationGetInputPort.getPaginatedEmployeeVacations(employeeId, page, size, status);
-		
+
+		Page<Vacation> vacationPage = vacationGetInputPort.getPaginatedEmployeeVacations(employeeId, page, size,
+				status);
+
+		List<VacationResponseDto> dtoList = new ArrayList<>();
+
+		for (Vacation vacation : vacationPage.getContent()) {
+			String employeeIdVacation = vacation.getEmployeeId();
+			String employeeName = employeeGetInputPort.getEmployee(employeeIdVacation).getName();
+
+			String resolvedBy = vacationRepository.findById(employeeIdVacation).map(VacationEntity::getResolvedBy)
+					.orElse(null);
+
+			VacationResponseDto dto = vacationDtoMapper.fromDomaintoDto(vacation, employeeName, resolvedBy);
+			dtoList.add(dto);
+		}
+
+		Page<VacationResponseDto> responsePage = new PageImpl<>(dtoList, PageRequest.of(page, size),
+				vacationPage.getTotalElements());
+
 		log.debug("-> Petición paginada para vacaciones del empleado obtenida exitosamente <-");
+		
+		 return ResponseEntity.ok(responsePage);
 	}
 
 	/**
