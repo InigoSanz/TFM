@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -225,8 +226,10 @@ public class VacationController {
 	 * @return
 	 */
 	@GetMapping("employee/{employee-id}/paginated}")
-	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(/*Pensar que ponemos aqui*/) {
+	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(@PathVariable("employee-id") String employeeId, @RequestParam int page, @RequestParam int size, @RequestParam(required = false) String status) {
 		log.debug("-> Petición paginada para vacaciones del empleado con id: " + employeeId + " <-");
+		
+		Page<Vacation> vacationPage = vacationGetInputPort.getPaginatedEmployeeVacations(employeeId, page, size, status);
 		
 		log.debug("-> Petición paginada para vacaciones del empleado obtenida exitosamente <-");
 	}

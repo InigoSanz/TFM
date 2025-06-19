@@ -2,6 +2,8 @@ package com.iem.tfm.application.port.input;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.iem.tfm.domain.model.Vacation;
 
 /**
@@ -38,6 +40,21 @@ public interface VacationGetInputPort {
 	 * @return lista de vacaciones de un empleado
 	 */
 	public List<Vacation> getEmployeeVacation(String id);
-
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public List<Vacation> getDepartmentVacation(String id);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @param page
+	 * @param size
+	 * @param status
+	 * @return
+	 */
+	public Page<Vacation> getPaginatedEmployeeVacations(String employeeId, int page, int size, String status);
 }
