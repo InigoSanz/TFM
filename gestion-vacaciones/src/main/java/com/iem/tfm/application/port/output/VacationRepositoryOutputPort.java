@@ -3,6 +3,9 @@ package com.iem.tfm.application.port.output;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.iem.tfm.domain.model.Vacation;
 
 /**
@@ -74,4 +77,21 @@ public interface VacationRepositoryOutputPort {
 	 * @param resolvedBy
 	 */
 	public void setResolvedBy(String vacationId, String resolvedBy);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @param status
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Vacation> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Vacation> findByEmployeeId(String employeeId, Pageable pageable);
 }

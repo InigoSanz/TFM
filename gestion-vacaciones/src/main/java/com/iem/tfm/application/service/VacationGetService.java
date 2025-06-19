@@ -3,6 +3,9 @@ package com.iem.tfm.application.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.iem.tfm.application.port.input.VacationGetInputPort;
@@ -74,5 +77,19 @@ public class VacationGetService implements VacationGetInputPort {
 		log.debug("-> Obteniendo las vacaciones de un departamento <-");
 
 		return vacationRepositoryOutput.findVacationByDepartmentId(id);
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Vacation> getPaginatedEmployeeVacations(String employeeId, int page, int size, String status) {
+		Pageable pageable = PageRequest.of(page, size);
+		
+		if (status != null && !status.isBlank()) {
+			return vacationRepositoryOutput.findByEmployeeIdAndStatus(employeeId, status, pageable);
+		} else {
+			return vacationRepositoryOutput.findByEmployeeId(employeeId, pageable);
+		}
 	}
 }
