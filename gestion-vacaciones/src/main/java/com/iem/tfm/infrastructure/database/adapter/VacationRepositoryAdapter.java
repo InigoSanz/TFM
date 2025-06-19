@@ -1,10 +1,14 @@
 package com.iem.tfm.infrastructure.database.adapter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.iem.tfm.application.port.output.VacationRepositoryOutputPort;
@@ -111,7 +115,7 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return vacationEntityMapper.toDomainList(entities);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -121,16 +125,49 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 		return vacationEntityMapper.toDomainList(entities);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void setResolvedBy(String vacationId, String resolvedBy) {
 		Optional<VacationEntity> entityOptional = vacationRepository.findById(vacationId);
-		
+
 		if (!entityOptional.isPresent()) {
 			throw new VacationDomainException("Vacaciones no encontradas con id: " + vacationId);
 		}
-		
+
 		VacationEntity entity = entityOptional.get();
 		entity.setResolvedBy(resolvedBy);
 		vacationRepository.save(entity);
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Vacation> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable) {
+		Page<VacationEntity> entityPage = vacationRepository.findByEmployeeIdAndStatus(employeeId, status, pageable);
+
+		List<Vacation> domainList = new ArrayList<>();
+		for (VacationEntity entity : entityPage.getContent()) {
+			domainList.add(vacationEntityMapper.fromEntityToDomain(entity));
+		}
+
+		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Vacation> findByEmployeeId(String employeeId, Pageable pageable) {
+		Page<VacationEntity> entityPage = vacationRepository.findByEmployeeId(employeeId, pageable);
+
+		List<Vacation> domainList = new ArrayList<>();
+		for (VacationEntity entity : entityPage.getContent()) {
+			domainList.add(vacationEntityMapper.fromEntityToDomain(entity));
+		}
+
+		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
 	}
 }

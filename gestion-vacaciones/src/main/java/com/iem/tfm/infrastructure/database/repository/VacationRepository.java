@@ -3,6 +3,8 @@ package com.iem.tfm.infrastructure.database.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
@@ -56,4 +58,21 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @return
 	 */
 	List<VacationEntity> findByDepartmentIdsContaining(String departmentId);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @param status
+	 * @param pageable
+	 * @return
+	 */
+	Page<VacationEntity> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param employeeId
+	 * @param pageable
+	 * @return
+	 */
+	Page<VacationEntity> findByEmployeeId(String employeeId, Pageable pageable);
 }

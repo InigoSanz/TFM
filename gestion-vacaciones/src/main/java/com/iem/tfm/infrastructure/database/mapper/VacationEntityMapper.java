@@ -64,4 +64,12 @@ public interface VacationEntityMapper {
 
 		return vacations;
 	}
+	
+	/**
+	 * Utilizada en paginación
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public Vacation fromEntityToDomain(VacationEntity entity);
 }
