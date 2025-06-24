@@ -239,7 +239,7 @@ public class EmployeeController {
 	 * @param size
 	 * @return
 	 */
-	@GetMapping("/department/{department-id}/page")
+	@GetMapping("/department/{department-id}/paginated")
 	public ResponseEntity<Page<EmployeeResponseDto>> getPaginatedEmployeesByDepartment(
 			@PathVariable("department-id") String departmentId, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "4") int size) {

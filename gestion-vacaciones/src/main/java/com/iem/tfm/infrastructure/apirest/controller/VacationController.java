@@ -257,7 +257,15 @@ public class VacationController {
 
 		return ResponseEntity.ok(responsePage);
 	}
-
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param page
+	 * @param size
+	 * @param status
+	 * @return
+	 */
 	@GetMapping("/department/{department-id}/paginated")
 	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsDepartment(
 			@PathVariable("department-id") String departmentId, @RequestParam int page, @RequestParam int size,
