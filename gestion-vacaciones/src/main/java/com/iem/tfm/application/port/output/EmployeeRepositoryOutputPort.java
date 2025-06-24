@@ -2,6 +2,8 @@ package com.iem.tfm.application.port.output;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.iem.tfm.domain.model.Employee;
 
 /**
@@ -62,4 +64,13 @@ public interface EmployeeRepositoryOutputPort {
 	 * @return
 	 */
 	public List<Employee> findEmployeesByDepartmentId(List<String> departmentIds);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	public Page<Employee> findPaginatedByDepartment(String departmentId, int page, int size);
 }

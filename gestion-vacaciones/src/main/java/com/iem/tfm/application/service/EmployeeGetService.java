@@ -3,6 +3,7 @@ package com.iem.tfm.application.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.iem.tfm.application.port.input.EmployeeGetInputPort;
@@ -52,11 +53,23 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 
 		return employeeRepositoryOutput.findEmployeeById(id);
 	}
-
+	
+	/**
+	 * 
+	 */
 	@Override
 	public List<Employee> getEmployeesByDepartment(List<String> departmentIds) {
 		log.debug("-> Obteniendo los empleados del departamento: {}", departmentIds);
 		
 		return employeeRepositoryOutput.findEmployeesByDepartmentId(departmentIds);
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Employee> getPaginatedEmployeesByDepartment(String departmentId, int page, int size) {
+		log.debug("-> Obteniendo empleados del departamento [{}] paginados (página {}, tamaño {}) <-", departmentId, page, size);
+		return employeeRepositoryOutput.findPaginatedByDepartment(departmentId, page, size);
 	}
 }

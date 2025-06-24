@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,16 +59,16 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeGetInputPort employeeGetInputPort;
-	
+
 	@Autowired
 	EmployeeUpdateInputPort employeeUpdateInputPort;
 
 	@Autowired
 	EmployeeDtoMapper employeeDtoMapper;
-	
+
 	@Autowired
 	EmployeeDeactivateInputPort employeeDeactivateInputPort;
-	
+
 	@Autowired
 	EmployeeBatchRegisterInputPort employeeBatchRegisterInputPort;
 
@@ -89,7 +92,7 @@ public class EmployeeController {
 
 		return ResponseEntity.created(crearUri(id)).build();
 	}
-	
+
 	/**
 	 * 
 	 * @param file
@@ -99,27 +102,27 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeBatchRegisterResponseDto> employeeRegisterExcel(@RequestParam MultipartFile file) {
 		log.debug("-> Petición para carga masiva de empleados mediante Excel recibida <-");
 
-	    try {
-	        EmployeeBatchRegisterResponseDto resumen = employeeBatchRegisterInputPort.registerEmployeesExcel(file);
+		try {
+			EmployeeBatchRegisterResponseDto resumen = employeeBatchRegisterInputPort.registerEmployeesExcel(file);
 
-	        int total = resumen.getTotal();
-	        int fallos = resumen.getErrors().size();
+			int total = resumen.getTotal();
+			int fallos = resumen.getErrors().size();
 
-	        if (fallos == 0) {
-	            log.debug("-> Todos los empleados se registraron exitosamente <-");
-	            return ResponseEntity.ok(resumen);
-	        } else if (fallos < total) {
-	            log.warn("-> Algunos empleados no se pudieron registrar <-");
-	            return ResponseEntity.status(207).body(resumen); // 207 Multi-Status
-	        } else {
-	            log.error("-> Fallo total: ningún empleado fue registrado <-");
-	            return ResponseEntity.badRequest().body(resumen); // 400 Bad Request
-	        }
+			if (fallos == 0) {
+				log.debug("-> Todos los empleados se registraron exitosamente <-");
+				return ResponseEntity.ok(resumen);
+			} else if (fallos < total) {
+				log.warn("-> Algunos empleados no se pudieron registrar <-");
+				return ResponseEntity.status(207).body(resumen); // 207 Multi-Status
+			} else {
+				log.error("-> Fallo total: ningún empleado fue registrado <-");
+				return ResponseEntity.badRequest().body(resumen); // 400 Bad Request
+			}
 
-	    } catch (EmployeeDomainException ex) {
-	        log.error("-> Error al procesar el archivo Excel <-");
-	        return ResponseEntity.status(500).build(); // Internal Server Error
-	    }
+		} catch (EmployeeDomainException ex) {
+			log.error("-> Error al procesar el archivo Excel <-");
+			return ResponseEntity.status(500).build(); // Internal Server Error
+		}
 	}
 
 	/**
@@ -191,7 +194,7 @@ public class EmployeeController {
 
 		return ResponseEntity.ok(responseDtoList);
 	}
-	
+
 	/**
 	 * Actualiza los datos modificables de un empleado existente.
 	 *
@@ -205,14 +208,14 @@ public class EmployeeController {
 		log.debug("-> Petición para actualizar empleado con id: {} recibida <-", id);
 
 		EmployeeUpdateCommand commandUpdate = employeeDtoMapper.fromDtoToUpdateCommand(id, dto);
-		
+
 		employeeUpdateInputPort.updateEmployee(commandUpdate);
-		
+
 		log.debug("-> Empleado con id: {} actualizado exitosamente <-", id);
-		
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -221,12 +224,39 @@ public class EmployeeController {
 	@PatchMapping("/{employee-id}/deactivate")
 	public ResponseEntity<Void> deactivateEmployee(@PathVariable("employee-id") String id) {
 		log.debug("-> Petición para dar de baja empleado con id: {} recibida <-", id);
-		
+
 		employeeDeactivateInputPort.deactivateEmployee(id);
-		
+
 		log.debug("-> Empleado con id: {} dado de baja exitosamente <-", id);
-		
+
 		return ResponseEntity.ok().build();
+	}
+
+	/**
+	 * 
+	 * @param departmentId
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@GetMapping("/department/{department-id}/page")
+	public ResponseEntity<Page<EmployeeResponseDto>> getPaginatedEmployeesByDepartment(
+			@PathVariable("department-id") String departmentId, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "4") int size) {
+
+		log.debug("-> Petición paginada para empleados del departamento con id: {} <-", departmentId);
+
+		Page<Employee> employeePage = employeeGetInputPort.getPaginatedEmployeesByDepartment(departmentId, page, size);
+
+		List<EmployeeResponseDto> dtoList = employeePage.getContent().stream().map(employeeDtoMapper::fromDomainToDto)
+				.toList();
+
+		Page<EmployeeResponseDto> responsePage = new PageImpl<>(dtoList, PageRequest.of(page, size),
+				employeePage.getTotalElements());
+
+		log.debug("-> Petición paginada de empleados del departamento obtenida exitosamente <-");
+
+		return ResponseEntity.ok(responsePage);
 	}
 
 	/**

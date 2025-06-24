@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.iem.tfm.application.port.output.EmployeeRepositoryOutputPort;
@@ -103,11 +107,28 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 
 		return employeeRepository.existsById(employeeId);
 	}
-
+	
+	/**
+	 * 
+	 */
 	@Override
 	public List<Employee> findEmployeesByDepartmentId(List<String> departmentIds) {
 		List<EmployeeEntity> entityOptional = employeeRepository.findByDepartmentIdsIn(departmentIds);	
 		
 		return employeeEntityMapper.toDomainList(entityOptional);
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Employee> findPaginatedByDepartment(String departmentId, int page, int size) {
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<EmployeeEntity> entityPage = employeeRepository.findByDepartmentIdsContaining(departmentId, pageable);
+
+	    List<Employee> employeeList = employeeEntityMapper.toDomainList(entityPage.getContent());
+
+	    return new PageImpl<>(employeeList, pageable, entityPage.getTotalElements());
+	}
+
 }

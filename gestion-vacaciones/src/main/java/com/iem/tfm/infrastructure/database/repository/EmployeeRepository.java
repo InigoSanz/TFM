@@ -2,6 +2,8 @@ package com.iem.tfm.infrastructure.database.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
@@ -37,4 +39,12 @@ public interface EmployeeRepository extends MongoRepository<EmployeeEntity, Stri
 	 * @return
 	 */
 	public List<EmployeeEntity> findByDepartmentIdsIn(List<String> departmentId);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<EmployeeEntity> findByDepartmentIdsContaining(String departmentId, Pageable pageable);
 }
