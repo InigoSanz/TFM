@@ -254,8 +254,32 @@ public class VacationController {
 				vacationPage.getTotalElements());
 
 		log.debug("-> Petición paginada para vacaciones del empleado obtenida exitosamente <-");
-		
-		 return ResponseEntity.ok(responsePage);
+
+		return ResponseEntity.ok(responsePage);
+	}
+
+	@GetMapping("/department/{department-id}/paginated")
+	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsDepartment(
+			@PathVariable("department-id") String departmentId, @RequestParam int page, @RequestParam int size,
+			@RequestParam(required = false) String status) {
+
+		log.debug("-> Petición paginada para vacaciones del departamento con id: {} <-", departmentId);
+
+		Page<Vacation> vacationPage = vacationGetInputPort.getPaginatedDepartmentVacations(departmentId, page, size,
+				status);
+
+		List<VacationResponseDto> dtoList = vacationPage.getContent().stream().map(vac -> {
+			String employeeName = employeeGetInputPort.getEmployee(vac.getEmployeeId()).getName();
+			String resolvedBy = vacationRepository.findById(vac.getId()).map(VacationEntity::getResolvedBy)
+					.orElse(null);
+			return vacationDtoMapper.fromDomaintoDto(vac, employeeName, resolvedBy);
+		}).toList();
+
+		Page<VacationResponseDto> responsePage = new PageImpl<>(dtoList, PageRequest.of(page, size),
+				vacationPage.getTotalElements());
+
+		log.debug("-> Petición paginada por departamento obtenida exitosamente <-");
+		return ResponseEntity.ok(responsePage);
 	}
 
 	/**

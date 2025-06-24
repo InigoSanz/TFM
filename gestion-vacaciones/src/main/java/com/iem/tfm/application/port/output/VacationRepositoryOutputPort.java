@@ -94,4 +94,21 @@ public interface VacationRepositoryOutputPort {
 	 * @return
 	 */
 	public Page<Vacation> findByEmployeeId(String employeeId, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param status
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Vacation> findByDepartmentIdAndStatus(String departmentId, String status, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Vacation> findByDepartmentId(String departmentId, Pageable pageable);
 }

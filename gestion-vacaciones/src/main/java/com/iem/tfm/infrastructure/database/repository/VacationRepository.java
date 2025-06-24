@@ -75,4 +75,21 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @return
 	 */
 	Page<VacationEntity> findByEmployeeId(String employeeId, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param pageable
+	 * @return
+	 */
+	Page<VacationEntity> findByDepartmentIdsContaining(String departmentId, Pageable pageable);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param status
+	 * @param pageable
+	 * @return
+	 */
+	Page<VacationEntity> findByDepartmentIdsContainingAndStatus(String departmentId, String status, Pageable pageable);
 }

@@ -170,4 +170,34 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Vacation> findByDepartmentIdAndStatus(String departmentId, String status, Pageable pageable) {
+		Page<VacationEntity> entityPage = vacationRepository.findByDepartmentIdsContainingAndStatus(departmentId, status, pageable);
+
+		List<Vacation> domainList = new ArrayList<>();
+		for (VacationEntity entity : entityPage.getContent()) {
+			domainList.add(vacationEntityMapper.fromEntityToDomain(entity));
+		}
+
+		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Page<Vacation> findByDepartmentId(String departmentId, Pageable pageable) {
+		Page<VacationEntity> entityPage = vacationRepository.findByDepartmentIdsContaining(departmentId, pageable);
+
+		List<Vacation> domainList = new ArrayList<>();
+		for (VacationEntity entity : entityPage.getContent()) {
+			domainList.add(vacationEntityMapper.fromEntityToDomain(entity));
+		}
+
+		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
+	}
 }

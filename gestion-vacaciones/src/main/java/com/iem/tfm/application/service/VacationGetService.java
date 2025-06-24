@@ -92,4 +92,17 @@ public class VacationGetService implements VacationGetInputPort {
 			return vacationRepositoryOutput.findByEmployeeId(employeeId, pageable);
 		}
 	}
+
+	@Override
+	public Page<Vacation> getPaginatedDepartmentVacations(String departmentId, int page, int size, String status) {
+		log.debug("-> Obteniendo vacaciones paginadas del departamento {} <-", departmentId);
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		if (status != null && !status.isBlank()) {
+			return vacationRepositoryOutput.findByDepartmentIdAndStatus(departmentId, status, pageable);
+		} else {
+			return vacationRepositoryOutput.findByDepartmentId(departmentId, pageable);
+		}
+	}
 }

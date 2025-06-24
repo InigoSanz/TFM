@@ -57,4 +57,14 @@ public interface VacationGetInputPort {
 	 * @return
 	 */
 	public Page<Vacation> getPaginatedEmployeeVacations(String employeeId, int page, int size, String status);
+	
+	/**
+	 * 
+	 * @param departmentId
+	 * @param page
+	 * @param size
+	 * @param status
+	 * @return
+	 */
+	public Page<Vacation> getPaginatedDepartmentVacations(String departmentId, int page, int size, String status);
 }
