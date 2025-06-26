@@ -73,7 +73,7 @@ public class Employee {
 				throw new EmployeeDomainException("El DNI debe tener 8 dígitos y una letra al final.");
 			}
 
-			if (age != null && (age < 16 || age > 65)) {
+			if (age == null || age < 16 || age > 65) {
 			    throw new EmployeeDomainException("Edad inválida para trabajar.");
 			}
 
