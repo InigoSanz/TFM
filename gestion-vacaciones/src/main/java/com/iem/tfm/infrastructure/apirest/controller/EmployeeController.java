@@ -94,9 +94,15 @@ public class EmployeeController {
 	}
 
 	/**
+	 * Endpoint para registrar empleados de forma masiva a través de un archivo
+	 * Excel.
 	 * 
-	 * @param file
-	 * @return
+	 * El archivo debe contener columnas con la información necesaria para crear
+	 * cada empleado.
+	 *
+	 * @param file archivo Excel con los datos de los empleados
+	 * @return respuesta con resumen del resultado: empleados registrados y errores
+	 *         si los hay
 	 */
 	@PostMapping("/batch-upload")
 	public ResponseEntity<EmployeeBatchRegisterResponseDto> employeeRegisterExcel(@RequestParam MultipartFile file) {
@@ -172,9 +178,13 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 
-	 * @param departmentIds
-	 * @return
+	 * Endpoint para obtener los empleados que pertenecen a uno o varios
+	 * departamentos.
+	 *
+	 * @param departmentIds lista de IDs de departamento (enviada como parte de la
+	 *                      URL)
+	 * @return lista de empleados del departamento o respuesta sin contenido si no
+	 *         hay resultados
 	 */
 	@GetMapping("/department/{department-id}")
 	public ResponseEntity<List<EmployeeResponseDto>> getEmployeesByDepartment(
@@ -217,9 +227,10 @@ public class EmployeeController {
 	}
 
 	/**
+	 * Endpoint para dar de baja a un empleado estableciendo su fecha de fin.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id identificador del empleado
+	 * @return respuesta con estado 200 OK si la operación fue exitosa
 	 */
 	@PatchMapping("/{employee-id}/deactivate")
 	public ResponseEntity<Void> deactivateEmployee(@PathVariable("employee-id") String id) {
@@ -233,11 +244,12 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 
-	 * @param departmentId
-	 * @param page
-	 * @param size
-	 * @return
+	 * Endpoint para obtener una página de empleados de un departamento.
+	 *
+	 * @param departmentId identificador del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         número de empleados por página
+	 * @return página con empleados del departamento indicado
 	 */
 	@GetMapping("/department/{department-id}/paginated")
 	public ResponseEntity<Page<EmployeeResponseDto>> getPaginatedEmployeesByDepartment(

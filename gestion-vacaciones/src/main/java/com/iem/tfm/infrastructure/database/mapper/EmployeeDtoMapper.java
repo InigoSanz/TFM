@@ -77,12 +77,15 @@ public interface EmployeeDtoMapper {
 
 		return dto;
 	}
-	
+
 	/**
-	 * 
-	 * @param id
-	 * @param dto
-	 * @return
+	 * Convierte un {@link EmployeeUpdateRequestDto} junto con un ID en un
+	 * {@link EmployeeUpdateCommand}, que puede ser utilizado en la capa de
+	 * aplicación para actualizar los datos de un empleado.
+	 *
+	 * @param id  identificador del empleado a actualizar
+	 * @param dto DTO con los datos a modificar
+	 * @return comando de actualización para ser procesado por la lógica de negocio
 	 */
 	public default EmployeeUpdateCommand fromDtoToUpdateCommand(String id, EmployeeUpdateRequestDto dto) {
 		return new EmployeeUpdateCommand(id, dto.getAge(), dto.getEmail(), dto.getStartDate(), dto.getEndDate(),

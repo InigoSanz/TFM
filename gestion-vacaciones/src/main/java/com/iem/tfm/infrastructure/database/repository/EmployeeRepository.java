@@ -32,19 +32,25 @@ public interface EmployeeRepository extends MongoRepository<EmployeeEntity, Stri
 	 * @return {@code true} si el empleado existe, {@code false} si no
 	 */
 	public boolean existsByDni(String dni);
-	
+
 	/**
-	 * 
-	 * @param departmentId
-	 * @return
+	 * Recupera todos los empleados que pertenezcan a uno o más de los departamentos
+	 * especificados.
+	 *
+	 * @param departmentIds lista de IDs de departamento
+	 * @return lista de entidades {@link EmployeeEntity} asociadas a los
+	 *         departamentos dados
 	 */
 	public List<EmployeeEntity> findByDepartmentIdsIn(List<String> departmentId);
-	
+
 	/**
-	 * 
-	 * @param departmentId
-	 * @param pageable
-	 * @return
+	 * Recupera una página de empleados que pertenezcan a un departamento
+	 * específico.
+	 *
+	 * @param departmentId ID del departamento
+	 * @param pageable     configuración de la paginación (número de página, tamaño,
+	 *                     etc.)
+	 * @return página de empleados que contienen el departamento indicado
 	 */
 	public Page<EmployeeEntity> findByDepartmentIdsContaining(String departmentId, Pageable pageable);
 }

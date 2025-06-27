@@ -64,12 +64,13 @@ public interface VacationEntityMapper {
 
 		return vacations;
 	}
-	
+
 	/**
-	 * Utilizada en paginación
-	 * 
-	 * @param entity
-	 * @return
+	 * Convierte una entidad {@link VacationEntity} a su correspondiente
+	 * {@link Vacation}, específicamente utilizada en procesos de paginación.
+	 *
+	 * @param entity entidad de la base de datos
+	 * @return objeto del dominio {@link Vacation}
 	 */
 	public Vacation fromEntityToDomain(VacationEntity entity);
 }

@@ -42,13 +42,37 @@ public interface UserDtoMapper {
 	 */
 	public List<UserResponseDto> toDtoList(List<User> users);
 
-	// Preguntar a Cliff como hacerlo de mejor manera
+	/**
+	 * Convierte un {@link User} en un {@link UserResponseDto} especializado para
+	 * autenticación.
+	 * 
+	 * Preguntar a Cliff la mejor manera de haber hecho esto.
+	 *
+	 * @param user         objeto del dominio
+	 * @param employeeRole rol del empleado vinculado al usuario
+	 * @return DTO con información necesaria para la sesión iniciada
+	 */
 	default UserResponseDto toLoginDto(User user, EmployeeRoleEnum employeeRole) {
 		return UserResponseDto.builder().id(user.getId()).username(user.getUsername()).role(user.getRole())
 				.userActive(user.isUserActive()).employeeId(user.getEmployeeId()).employeeRole(employeeRole).build();
 	}
 
-	// Preguntar a Cliff como hacerlo de mejor manera
+	/**
+	 * Convierte un {@link User} en un {@link LoginResponseDto} completo, incluyendo
+	 * información del usuario, su rol y departamentos asociados.
+	 * <p>
+	 * Esta variante es útil para construir la respuesta completa al iniciar sesión
+	 * y poblar vistas dinámicas según el departamento y rol.
+	 * </p>
+	 * 
+	 * Preguntar a Cliff la mejor manera de haber hecho esto.
+	 *
+	 * @param user            objeto de dominio
+	 * @param employeeRole    rol del empleado
+	 * @param departmentIds   lista de IDs de departamentos asociados
+	 * @param departmentNames lista de nombres de departamentos asociados
+	 * @return DTO con toda la información para login y vista contextual
+	 */
 	default LoginResponseDto toLoginDtoLogin(User user, EmployeeRoleEnum employeeRole, List<String> departmentIds,
 			List<String> departmentNames) {
 		return LoginResponseDto.builder().userId(user.getId()).username(user.getUsername()).role(user.getRole())

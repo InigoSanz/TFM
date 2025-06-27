@@ -117,7 +117,10 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	}
 
 	/**
+	 * Recupera todas las solicitudes de vacaciones asociadas a un departamento.
 	 * 
+	 * @param id ID del departamento
+	 * @return lista de objetos Vacation
 	 */
 	@Override
 	public List<Vacation> findVacationByDepartmentId(String id) {
@@ -126,7 +129,10 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	}
 
 	/**
+	 * Establece el nombre del usuario que resolvió la solicitud de vacaciones.
 	 * 
+	 * @param vacationId ID de la solicitud
+	 * @param resolvedBy nombre del revisor
 	 */
 	@Override
 	public void setResolvedBy(String vacationId, String resolvedBy) {
@@ -142,7 +148,12 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	}
 
 	/**
+	 * Recupera una página de vacaciones filtradas por empleado y estado.
 	 * 
+	 * @param employeeId ID del empleado
+	 * @param status     estado de la solicitud
+	 * @param pageable   configuración de paginación
+	 * @return página de objetos Vacation
 	 */
 	@Override
 	public Page<Vacation> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable) {
@@ -157,7 +168,11 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 	}
 
 	/**
+	 * Recupera una página de vacaciones de un empleado sin filtrar por estado.
 	 * 
+	 * @param employeeId ID del empleado
+	 * @param pageable   configuración de paginación
+	 * @return página de objetos Vacation
 	 */
 	@Override
 	public Page<Vacation> findByEmployeeId(String employeeId, Pageable pageable) {
@@ -170,13 +185,19 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
 	}
-	
+
 	/**
+	 * Recupera una página de vacaciones de un departamento filtradas por estado.
 	 * 
+	 * @param departmentId ID del departamento
+	 * @param status       estado de la solicitud
+	 * @param pageable     configuración de paginación
+	 * @return página de objetos Vacation
 	 */
 	@Override
 	public Page<Vacation> findByDepartmentIdAndStatus(String departmentId, String status, Pageable pageable) {
-		Page<VacationEntity> entityPage = vacationRepository.findByDepartmentIdsContainingAndStatus(departmentId, status, pageable);
+		Page<VacationEntity> entityPage = vacationRepository.findByDepartmentIdsContainingAndStatus(departmentId,
+				status, pageable);
 
 		List<Vacation> domainList = new ArrayList<>();
 		for (VacationEntity entity : entityPage.getContent()) {
@@ -185,9 +206,13 @@ public class VacationRepositoryAdapter implements VacationRepositoryOutputPort {
 
 		return new PageImpl<>(domainList, pageable, entityPage.getTotalElements());
 	}
-	
+
 	/**
+	 * Recupera una página de vacaciones de un departamento sin filtrar por estado.
 	 * 
+	 * @param departmentId ID del departamento
+	 * @param pageable     configuración de paginación
+	 * @return página de objetos Vacation
 	 */
 	@Override
 	public Page<Vacation> findByDepartmentId(String departmentId, Pageable pageable) {

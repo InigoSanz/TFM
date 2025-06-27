@@ -83,15 +83,15 @@ public class LoginController {
 			departmentIds = employee.getDepartmentIds();
 
 			if (departmentIds != null && !departmentIds.isEmpty()) {
-			    departmentNames = new ArrayList<>();
-			    for (String id : departmentIds) {
-			        Department department = departmentGetInputPort.getDepartment(id);
-			        if (department != null) {
-			            departmentNames.add(department.getName());
-			        } else {
-			            log.warn("Departamento no encontrado con id: {}", id);
-			        }
-			    }
+				departmentNames = new ArrayList<>();
+				for (String id : departmentIds) {
+					Department department = departmentGetInputPort.getDepartment(id);
+					if (department != null) {
+						departmentNames.add(department.getName());
+					} else {
+						log.warn("Departamento no encontrado con id: {}", id);
+					}
+				}
 			}
 		}
 

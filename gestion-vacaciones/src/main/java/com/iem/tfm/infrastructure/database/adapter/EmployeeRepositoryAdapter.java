@@ -100,35 +100,45 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryOutputPort {
 	}
 
 	/**
+	 * Verifica si existe un empleado por su ID.
 	 * 
+	 * @param employeeId ID del empleado
+	 * @return {@code true} si el empleado existe, {@code false} en caso contrario
 	 */
 	@Override
 	public boolean existsById(String employeeId) {
 
 		return employeeRepository.existsById(employeeId);
 	}
-	
+
 	/**
+	 * Recupera todos los empleados pertenecientes a uno o más departamentos.
 	 * 
+	 * @param departmentIds lista de IDs de departamentos
+	 * @return lista de empleados asociados a esos departamentos
 	 */
 	@Override
 	public List<Employee> findEmployeesByDepartmentId(List<String> departmentIds) {
-		List<EmployeeEntity> entityOptional = employeeRepository.findByDepartmentIdsIn(departmentIds);	
-		
+		List<EmployeeEntity> entityOptional = employeeRepository.findByDepartmentIdsIn(departmentIds);
+
 		return employeeEntityMapper.toDomainList(entityOptional);
 	}
-	
+
 	/**
+	 * Recupera una página de empleados pertenecientes a un departamento.
 	 * 
+	 * @param departmentId ID del departamento
+	 * @param page         número de página
+	 * @param size         tamaño de página
+	 * @return página de empleados del dominio
 	 */
 	@Override
 	public Page<Employee> findPaginatedByDepartment(String departmentId, int page, int size) {
-	    Pageable pageable = PageRequest.of(page, size);
-	    Page<EmployeeEntity> entityPage = employeeRepository.findByDepartmentIdsContaining(departmentId, pageable);
+		Pageable pageable = PageRequest.of(page, size);
+		Page<EmployeeEntity> entityPage = employeeRepository.findByDepartmentIdsContaining(departmentId, pageable);
 
-	    List<Employee> employeeList = employeeEntityMapper.toDomainList(entityPage.getContent());
+		List<Employee> employeeList = employeeEntityMapper.toDomainList(entityPage.getContent());
 
-	    return new PageImpl<>(employeeList, pageable, entityPage.getTotalElements());
+		return new PageImpl<>(employeeList, pageable, entityPage.getTotalElements());
 	}
-
 }

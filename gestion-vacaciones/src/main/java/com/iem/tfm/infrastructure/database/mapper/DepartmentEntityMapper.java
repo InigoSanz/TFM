@@ -28,8 +28,9 @@ public interface DepartmentEntityMapper {
 	 * @return objeto de dominio
 	 */
 	default Department toDomain(DepartmentEntity entity) {
-	    if (entity == null) return null;
-	    return new Department(entity.getId(), entity.getName());
+		if (entity == null)
+			return null;
+		return new Department(entity.getId(), entity.getName());
 	}
 
 	/**

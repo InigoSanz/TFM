@@ -193,6 +193,12 @@ public class VacationController {
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * Recupera todas las vacaciones asociadas a un departamento.
+	 *
+	 * @param id ID del departamento
+	 * @return lista de {@link VacationResponseDto} o 204 si no hay registros
+	 */
 	@GetMapping("/department/{department-id}")
 	public ResponseEntity<List<VacationResponseDto>> getVacationsOfDepartment(
 			@PathVariable("department-id") String id) {
@@ -225,8 +231,14 @@ public class VacationController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Recupera una página de solicitudes de vacaciones de un empleado, con
+	 * posibilidad de filtrar por estado.
+	 *
+	 * @param employeeId ID del empleado
+	 * @param page       número de página (empezando desde 0)
+	 * @param size       número de elementos por página
+	 * @param status     estado de las vacaciones (opcional)
+	 * @return página con vacaciones del empleado
 	 */
 	@GetMapping("employee/{employee-id}/paginated")
 	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsEmployee(
@@ -257,14 +269,16 @@ public class VacationController {
 
 		return ResponseEntity.ok(responsePage);
 	}
-	
+
 	/**
-	 * 
-	 * @param departmentId
-	 * @param page
-	 * @param size
-	 * @param status
-	 * @return
+	 * Recupera una página de solicitudes de vacaciones de un departamento, con
+	 * posibilidad de filtrar por estado.
+	 *
+	 * @param departmentId ID del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         número de elementos por página
+	 * @param status       estado de las vacaciones (opcional)
+	 * @return página con vacaciones del departamento
 	 */
 	@GetMapping("/department/{department-id}/paginated")
 	public ResponseEntity<Page<VacationResponseDto>> getPaginatedVacationsDepartment(

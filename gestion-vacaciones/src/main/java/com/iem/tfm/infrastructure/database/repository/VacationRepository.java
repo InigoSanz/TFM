@@ -41,7 +41,7 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @param startDate  fecha de inicio de la nueva solicitud
 	 * @return lista de vacaciones solapadas
 	 */
-	List<VacationEntity> findByEmployeeIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(String employeeId,
+	public List<VacationEntity> findByEmployeeIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(String employeeId,
 			Date endDate, Date startDate);
 
 	/**
@@ -50,46 +50,53 @@ public interface VacationRepository extends MongoRepository<VacationEntity, Stri
 	 * @param employeeId ID del empleado
 	 * @return lista de solicitudes de vacaciones
 	 */
-	List<VacationEntity> findByEmployeeId(String employeeId);
+	public List<VacationEntity> findByEmployeeId(String employeeId);
 
 	/**
+	 * Recupera todas las solicitudes de vacaciones asociadas a un departamento
+	 * concreto.
 	 * 
-	 * @param id
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @return lista de vacaciones asociadas a ese departamento
 	 */
-	List<VacationEntity> findByDepartmentIdsContaining(String departmentId);
-	
+	public List<VacationEntity> findByDepartmentIdsContaining(String departmentId);
+
 	/**
+	 * Recupera una página de vacaciones filtradas por empleado y estado.
 	 * 
-	 * @param employeeId
-	 * @param status
-	 * @param pageable
-	 * @return
+	 * @param employeeId ID del empleado
+	 * @param status     estado de la solicitud (pendiente, aprobada, etc.)
+	 * @param pageable   configuración de paginación
+	 * @return página de vacaciones coincidentes
 	 */
-	Page<VacationEntity> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable);
-	
+	public Page<VacationEntity> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable);
+
 	/**
+	 * Recupera una página de vacaciones de un empleado sin filtrar por estado.
 	 * 
-	 * @param employeeId
-	 * @param pageable
-	 * @return
+	 * @param employeeId ID del empleado
+	 * @param pageable   configuración de paginación
+	 * @return página de vacaciones del empleado
 	 */
-	Page<VacationEntity> findByEmployeeId(String employeeId, Pageable pageable);
-	
+	public Page<VacationEntity> findByEmployeeId(String employeeId, Pageable pageable);
+
 	/**
+	 * Recupera una página de vacaciones asociadas a un departamento.
 	 * 
-	 * @param departmentId
-	 * @param pageable
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param pageable     configuración de paginación
+	 * @return página de vacaciones del departamento
 	 */
-	Page<VacationEntity> findByDepartmentIdsContaining(String departmentId, Pageable pageable);
-	
+	public Page<VacationEntity> findByDepartmentIdsContaining(String departmentId, Pageable pageable);
+
 	/**
+	 * Recupera una página de vacaciones de un departamento, filtradas por estado.
 	 * 
-	 * @param departmentId
-	 * @param status
-	 * @param pageable
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param status       estado de la solicitud
+	 * @param pageable     configuración de paginación
+	 * @return página de vacaciones filtradas por estado y departamento
 	 */
-	Page<VacationEntity> findByDepartmentIdsContainingAndStatus(String departmentId, String status, Pageable pageable);
+	public Page<VacationEntity> findByDepartmentIdsContainingAndStatus(String departmentId, String status,
+			Pageable pageable);
 }
