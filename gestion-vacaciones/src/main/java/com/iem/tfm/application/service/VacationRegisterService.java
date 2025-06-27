@@ -74,7 +74,8 @@ public class VacationRegisterService implements VacationRegisterInputPort {
 		}
 
 		Vacation vacation = new Vacation(null, command.getStartDate(), command.getEndDate(), command.getEmployeeId(),
-				VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO, departmentIds, null); // En la primera solicitud no hay resolvedBy
+				VacationStatusEnum.PENDIENTE_APROBACION_ENCARGADO, departmentIds, null); // En la primera solicitud no
+																							// hay resolvedBy
 
 		return vacationRepositoryOutput.save(vacation);
 	}

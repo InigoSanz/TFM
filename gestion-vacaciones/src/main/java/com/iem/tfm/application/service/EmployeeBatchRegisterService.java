@@ -25,7 +25,20 @@ import com.iem.tfm.infrastructure.apirest.dto.response.EmployeeBatchRegisterResp
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * Servicio de aplicación para el registro masivo de empleados mediante un
+ * archivo Excel.
+ * <p>
+ * Implementa el caso de uso definido en {@link EmployeeBatchRegisterInputPort},
+ * procesando los datos de cada fila del archivo y utilizando el puerto de
+ * entrada de registro individual de empleados.
+ * </p>
+ * <p>
+ * Realiza validaciones sobre los datos como formato de correo electrónico y
+ * existencia de los departamentos antes de registrar cada empleado.
+ * </p>
  * 
+ * @author Inigo
+ * @version 1.0
  */
 @Service
 @Slf4j
@@ -34,6 +47,15 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 	@Autowired
 	EmployeeRegisterInputPort employeeRegisterInputPort;
 
+	/**
+	 * Procesa un archivo Excel para registrar empleados en bloque.
+	 * 
+	 * @param file archivo Excel con los datos de los empleados
+	 * @return respuesta con el total de filas procesadas, empleados registrados
+	 *         correctamente y posibles errores ocurridos durante el procesamiento
+	 * @throws EmployeeDomainException si ocurre un error general al leer o procesar
+	 *                                 el archivo
+	 */
 	@Override
 	public EmployeeBatchRegisterResponseDto registerEmployeesExcel(MultipartFile file) {
 		int total = 0;
@@ -48,13 +70,13 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 			// Empezamos en la 1 ya que la 0 sería la cabecera de la tabla
 			for (int i = 1; i <= excelSheet.getLastRowNum(); i++) {
 				Row row = excelSheet.getRow(i);
-				
+
 				if (row == null || row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) {
-				    continue;
+					continue;
 				}
 
 				total++;
-				
+
 				// Meter el catch de dentro en un método
 				try {
 					String name = row.getCell(0).getStringCellValue();
@@ -68,17 +90,17 @@ public class EmployeeBatchRegisterService implements EmployeeBatchRegisterInputP
 					String departmentList = row.getCell(6).getStringCellValue();
 					List<String> departmentIds = Arrays.asList(departmentList.split(","));
 					String role = row.getCell(7).getStringCellValue().toUpperCase();
-					
+
 					// Validación de email usando clase del dominio
 					if (!EmailRules.isValidEmployeeEmail(email)) {
-					    throw new EmployeeDomainException("Email inválido: " + email);
+						throw new EmployeeDomainException("Email inválido: " + email);
 					}
 
 					// Validación de departamentos
 					for (String department : departmentIds) {
-					    if (!existingDepartments.contains(department.trim())) {
-					        throw new EmployeeDomainException("Departamento no válido: " + department);
-					    }
+						if (!existingDepartments.contains(department.trim())) {
+							throw new EmployeeDomainException("Departamento no válido: " + department);
+						}
 					}
 
 					// Ahora utilizamos el command de registro para cada iteración

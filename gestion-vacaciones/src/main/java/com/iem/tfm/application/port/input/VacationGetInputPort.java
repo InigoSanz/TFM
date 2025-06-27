@@ -40,31 +40,36 @@ public interface VacationGetInputPort {
 	 * @return lista de vacaciones de un empleado
 	 */
 	public List<Vacation> getEmployeeVacation(String id);
-	
+
 	/**
+	 * Recupera todas las solicitudes de vacaciones asociadas a un departamento.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id ID del departamento
+	 * @return lista de vacaciones del departamento
 	 */
 	public List<Vacation> getDepartmentVacation(String id);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un empleado, filtradas
+	 * opcionalmente por estado.
 	 * 
-	 * @param employeeId
-	 * @param page
-	 * @param size
-	 * @param status
-	 * @return
+	 * @param employeeId ID del empleado
+	 * @param page       número de página (empezando desde 0)
+	 * @param size       número de elementos por página
+	 * @param status     estado de las vacaciones (puede ser null para no filtrar)
+	 * @return página de vacaciones del empleado
 	 */
 	public Page<Vacation> getPaginatedEmployeeVacations(String employeeId, int page, int size, String status);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un departamento,
+	 * filtradas opcionalmente por estado.
 	 * 
-	 * @param departmentId
-	 * @param page
-	 * @param size
-	 * @param status
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         número de elementos por página
+	 * @param status       estado de las vacaciones (puede ser null para no filtrar)
+	 * @return página de vacaciones del departamento
 	 */
 	public Page<Vacation> getPaginatedDepartmentVacations(String departmentId, int page, int size, String status);
 }

@@ -65,50 +65,61 @@ public interface VacationRepositoryOutputPort {
 	public List<Vacation> findVacationByEmployeeId(String id);
 
 	/**
+	 * Recupera todas las solicitudes de vacaciones asociadas a un departamento.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id ID del departamento
+	 * @return lista de vacaciones del departamento
 	 */
 	public List<Vacation> findVacationByDepartmentId(String id);
-	
+
 	/**
+	 * Marca una solicitud de vacaciones como resuelta por un usuario específico.
 	 * 
-	 * @param vacationId
-	 * @param resolvedBy
+	 * @param vacationId ID de la solicitud de vacaciones
+	 * @param resolvedBy ID del usuario que resolvió la solicitud
 	 */
 	public void setResolvedBy(String vacationId, String resolvedBy);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un empleado con un estado
+	 * específico.
 	 * 
-	 * @param employeeId
-	 * @param status
-	 * @param pageable
-	 * @return
+	 * @param employeeId ID del empleado
+	 * @param status     estado de la solicitud (por ejemplo: PENDING, APPROVED,
+	 *                   REJECTED)
+	 * @param pageable   información de paginación
+	 * @return página de vacaciones del empleado filtradas por estado
 	 */
 	public Page<Vacation> findByEmployeeIdAndStatus(String employeeId, String status, Pageable pageable);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un empleado, sin filtrar
+	 * por estado.
 	 * 
-	 * @param employeeId
-	 * @param pageable
-	 * @return
+	 * @param employeeId ID del empleado
+	 * @param pageable   información de paginación
+	 * @return página de vacaciones del empleado
 	 */
 	public Page<Vacation> findByEmployeeId(String employeeId, Pageable pageable);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un departamento con un
+	 * estado específico.
 	 * 
-	 * @param departmentId
-	 * @param status
-	 * @param pageable
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param status       estado de la solicitud
+	 * @param pageable     información de paginación
+	 * @return página de vacaciones del departamento filtradas por estado
 	 */
 	public Page<Vacation> findByDepartmentIdAndStatus(String departmentId, String status, Pageable pageable);
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un departamento, sin
+	 * filtrar por estado.
 	 * 
-	 * @param departmentId
-	 * @param pageable
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param pageable     información de paginación
+	 * @return página de vacaciones del departamento
 	 */
 	public Page<Vacation> findByDepartmentId(String departmentId, Pageable pageable);
 }

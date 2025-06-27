@@ -58,9 +58,9 @@ public class VacationStatusService implements VacationStatusInputPort {
 		// Cambiar el estado según el rol
 		if (command.isApprove()) {
 			switch (employeeRole) {
-				case EmployeeRoleEnum.ENCARGADO -> vacation.approveBySupervisor();
-				case EmployeeRoleEnum.RRHH -> vacation.approveByHhrr();
-				default -> throw new VacationDomainException("Este rol no tiene permisos para aprobar la solicitud.");
+			case EmployeeRoleEnum.ENCARGADO -> vacation.approveBySupervisor();
+			case EmployeeRoleEnum.RRHH -> vacation.approveByHhrr();
+			default -> throw new VacationDomainException("Este rol no tiene permisos para aprobar la solicitud.");
 			}
 		} else {
 			vacation.solReject();

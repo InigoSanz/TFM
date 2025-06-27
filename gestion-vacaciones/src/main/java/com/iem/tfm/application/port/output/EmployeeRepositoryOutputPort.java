@@ -52,25 +52,29 @@ public interface EmployeeRepositoryOutputPort {
 	public Employee findEmployeeById(String id);
 
 	/**
+	 * Verifica si existe un empleado con el ID especificado.
 	 * 
-	 * @param employeeId
-	 * @return
+	 * @param employeeId identificador del empleado
+	 * @return {@code true} si existe un empleado con ese ID, {@code false} en caso
+	 *         contrario
 	 */
 	public boolean existsById(String employeeId);
-	
+
 	/**
+	 * Busca empleados que pertenezcan a una o más IDs de departamento.
 	 * 
-	 * @param departmentId
-	 * @return
+	 * @param departmentIds lista de identificadores de departamentos
+	 * @return lista de empleados asociados a los departamentos
 	 */
 	public List<Employee> findEmployeesByDepartmentId(List<String> departmentIds);
-	
+
 	/**
+	 * Devuelve una página de empleados pertenecientes a un departamento.
 	 * 
-	 * @param departmentId
-	 * @param page
-	 * @param size
-	 * @return
+	 * @param departmentId ID del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         cantidad de elementos por página
+	 * @return página con empleados del departamento indicado
 	 */
 	public Page<Employee> findPaginatedByDepartment(String departmentId, int page, int size);
 }

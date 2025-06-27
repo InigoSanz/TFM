@@ -53,23 +53,32 @@ public class EmployeeGetService implements EmployeeGetInputPort {
 
 		return employeeRepositoryOutput.findEmployeeById(id);
 	}
-	
+
 	/**
+	 * Obtiene los empleados que pertenecen a uno o varios departamentos.
 	 * 
+	 * @param departmentIds lista de IDs de departamentos
+	 * @return lista de empleados asociados a los departamentos
 	 */
 	@Override
 	public List<Employee> getEmployeesByDepartment(List<String> departmentIds) {
 		log.debug("-> Obteniendo los empleados del departamento: {}", departmentIds);
-		
+
 		return employeeRepositoryOutput.findEmployeesByDepartmentId(departmentIds);
 	}
-	
+
 	/**
+	 * Obtiene los empleados de un departamento específico de forma paginada.
 	 * 
+	 * @param departmentId ID del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         número de elementos por página
+	 * @return página de empleados del departamento indicado
 	 */
 	@Override
 	public Page<Employee> getPaginatedEmployeesByDepartment(String departmentId, int page, int size) {
-		log.debug("-> Obteniendo empleados del departamento [{}] paginados (página {}, tamaño {}) <-", departmentId, page, size);
+		log.debug("-> Obteniendo empleados del departamento [{}] paginados (página {}, tamaño {}) <-", departmentId,
+				page, size);
 		return employeeRepositoryOutput.findPaginatedByDepartment(departmentId, page, size);
 	}
 }

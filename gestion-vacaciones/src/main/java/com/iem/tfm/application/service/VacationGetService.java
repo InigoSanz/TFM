@@ -70,7 +70,10 @@ public class VacationGetService implements VacationGetInputPort {
 	}
 
 	/**
+	 * Recupera todas las vacaciones solicitadas en un departamento específico.
 	 * 
+	 * @param id ID del departamento
+	 * @return lista de vacaciones asociadas al departamento
 	 */
 	@Override
 	public List<Vacation> getDepartmentVacation(String id) {
@@ -78,14 +81,21 @@ public class VacationGetService implements VacationGetInputPort {
 
 		return vacationRepositoryOutput.findVacationByDepartmentId(id);
 	}
-	
+
 	/**
+	 * Recupera una página de solicitudes de vacaciones de un empleado, con
+	 * posibilidad de filtrar por estado.
 	 * 
+	 * @param employeeId ID del empleado
+	 * @param page       número de página (empezando desde 0)
+	 * @param size       número de elementos por página
+	 * @param status     estado de las vacaciones (opcional, puede ser null o vacío)
+	 * @return página de vacaciones del empleado
 	 */
 	@Override
 	public Page<Vacation> getPaginatedEmployeeVacations(String employeeId, int page, int size, String status) {
 		Pageable pageable = PageRequest.of(page, size);
-		
+
 		if (status != null && !status.isBlank()) {
 			return vacationRepositoryOutput.findByEmployeeIdAndStatus(employeeId, status, pageable);
 		} else {
@@ -93,12 +103,23 @@ public class VacationGetService implements VacationGetInputPort {
 		}
 	}
 
+	/**
+	 * Recupera una página de solicitudes de vacaciones de un departamento, con
+	 * posibilidad de filtrar por estado.
+	 * 
+	 * @param departmentId ID del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         número de elementos por página
+	 * @param status       estado de las vacaciones (opcional, puede ser null o
+	 *                     vacío)
+	 * @return página de vacaciones del departamento
+	 */
 	@Override
 	public Page<Vacation> getPaginatedDepartmentVacations(String departmentId, int page, int size, String status) {
 		log.debug("-> Obteniendo vacaciones paginadas del departamento {} <-", departmentId);
-		
+
 		Pageable pageable = PageRequest.of(page, size);
-		
+
 		if (status != null && !status.isBlank()) {
 			return vacationRepositoryOutput.findByDepartmentIdAndStatus(departmentId, status, pageable);
 		} else {

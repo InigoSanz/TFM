@@ -32,20 +32,22 @@ public interface EmployeeGetInputPort {
 	 * @return empleado correspondiente al ID
 	 */
 	public Employee getEmployee(String id);
-	
+
 	/**
+	 * Devuelve una lista de empleados que pertenecen a uno o varios departamentos.
 	 * 
-	 * @param departmentId
-	 * @return
+	 * @param departmentIds lista de identificadores de departamentos
+	 * @return lista de empleados asociados a los departamentos
 	 */
 	public List<Employee> getEmployeesByDepartment(List<String> departmentIds);
-	
+
 	/**
+	 * Devuelve una página de empleados que pertenecen a un departamento específico.
 	 * 
-	 * @param departmentId
-	 * @param page
-	 * @param size
-	 * @return
+	 * @param departmentId identificador del departamento
+	 * @param page         número de página (empezando desde 0)
+	 * @param size         cantidad de elementos por página
+	 * @return página con empleados del departamento indicado
 	 */
 	public Page<Employee> getPaginatedEmployeesByDepartment(String departmentId, int page, int size);
 }
