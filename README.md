@@ -9,10 +9,11 @@ Backend del proyecto **GetaBreak**, una aplicación web para gestionar solicitud
 - Carga masiva vía Excel
 - Gestión de solicitudes de vacaciones con doble validación
 - Paginación en empleados y vacaciones
+- ...
 
 ## 🔧 Tecnologías utilizadas
 
-- Java 17 + Spring Boot
+- Java 21 + Spring Boot
 - Arquitectura Hexagonal
 - MongoDB + Spring Data
 - MapStruct, Maven
@@ -27,9 +28,9 @@ Backend del proyecto **GetaBreak**, una aplicación web para gestionar solicitud
 
 ## 📁 Documentación
 
-- Documentación Funcional (PDF)
-- Documentación Técnica (PDF)
-- README.txt – info de herramientas y despliegue
+- Documentación Funcional
+- Documentación Técnica
+- README.txt
 
 ## ⚠️ Mejoras futuras
 
